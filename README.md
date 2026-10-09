@@ -12,7 +12,7 @@ Lightning is called Right or Left: that's the side with 2 WRs, and the Left vers
 
 | Play | Type | When | Real football name | Who can get the ball |
 | --- | --- | --- | --- | --- |
-| Pizza Slice | Pass | Any down | Slant & Flat | 1: inside right WR (slant), 2: RB (flat). Both women |
+| Bubble Wrap | Pass | Any down | RB Screen | 1: RB (short pass behind 2 blockers), 2: inside left WR (hitch). Both women |
 | Lightning Right / Left | Pass | Any down | Twins with 3 blockers: slant, drag, long slant | 1: outside left WR (quick slant), 2: inside right WR (drag, woman), 3: outside right WR (long slant) |
 | Fireworks | Pass | 1st down | Four Verticals | 1 and 2: inside WRs deep, 3: Center short. All women |
 | Slingshot | Run | 1st or 2nd down | Toss Sweep | RB (woman) |
@@ -23,7 +23,7 @@ Lightning is called Right or Left: that's the side with 2 WRs, and the Left vers
 
 - At least 4 women on the field. The lineup has 4 women plus the QB, so it's legal with a man or a woman at QB.
 - Men can't run the ball across the line. Every run play goes to a woman.
-- No two man-to-man completions in a row. Pizza Slice always goes to a woman.
+- No two man-to-man completions in a row. Bubble Wrap and Fireworks always go to a woman.
 - A woman throwing or scoring a touchdown is worth 9 points.
 - Only one player can be moving before the hike, and only sideways (Zoom).
 
@@ -31,4 +31,4 @@ Lightning is called Right or Left: that's the side with 2 WRs, and the Left vers
 
 To host it on GitHub Pages instead of the Claude artifact link: go to the repo's **Settings → Pages**, set the source to **Deploy from a branch**, and pick the branch and `/ (root)`. The site will then be live at `https://<user>.github.io/flag-football/`.
 
-You can also link straight to one play by adding its name after `#`, for example `#pizza-slice` or `#houdini`.
+You can also link straight to one play by adding its name after `#`, for example `#bubble-wrap` or `#houdini`.

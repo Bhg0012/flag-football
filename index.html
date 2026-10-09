@@ -217,7 +217,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     <ul class="rules">
       <li><span class="ic">4</span><div><b>4 women on the field. Always.</b></div></li>
       <li><span class="ic">W</span><div><b>Only women can run the ball.</b><span>Guys can only run after catching a pass.</span></div></li>
-      <li><span class="ic">2×</span><div><b>No guy-to-guy pass twice in a row.</b><span>If it just happened, the next pass must go to a woman (a yellow dot). Pizza Slice and Fireworks always do.</span></div></li>
+      <li><span class="ic">2×</span><div><b>No guy-to-guy pass twice in a row.</b><span>If it just happened, the next pass must go to a woman (a yellow dot). Bubble Wrap and Fireworks always do.</span></div></li>
       <li><span class="ic">9</span><div><b>Woman scores or throws a TD = 9 points.</b><span>A normal TD is 6.</span></div></li>
     </ul>
   </div>
@@ -288,31 +288,31 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
   // start: when the player starts moving (seconds). Default is just after the snap.
   var PLAYS = [
     {
-      id: 'pizza-slice', name: 'Pizza Slice', type: 'pass', qb: 'any',
+      id: 'bubble-wrap', name: 'Bubble Wrap', type: 'pass', qb: 'any',
       down: 'Any down',
-      tag: 'Quick, short throw. The QB has 2 options.',
-      when: 'You need a few yards. Always legal, because both options are women.',
+      tag: 'Quick short pass to the RB, with 2 blockers in front of her.',
+      when: 'The defense rushes hard or plays far back. Always legal, because both options are women.',
       snap: 0.8,
       players: {
-        RS: { p: [[255, 218], [205, 172], [195, 90]] },
-        B:  { p: [[292, 268], [338, 252]] },
-        LS: { p: [[105, 150]] },
-        LW: { p: [[40, 60]] },
-        RW: { p: [[320, 60]] },
+        B:  { p: [[290, 300], [300, 290], [298, 200], [295, 80]] },
+        LS: { p: [[105, 205], [110, 215]] },
+        RS: { p: [[255, 215]] },
+        RW: { p: [[338, 205]] },
+        LW: { p: [[40, 90]] },
         C:  { p: [[180, 248]] },
-        QB: { p: [[180, 308]] }
+        QB: { p: [[180, 305]] }
       },
       options: [
-        { to: 'RS', t: 1.55, f: 0.4, what: 'Cuts to the middle' },
-        { to: 'B', t: 1.75, f: 0.45, what: 'Runs to the sideline' }
+        { to: 'B', t: 1.5, f: 0.4, what: 'Short pass behind the blockers' },
+        { to: 'LS', t: 1.65, f: 0.4, what: '5 steps, then turns around' }
       ],
       jobs: [
-        ['QB', 'Look at option 1 first. Covered? Throw to option 2.'],
-        ['RS', 'Take 4 steps, then cut to the middle.'],
-        ['B', 'Run toward the right sideline.'],
-        ['ALL', 'Everyone else runs straight deep. Center blocks.']
+        ['QB', 'Throw it fast to option 1. Covered? Throw to option 2.'],
+        ['B', 'Run toward the right sideline. Catch it, then run up the field between your blockers.'],
+        ['LS', 'Take 5 steps, stop, turn around.'],
+        ['ALL', 'Right side WRs: step up and stand in a defender\'s way, hands behind your back. Center blocks. Outside left WR runs deep.']
       ],
-      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, 'Both options run their routes.']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, 'RB slides right. Two WRs set up as blockers.']]
     },
     {
       id: 'lightning', name: 'Lightning', type: 'pass', qb: 'any', sides: true,
