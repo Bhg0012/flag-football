@@ -202,7 +202,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 
   <div class="section-h"><h2>Where do I stand?</h2></div>
   <div class="info">
-    <p>WR = wide receiver. RB = running back. C = center. Your spot stays the same on every play except Criss Cross.</p>
+    <p>WR = wide receiver. RB = running back. C = center. Your spot stays the same on every play except Lightning.</p>
     <div id="lineup"></div>
     <div class="legend" aria-label="Color key">
       <span><i class="sw w"></i>Woman</span>
@@ -315,33 +315,37 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, 'Both options run their routes.']]
     },
     {
-      id: 'criss-cross', name: 'Criss Cross', type: 'pass', qb: 'any', sides: true,
+      id: 'lightning', name: 'Lightning', type: 'pass', qb: 'any', sides: true,
       down: 'Any down',
-      tag: 'One WR cuts in, one runs across. The QB has 2 options.',
-      when: 'The defense has figured out Pizza Slice.',
-      setup: 'The inside left WR lines up next to the Center and blocks.',
-      form: { LS: [140, 258] },
+      tag: '3 blockers. Two slants and a drag. The QB has 3 options.',
+      when: 'The defense is rushing hard. 3 blockers give the QB time. If the last pass was guy-to-guy, throw to option 2.',
+      setup: 'The inside left WR and the RB line up on each side of the Center. They are linemen (L) and block.',
+      form: { LS: [140, 258], B: [220, 258] },
+      labels: { LS: 'L', B: 'L' },
+      names: { LS: 'Left lineman', B: 'Right lineman' },
       snap: 0.8,
       players: {
-        RS: { p: [[255, 220], [190, 165], [170, 100]] },
-        LW: { p: [[70, 205], [300, 205], [340, 205]], speed: 85 },
-        RW: { p: [[320, 40]] },
+        LW: { p: [[40, 222], [115, 165], [140, 120]] },
+        RS: { p: [[240, 210], [100, 205], [50, 205]] },
+        RW: { p: [[320, 175], [230, 110], [200, 70]], speed: 75 },
         LS: { p: [[140, 248]] },
-        B:  { p: [[215, 288]] },
+        B:  { p: [[220, 248]] },
         C:  { p: [[180, 248]] },
         QB: { p: [[180, 308]] }
       },
       options: [
-        { to: 'RS', t: 1.6, f: 0.4, what: 'Cuts to the middle' },
-        { to: 'LW', t: 2.55, f: 0.45, what: 'Runs across the field' }
+        { to: 'LW', t: 1.45, f: 0.4, what: 'Quick slant' },
+        { to: 'RS', t: 1.9, f: 0.45, what: 'Runs across the field' },
+        { to: 'RW', t: 2.3, f: 0.55, what: 'Long slant' }
       ],
       jobs: [
-        ['QB', 'Look at option 1 first. Covered? Throw to option 2.'],
-        ['RS', 'Take 4 steps, then cut to the middle.'],
-        ['LW', 'Take 3 steps, then run across the field.'],
-        ['ALL', 'Outside right WR runs deep. Everyone else blocks.']
+        ['QB', 'Look at option 1, then 2, then 3. Throw to the first one that\'s open.'],
+        ['LW', 'Take 3 steps, then cut in toward the middle.'],
+        ['RS', 'Take 4 steps, then run across the field.'],
+        ['RW', 'Take 8 steps, then cut in toward the middle.'],
+        ['ALL', 'Linemen and Center: stand in front of the rushers. Hands behind your back.']
       ],
-      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, 'Option 1 cuts in. Option 2 runs across.']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike! 3 blockers protect the QB.'], [1.0, 'Two slants and a drag.']]
     },
     {
       id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
@@ -612,7 +616,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       if (!opts.mini && isBold(play, k)) refs.rings[k] = el('circle', { r: r + 5, fill: 'none', stroke: '#FFFFFF', 'stroke-width': 3 }, grp);
       el('circle', { r: r, fill: colorVar(g), stroke: '#0C2340', 'stroke-width': opts.mini ? 3 : 2 }, grp);
       if (!opts.mini) {
-        var lb = POS[k].label;
+        var lb = (play.labels && play.labels[k]) || POS[k].label;
         var lt = tx({ 'text-anchor': 'middle', y: lb.length > 1 ? 4 : 5, 'font-size': lb.length > 1 ? 11 : 15, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
         lt.textContent = lb;
         var oi = optIndex(play, k);
@@ -707,7 +711,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       return { left: 'right', right: 'left', Left: 'Right', Right: 'Left' }[w];
     });
   }
-  function nameOf(play, k) { return side(play, POS[k].name); }
+  function nameOf(play, k) { return side(play, (play.names && play.names[k]) || POS[k].name); }
   function title(play) { return play.sides ? play.name + (play.mirror ? ' Left' : ' Right') : play.name; }
   function chipsHtml(play) {
     var h = '<span class="chip down"></span>';
@@ -817,7 +821,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       var li = document.createElement('li');
       var oi = all ? -1 : optIndex(play, k);
       if (pl.kind === 'ball' || oi >= 0) li.className = 'star';
-      li.innerHTML = '<span class="badge ' + (all ? 'all' : gender(play, k)) + '">' + (all ? 'ALL' : POS[k].label) + '</span><div><div class="who"></div><div class="do"></div></div>';
+      li.innerHTML = '<span class="badge ' + (all ? 'all' : gender(play, k)) + '">' + (all ? 'ALL' : (play.labels && play.labels[k]) || POS[k].label) + '</span><div><div class="who"></div><div class="do"></div></div>';
       var who = li.querySelector('.who');
       who.textContent = all ? 'Everyone else' : nameOf(play, k);
       if (pl.kind === 'ball' || oi >= 0) { var em = document.createElement('em'); em.textContent = oi >= 0 ? 'option ' + (oi + 1) : 'gets the ball'; who.appendChild(em); }
