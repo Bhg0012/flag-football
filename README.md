@@ -6,26 +6,23 @@ Everything is in `index.html`. It has no build step and no dependencies besides 
 
 ## The plays
 
-Everyone keeps the same spot in every play. The **yellow** spots are women, the **blue** spots are men, and the **white** spot is the QB (anyone can play QB).
+Everyone keeps the same spot in every play. The **yellow** spots are women, the **blue** spots are men, and the **white** spot is the QB (anyone can play QB). On each diagram, the bold line shows who gets the ball.
 
 | Play | Type | Real football name | Ball goes to |
 | --- | --- | --- | --- |
-| Pizza Slice | Pass | Slant & Flat | RS (slant), then B (flat). Both are women, so it's always legal on a closed play |
-| Layer Cake | Pass | Flood | RW deep, RS middle, B short |
+| Pizza Slice | Pass | Slant & Flat | RS (woman), or B if she's covered |
 | Fireworks | Pass | Four Verticals | Whoever is open deep |
 | Pitch Perfect | Run | Toss Sweep | B (woman) |
-| Zoom | Run | Jet Sweep | LS (woman) on motion |
-| Uno Reverse | Run | Reverse | RS (woman), after a fake pitch |
+| Zoom | Run | Jet Sweep | LS (woman), running sideways before the hike |
 | Houdini | Run | QB Bootleg | Woman QB keeps it |
 
 ## Coed rules the plays are built around
 
 - At least 4 women on the field. The lineup has 4 women plus the QB, so it's legal with a man or a woman at QB.
 - Men can't run the ball across the line. Every run play goes to a woman.
-- No two man-to-man completions in a row. Pizza Slice always targets women.
+- No two man-to-man completions in a row. Pizza Slice always goes to a woman.
 - A woman throwing or scoring a touchdown is worth 9 points.
-- The QB lines up 2+ yards back. Only one player can be in motion, moving sideways (Zoom).
-- Blocking is screen-only (no contact).
+- Only one player can be moving before the hike, and only sideways (Zoom).
 
 ## Sharing it
 

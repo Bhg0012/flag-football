@@ -61,7 +61,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0; }
 h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-height: 1; margin: 6px 0 8px; letter-spacing: 0.01em; }
 .lede { margin: 0; color: var(--muted); }
-.legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 16px 0 4px; font-size: 14px; font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 12px; font-size: 14px; font-weight: 600; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .sw { width: 14px; height: 14px; border-radius: 50%; display: inline-block; border: 1.5px solid var(--dot-ink); }
 .sw.w { background: var(--women); } .sw.m { background: var(--men); } .sw.q { background: var(--qb); }
@@ -88,10 +88,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: var(--soft); color: var(--muted); }
-.chip.pass { background: var(--men); color: var(--dot-ink); }
-.chip.run { background: var(--women); color: var(--dot-ink); }
 .chip.wqb { background: var(--accent); color: var(--accent-ink); }
-.chip.closed { background: transparent; color: var(--good); border: 1.5px solid var(--good); padding: 2px 7px; }
 
 .info { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
 .info h3 { margin: 0 0 4px; font-size: 18px; }
@@ -101,6 +98,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .spots li { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .badge { flex: none; width: 30px; height: 30px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 11px; font-weight: 800; color: var(--dot-ink); border: 2px solid var(--dot-ink); }
 .badge.w { background: var(--women); } .badge.m { background: var(--men); } .badge.q { background: var(--qb); }
+.badge.all { background: var(--soft); color: var(--ink); border-color: var(--line); font-size: 10px; }
 .note { margin-top: 12px; font-size: 14px; background: var(--soft); border-radius: 10px; padding: 10px 12px; }
 
 .rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
@@ -125,22 +123,18 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .field-card { background: var(--field); border-radius: 16px; overflow: hidden; position: relative; }
 .field-card svg { display: block; width: 100%; height: auto; touch-action: pan-y; cursor: pointer; }
 .caption {
-  background: var(--ink); color: var(--bg); font-weight: 600; font-size: 15px;
+  background: var(--ink); color: var(--bg); font-weight: 800; font-size: 18px;
   padding: 10px 14px; min-height: 44px; display: flex; align-items: center; gap: 10px;
 }
-.caption .num { flex: none; font-size: 12px; font-weight: 800; background: var(--accent); color: var(--accent-ink); border-radius: 999px; padding: 2px 8px; font-variant-numeric: tabular-nums; }
 .controls { display: flex; gap: 8px; margin-top: 10px; }
 .btn {
   flex: 1; border: 0; border-radius: 12px; padding: 12px 14px; font-weight: 800; font-size: 16px; cursor: pointer;
   background: var(--accent); color: var(--accent-ink);
 }
-.btn.ghost { flex: 0 0 auto; background: var(--card); color: var(--ink); border: 1.5px solid var(--line); }
-.btn.ghost[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
 
-.facts { display: grid; gap: 10px; margin-top: 16px; }
+.facts { display: grid; gap: 10px; margin-top: 10px; }
 .fact { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
 .fact .k { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 2px; }
-.fact.warn { border-color: var(--accent); }
 .jobs-h { font-family: var(--font-display); font-weight: 400; font-size: 20px; margin: 22px 0 10px; }
 .jobs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .jobs li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
@@ -149,7 +143,6 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .jobs .who em { font-style: normal; color: var(--accent); font-size: 12px; margin-left: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
 .jobs .do { font-size: 15px; color: var(--muted); }
 .jobs .badge { width: 34px; height: 34px; font-size: 12px; }
-.howto { font-size: 13px; color: var(--muted); margin: 10px 2px 0; }
 
 .pager {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
@@ -176,40 +169,33 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 <main class="wrap" id="home">
   <p class="eyebrow">Coed 7 v 7 Flag</p>
   <h1>The Playbook</h1>
-  <p class="lede">Seven plays. Same spot every play. Tap a play to watch it run.</p>
-  <div class="legend" aria-label="Color key">
-    <span><i class="sw w"></i>Woman</span>
-    <span><i class="sw m"></i>Man</span>
-    <span><i class="sw q"></i>QB (anyone)</span>
-  </div>
+  <p class="lede">5 plays. Tap one to watch it.</p>
 
-  <div class="section-h"><h2>Passing</h2><small>Throw it</small></div>
+  <div class="section-h"><h2>Pass plays</h2></div>
   <div class="cards" id="pass-cards"></div>
 
-  <div class="section-h"><h2>Running</h2><small>A woman carries it</small></div>
+  <div class="section-h"><h2>Run plays</h2></div>
   <div class="cards" id="run-cards"></div>
 
-  <div class="section-h"><h2>Find your spot</h2></div>
+  <div class="section-h"><h2>Where do I stand?</h2></div>
   <div class="info">
-    <h3>Same lineup, every play</h3>
-    <p>Learn your spot once. Your job changes by play, your spot doesn't.</p>
+    <p>Same spot in every play.</p>
     <div id="lineup"></div>
+    <div class="legend" aria-label="Color key">
+      <span><i class="sw w"></i>Woman</span>
+      <span><i class="sw m"></i>Man</span>
+      <span><i class="sw q"></i>QB (anyone)</span>
+    </div>
     <ul class="spots" id="spots"></ul>
-    <div class="note"><b>Woman at QB?</b> Then one of the yellow spots can be a man. You still have 4 women on the field.</div>
   </div>
 
-  <div class="section-h"><h2>Rules that matter</h2></div>
+  <div class="section-h"><h2>4 rules to know</h2></div>
   <div class="info">
     <ul class="rules">
-      <li><span class="ic">4</span><div><b>4 women on the field, always.</b><span>Max 3 men in a 7-player lineup.</span></div></li>
-      <li><span class="ic">W</span><div><b>Only women run the ball past the line.</b><span>Handoffs, pitches and QB runs go to women. A man can run only after he catches a pass past the line.</span></div></li>
-      <li><span class="ic">≠</span><div><b>No man-to-man pass twice in a row.</b><span>After a man completes a pass to a man, the next completion needs a woman throwing or catching. A woman's run doesn't reset it. Call <b>Pizza Slice</b>.</span></div></li>
-      <li><span class="ic">9</span><div><b>Woman throws or scores the TD = 9 points.</b><span>A regular TD is 6.</span></div></li>
-      <li><span class="ic">QB</span><div><b>QB lines up 2+ yards behind the center.</b><span>Throw from behind the line. One forward pass per play.</span></div></li>
-      <li><span class="ic">1s</span><div><b>Everyone freezes 1 second before the snap.</b><span>Only one player can be moving at the snap, and only sideways or backward.</span></div></li>
-      <li><span class="ic">⊥</span><div><b>Blocking = screen only.</b><span>Stand in their way, hands behind your back, no contact.</span></div></li>
-      <li><span class="ic">✋</span><div><b>Don't guard your flags.</b><span>No hands, arms or ball over your flags while you run.</span></div></li>
-      <li><span class="ic">+</span><div><b>Extra points:</b><span>1 pt from the 3, 2 pts from the 10, 3 pts from the 20.</span></div></li>
+      <li><span class="ic">4</span><div><b>4 women on the field. Always.</b></div></li>
+      <li><span class="ic">W</span><div><b>Only women can run the ball.</b><span>Guys can only run after catching a pass.</span></div></li>
+      <li><span class="ic">2×</span><div><b>No guy-to-guy pass twice in a row.</b><span>If it just happened, throw to a woman. Call Pizza Slice.</span></div></li>
+      <li><span class="ic">9</span><div><b>Woman scores or throws a TD = 9 points.</b><span>A normal TD is 6.</span></div></li>
     </ul>
   </div>
   <p class="foot">Based on the Co-Rec Flag Football Rules Guide.</p>
@@ -227,18 +213,15 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
   </div>
   <div class="field-card">
     <div id="p-field"></div>
-    <div class="caption" aria-live="polite"><span class="num" id="p-stepnum">1</span><span id="p-caption"></span></div>
+    <div class="caption" aria-live="polite"><span id="p-caption"></span></div>
   </div>
   <div class="controls">
-    <button class="btn" id="replay" type="button">↻ Replay</button>
-    <button class="btn ghost" id="slow" type="button" aria-pressed="false">Slow-mo</button>
+    <button class="btn" id="replay" type="button">▶ Watch again</button>
   </div>
-  <p class="howto">Blue line = line of scrimmage. Dashed = where you run. Solid = who gets the ball. T = screen block. Tap the field to replay, swipe for the next play.</p>
 
-  <div class="facts" id="p-facts"></div>
-
-  <h3 class="jobs-h">Everyone's job</h3>
+  <h3 class="jobs-h">Who does what</h3>
   <ul class="jobs" id="p-jobs"></ul>
+  <div class="facts" id="p-facts"></div>
 </main>
 
 <nav class="pager" id="pager" hidden>
@@ -270,147 +253,117 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
   // start: when the player starts moving (seconds). Default is just after the snap.
   var PLAYS = [
     {
-      id: 'pizza-slice', name: 'Pizza Slice', type: 'pass', qb: 'any', closed: true,
-      concept: 'Slant & Flat',
-      tag: 'Quick throw. Slice it to the middle or drop it to the side.',
-      when: 'You need 5 to 10 yards, or it\'s a closed play. Both targets are women, so it\'s always legal.',
-      ball: 'RS on the slant first. If she\'s covered, B in the flat.',
+      id: 'pizza-slice', name: 'Pizza Slice', type: 'pass', qb: 'any',
+      tag: 'Quick, short throw to RS.',
+      when: 'You need a few yards. Always legal, because a woman catches it.',
       snap: 0.8,
       players: {
-        RS: { p: [[255, 218], [205, 172], [195, 90]], kind: 'ball', read: 1, job: 'Take 4 steps up, then cut hard toward the middle.' },
-        B:  { p: [[292, 268], [338, 252]], kind: 'route', read: 2, job: 'Run to the right sideline, just past the line.' },
-        LS: { p: [[105, 205], [113, 214]], kind: 'route', job: 'Run 6 steps, stop, turn and face the QB. Safety valve.' },
-        LW: { p: [[40, 60]], kind: 'route', job: 'Sprint straight deep. You pull a defender away.' },
-        RW: { p: [[320, 60]], kind: 'route', job: 'Sprint straight deep. Clear out the right side.' },
-        C:  { p: [[180, 248]], kind: 'block', job: 'Snap it, then stand in a rusher\'s way. Hands behind your back.' },
-        QB: { p: [[180, 308]], job: 'Catch the snap. Look at RS first, then B. Throw it fast.' }
+        RS: { p: [[255, 218], [205, 172], [195, 90]], kind: 'ball' },
+        B:  { p: [[292, 268], [338, 252]] },
+        LS: { p: [[105, 150]] },
+        LW: { p: [[40, 60]] },
+        RW: { p: [[320, 60]] },
+        C:  { p: [[180, 248]] },
+        QB: { p: [[180, 308]] }
       },
+      jobs: [
+        ['RS', 'Take 4 steps, then cut to the middle. Catch it.'],
+        ['QB', 'Throw to RS fast. If she\'s covered, throw to B.'],
+        ['ALL', 'Everyone else runs straight deep.']
+      ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 1.55, to: 'RS', f: 0.4, pass: true }],
-      steps: [[0, 'Everyone set. Freeze for 1 second.'], [0.8, 'Snap.'], [1.0, 'RS cuts in. B heads for the sideline.'], [1.55, 'QB throws to RS. Covered? Throw to B.'], [2.0, 'Catch it and run!']]
-    },
-    {
-      id: 'layer-cake', name: 'Layer Cake', type: 'pass', qb: 'any',
-      concept: 'Flood',
-      tag: 'Three receivers stacked on one side: deep, middle, short.',
-      when: 'Any down. Great against a zone defense because one layer is almost always open.',
-      ball: 'Read top to bottom: RW deep, RS middle, B short.',
-      snap: 0.8,
-      players: {
-        RW: { p: [[320, 40]], kind: 'route', read: 1, speed: 85, job: 'Sprint straight deep. You\'re the top layer.' },
-        RS: { p: [[255, 168], [332, 168], [336, 80]], kind: 'ball', read: 2, job: 'Run 9 steps up, then cut hard to the sideline.' },
-        B:  { p: [[285, 262], [336, 240]], kind: 'route', read: 3, job: 'Run to the right flat, just past the line.' },
-        LW: { p: [[40, 150], [115, 75]], kind: 'route', job: 'Run deep, then angle to the middle. Decoy.' },
-        LS: { p: [[105, 198], [112, 207]], kind: 'route', job: 'Run 6 steps, stop, turn around. Safety valve.' },
-        C:  { p: [[180, 248]], kind: 'block', job: 'Snap it, then screen a rusher. Hands behind your back.' },
-        QB: { p: [[180, 312]], job: 'Read the right side top to bottom. Throw to the first open layer.' }
-      },
-      events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 2.2, to: 'RS', f: 0.5, pass: true }],
-      steps: [[0, 'Everyone set. Freeze for 1 second.'], [0.8, 'Snap.'], [1.1, 'Three layers on the right: RW deep, RS middle, B short.'], [2.2, 'QB reads deep to short. RS is open.'], [2.7, 'Catch at the sideline, turn upfield.']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, 'RS cuts to the middle.'], [1.55, 'QB throws to RS.'], [2.0, 'Catch it and run!']]
     },
     {
       id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
-      concept: 'Four Verticals',
-      tag: 'Everybody goes deep. Throw it to whoever is open.',
-      when: 'You need a big play, or the defense is crowding the line.',
-      ball: 'Whoever has nobody near them. A woman\'s TD catch = 9 points.',
-      qbNote: 'Needs a QB who can throw 20+ yards. If nobody is open, dump it to C or B.',
+      tag: 'Everybody runs deep. Throw to whoever is open.',
+      when: 'You want a big play.',
       snap: 0.8,
       players: {
-        LS: { p: [[122, 40]], kind: 'ball', speed: 78, job: 'Sprint straight deep. Look back for the ball.' },
-        RS: { p: [[238, 40]], kind: 'route', speed: 78, job: 'Sprint straight deep. Look back for the ball.' },
-        LW: { p: [[40, 40]], kind: 'route', speed: 78, job: 'Sprint straight deep along the sideline.' },
-        RW: { p: [[320, 40]], kind: 'route', speed: 78, job: 'Sprint straight deep along the sideline.' },
-        C:  { p: [[180, 215], [175, 224]], kind: 'route', job: 'Snap, run 4 steps, turn around. Emergency target.' },
-        B:  { p: [[300, 272], [338, 256]], kind: 'route', job: 'Run to the right flat. Emergency target.' },
-        QB: { p: [[180, 318]], job: 'Drop back 2 steps. Throw to the most open runner. Throw it ahead of them.' }
+        LS: { p: [[122, 40]], kind: 'ball', speed: 78 },
+        RS: { p: [[238, 40]], speed: 78 },
+        LW: { p: [[40, 40]], speed: 78 },
+        RW: { p: [[320, 40]], speed: 78 },
+        C:  { p: [[180, 215]] },
+        B:  { p: [[300, 272], [338, 256]] },
+        QB: { p: [[180, 318]] }
       },
+      jobs: [
+        ['QB', 'Step back. Throw to whoever is most open.'],
+        ['ALL', 'Everyone else sprints straight deep.'],
+        ['C', 'Center and Back stay short, in case the QB needs a quick throw.']
+      ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 2.3, to: 'LS', f: 0.85, pass: true }],
-      steps: [[0, 'Everyone set. Freeze for 1 second.'], [0.8, 'Snap. QB drops back.'], [1.1, 'All four receivers sprint deep.'], [2.3, 'Throw to whoever is most open. Here: LS.'], [3.15, 'Touchdown by a woman = 9 points!']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.1, 'Everybody runs deep.'], [2.3, 'Throw to the open one.'], [3.15, 'Touchdown!']]
     },
     {
       id: 'pitch-perfect', name: 'Pitch Perfect', type: 'run', qb: 'any',
-      concept: 'Toss Sweep',
-      tag: 'Toss it to B and race around the right side.',
-      when: 'Short yards, or the defense is sitting back waiting for a pass.',
-      ball: 'B, on a quick underhand pitch.',
-      qbNote: 'The pitch must go sideways or backward. If it hits the ground, it\'s just a dead ball, not a turnover.',
+      tag: 'Toss it to B. She runs around the right side.',
+      when: 'You need a few yards. Easy and safe.',
       snap: 0.8,
       players: {
-        B:  { p: [[305, 296], [340, 255], [340, 50]], kind: 'ball', speed: 80, job: 'Sprint toward the right sideline, catch the pitch, turn upfield.' },
-        RS: { p: [[262, 222]], kind: 'block', job: 'Step up and stand in front of the nearest defender. Hands behind your back.' },
-        RW: { p: [[300, 212]], kind: 'block', job: 'Screen the defender on your side. No contact.' },
-        C:  { p: [[205, 240]], kind: 'block', job: 'Snap it, then screen to the right.' },
-        LW: { p: [[40, 110]], kind: 'route', job: 'Run deep. Take your defender far away.' },
-        LS: { p: [[125, 130]], kind: 'route', job: 'Run deep. Take your defender far away.' },
-        QB: { p: [[186, 300]], job: 'Catch the snap and toss it underhand to B right away.' }
+        B:  { p: [[305, 296], [340, 255], [340, 50]], kind: 'ball', speed: 80 },
+        RS: { p: [[262, 222]] },
+        RW: { p: [[300, 212]] },
+        C:  { p: [[205, 240]] },
+        LW: { p: [[40, 110]] },
+        LS: { p: [[125, 130]] },
+        QB: { p: [[186, 300]] }
       },
+      jobs: [
+        ['B', 'Run to the right sideline. Catch the toss. Run up the field.'],
+        ['QB', 'Toss it underhand to B right away.'],
+        ['ALL', 'Everyone else: stand in a defender\'s way, hands behind your back.']
+      ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 1.15, to: 'B', f: 0.3 }],
-      steps: [[0, 'Everyone set. Freeze for 1 second.'], [0.8, 'Snap.'], [1.15, 'QB tosses it underhand to B.'], [1.5, 'RS, RW and C screen. Hands behind backs.'], [2.1, 'B turns the corner and goes!']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.15, 'QB tosses it to B.'], [1.8, 'B runs around the edge!']]
     },
     {
       id: 'zoom', name: 'Zoom', type: 'run', qb: 'any',
-      concept: 'Jet Sweep',
-      tag: 'LS is already sprinting when the ball is snapped. Pure speed.',
-      when: 'The defense is slow to the edge. Put your fastest woman at LS.',
-      ball: 'LS, on a handoff as she runs past the QB.',
-      qbNote: 'Only LS moves before the snap, and she runs sideways, never forward. Everyone else stays frozen.',
+      tag: 'LS runs sideways, grabs the handoff, keeps going.',
+      when: 'Your fastest woman is at LS.',
       snap: 0.9,
       players: {
-        LS: { p: [[150, 280], [215, 284], [300, 276], [342, 240], [342, 60]], kind: 'ball', start: 0.2, speed: 85, job: 'Before the snap, run sideways toward the QB. Take the handoff at full speed and keep going around the right side.' },
-        B:  { p: [[265, 288], [318, 215]], kind: 'block', job: 'Run ahead of LS and screen a defender.' },
-        RS: { p: [[275, 222]], kind: 'block', job: 'Screen the nearest defender. Hands behind your back.' },
-        RW: { p: [[325, 100]], kind: 'route', job: 'Sprint deep. Take your defender out of the way.' },
-        C:  { p: [[200, 245]], kind: 'block', job: 'Snap it when the QB calls it, then screen to the right.' },
-        LW: { p: [[40, 120]], kind: 'route', job: 'Run deep. Decoy.' },
-        QB: { p: [[184, 290]], job: 'Call "hike" when LS is 2 steps from the center. Hand it to her as she passes.' }
+        LS: { p: [[150, 280], [215, 284], [300, 276], [342, 240], [342, 60]], kind: 'ball', start: 0.2, speed: 85 },
+        B:  { p: [[265, 288], [318, 215]] },
+        RS: { p: [[275, 222]] },
+        RW: { p: [[325, 100]] },
+        C:  { p: [[200, 245]] },
+        LW: { p: [[40, 120]] },
+        QB: { p: [[184, 290]] }
       },
+      jobs: [
+        ['LS', 'Before the hike, run sideways behind the line. Take the handoff. Keep running right.'],
+        ['QB', 'Say "hike" when LS is almost to you. Hand it to her.'],
+        ['ALL', 'Everyone else: stand still until the hike, then get in a defender\'s way.']
+      ],
       events: [{ t: 0.9, to: 'QB', f: 0.25 }, { t: 1.15, to: 'LS', f: 0.12 }],
-      steps: [[0, 'LS starts running sideways. Only she moves.'], [0.9, 'Snap as she gets to the QB.'], [1.15, 'QB hands it to her as she flies by.'], [1.6, 'B and RS screen. RW runs his defender away.'], [2.4, 'LS races around the right edge.']]
-    },
-    {
-      id: 'uno-reverse', name: 'Uno Reverse', type: 'run', qb: 'any',
-      concept: 'Reverse',
-      tag: 'Looks exactly like Pitch Perfect, then goes the other way.',
-      when: 'After Pitch Perfect works once or twice. The defense will over-chase to the right.',
-      ball: 'RS, on a handoff behind the QB.',
-      qbNote: 'Sell the fake. Everyone moving right makes the defense follow.',
-      snap: 0.8,
-      players: {
-        RS: { p: [[238, 292], [190, 322], [120, 314], [48, 272], [48, 60]], kind: 'ball', start: 1.1, speed: 80, job: 'Take 2 steps back, run behind the QB, take the handoff and sprint left.' },
-        B:  { p: [[305, 296], [338, 258], [338, 200]], kind: 'route', speed: 80, job: 'Sell it! Run right exactly like Pitch Perfect.' },
-        RW: { p: [[320, 140]], kind: 'route', job: 'Run deep right. Make it look real.' },
-        LW: { p: [[88, 205]], kind: 'block', job: 'Screen your defender. Hands behind your back.' },
-        LS: { p: [[135, 215]], kind: 'block', job: 'Screen the nearest defender on the left.' },
-        C:  { p: [[160, 242]], kind: 'block', job: 'Snap it, then screen to the left.' },
-        QB: { p: [[178, 304]], job: 'Fake the pitch to B. Then turn and hand it to RS as she runs behind you.' }
-      },
-      events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 2.15, to: 'RS', f: 0.15 }],
-      pops: [{ t: 1.15, at: 'QB', text: 'FAKE!' }],
-      steps: [[0, 'Everyone set. Freeze for 1 second.'], [0.8, 'Snap. Everyone flows right.'], [1.15, 'QB fakes the pitch to B.'], [1.6, 'RS loops behind the QB.'], [2.15, 'Handoff to RS. She heads left.'], [2.8, 'Defense went right. She has open field.']]
+      steps: [[0, 'LS runs sideways.'], [0.9, 'Hike!'], [1.15, 'QB hands it to LS.'], [1.8, 'LS runs around the edge!']]
     },
     {
       id: 'houdini', name: 'Houdini', type: 'run', qb: 'woman',
-      concept: 'QB Bootleg',
-      tag: 'Fake the pitch right. The QB disappears left with the ball.',
-      when: 'A woman is at QB and the defense keeps chasing B.',
-      ball: 'The QB keeps it.',
-      qbNote: 'Woman QB only. Men can\'t run the ball past the line.',
+      tag: 'Fake the toss right. The QB runs left.',
+      when: 'A woman is playing QB.',
       snap: 0.8,
       players: {
-        QB: { p: [[150, 308], [95, 300], [55, 268], [55, 60]], kind: 'ball', start: 1.45, speed: 75, job: 'Fake the pitch to B. Hide the ball on your hip, then run left.' },
-        B:  { p: [[305, 296], [338, 258], [338, 170]], kind: 'route', speed: 80, job: 'Sell it! Run right like you have the ball.' },
-        RS: { p: [[280, 190]], kind: 'route', job: 'Run right and deep. Pull defenders that way.' },
-        RW: { p: [[322, 130]], kind: 'route', job: 'Run deep. Pull your defender away.' },
-        LW: { p: [[40, 90]], kind: 'route', job: 'Run deep. Clear out the left side.' },
-        LS: { p: [[92, 222]], kind: 'block', job: 'Screen the nearest defender on the left.' },
-        C:  { p: [[152, 240]], kind: 'block', job: 'Snap it, then screen to the left.' }
+        QB: { p: [[150, 308], [95, 300], [55, 268], [55, 60]], kind: 'ball', start: 1.45, speed: 75 },
+        B:  { p: [[305, 296], [338, 258], [338, 170]], speed: 80 },
+        RS: { p: [[280, 190]] },
+        RW: { p: [[322, 130]] },
+        LW: { p: [[40, 90]] },
+        LS: { p: [[110, 120]] },
+        C:  { p: [[180, 240]] }
       },
+      jobs: [
+        ['QB', 'Pretend to toss it to B. Keep it. Run left.'],
+        ['B', 'Run right and act like you have the ball.'],
+        ['ALL', 'Everyone else runs deep.']
+      ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }],
       pops: [{ t: 1.15, at: 'QB', text: 'FAKE!' }],
-      steps: [[0, 'Everyone set. Woman at QB.'], [0.8, 'Snap.'], [1.15, 'QB fakes the pitch to B.'], [1.5, 'Defense chases B to the right...'], [2.0, '...while the QB runs left with the ball.'], [2.8, 'Gone. Like magic.']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.15, 'QB fakes the toss to B.'], [1.6, 'Defense chases B...'], [2.0, '...QB runs left with the ball!']]
     }
   ];
-
   // ---------- Geometry helpers ----------
   function pts(play, key) {
     var s = POS[key], pl = play.players[key] || {};
@@ -494,39 +447,30 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     for (var y = LOS - 250; y < VH; y += 50) {
       if (((y - LOS) / 50) % 2 === 0) el('rect', { x: 0, y: y, width: VW, height: 50, fill: 'var(--field-2)' }, svg);
     }
-    for (var i = 1; i <= 4; i++) {
-      var yy = LOS - i * 50;
-      el('line', { x1: 0, x2: VW, y1: yy, y2: yy, stroke: 'var(--chalk)', 'stroke-width': 1.2, opacity: 0.5 }, svg);
-      if (!opts.mini) {
-        var t = el('text', { x: 8, y: yy - 5, fill: 'var(--chalk)', 'font-size': 11, 'font-weight': 700, opacity: 0.7, 'font-family': 'Archivo, sans-serif' }, svg);
-        t.textContent = (i * 5) + ' yd';
-      }
-    }
     el('line', { x1: 0, x2: VW, y1: LOS, y2: LOS, stroke: '#9FD3FF', 'stroke-width': 2.5, opacity: 0.9 }, svg);
   }
 
+  // Only the player who gets the ball has a bold line. Everyone else gets a faint one.
   function drawRoute(svg, play, key, opts) {
     var pl = play.players[key];
     if (!pl || !pl.p) return;
-    var p = pts(play, key);
-    var g = gender(play, key);
-    var col = colorVar(g);
     var isBall = pl.kind === 'ball';
-    var sw = opts.mini ? (isBall ? 4 : 3) : (isBall ? 3.5 : 2.2);
-    var attrs = { points: polyStr(p), fill: 'none', stroke: col, 'stroke-width': sw, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: isBall ? 1 : 0.85 };
-    if (!isBall) attrs['stroke-dasharray'] = opts.mini ? '7 6' : '6 5';
-    el('polyline', attrs, svg);
+    if (opts.mini && !isBall) return;
+    var p = pts(play, key);
+    if (!isBall) {
+      el('polyline', { points: polyStr(p), fill: 'none', stroke: '#FFFFFF', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: 0.28 }, svg);
+      return;
+    }
+    var col = 'var(--women)';
+    var sw = opts.mini ? 9 : 5;
+    el('polyline', { points: polyStr(p), fill: 'none', stroke: '#0C2340', 'stroke-width': sw + 4, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: 0.35 }, svg);
+    el('polyline', { points: polyStr(p), fill: 'none', stroke: col, 'stroke-width': sw, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, svg);
     var a = p[p.length - 2], b = p[p.length - 1];
     var dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy) || 1;
     dx /= L; dy /= L;
-    var px = -dy, py = dx;
-    var k = opts.mini ? 1.5 : 1;
-    if (pl.kind === 'block') {
-      el('line', { x1: b[0] + px * 9 * k, y1: b[1] + py * 9 * k, x2: b[0] - px * 9 * k, y2: b[1] - py * 9 * k, stroke: col, 'stroke-width': sw + 1, 'stroke-linecap': 'round' }, svg);
-    } else if (key !== 'QB' || pl.kind === 'ball') {
-      var s = 10 * k, w = 6 * k;
-      el('polygon', { points: polyStr([[b[0] + dx * 3, b[1] + dy * 3], [b[0] - dx * s + px * w, b[1] - dy * s + py * w], [b[0] - dx * s - px * w, b[1] - dy * s - py * w]]), fill: col }, svg);
-    }
+    var px = -dy, py = dx, k = opts.mini ? 2 : 1.3;
+    var s = 10 * k, w = 7 * k;
+    el('polygon', { points: polyStr([[b[0] + dx * 4, b[1] + dy * 4], [b[0] - dx * s + px * w, b[1] - dy * s + py * w], [b[0] - dx * s - px * w, b[1] - dy * s - py * w]]), fill: col }, svg);
   }
 
   function buildSvg(play, opts) {
@@ -542,21 +486,16 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     DRAW.forEach(function (k) {
       var g = gender(play, k);
       var s = POS[k];
-      if (!opts.mini && play.players[k] && play.players[k].p) {
+      if (!opts.mini && play.players[k] && play.players[k].kind === 'ball') {
         refs.trails[k] = el('polyline', { points: polyStr(pts(play, k)), fill: 'none', stroke: colorVar(g), 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: 0.55, 'stroke-dasharray': '0 99999' }, trails);
       }
       var grp = el('g', { transform: 'translate(' + s.x + ' ' + s.y + ')' }, dots);
       var r = opts.mini ? 17 : 14;
+      if (!opts.mini && play.players[k] && play.players[k].kind === 'ball') el('circle', { r: r + 5, fill: 'none', stroke: '#FFFFFF', 'stroke-width': 3 }, grp);
       el('circle', { r: r, fill: colorVar(g), stroke: '#0C2340', 'stroke-width': opts.mini ? 3 : 2 }, grp);
       if (!opts.mini) {
         var tx = el('text', { 'text-anchor': 'middle', y: 4, 'font-size': k.length > 1 ? 10.5 : 12, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
         tx.textContent = k;
-        var rd = play.players[k] && play.players[k].read;
-        if (rd) {
-          el('circle', { cx: 12, cy: -12, r: 8, fill: 'var(--accent)', stroke: '#0C2340', 'stroke-width': 1.5 }, grp);
-          var rt = el('text', { x: 12, y: -8.5, 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 800, fill: '#fff', 'font-family': 'Archivo, sans-serif' }, grp);
-          rt.textContent = rd;
-        }
       }
       refs.players[k] = grp;
     });
@@ -576,7 +515,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
   }
 
   // ---------- Animation ----------
-  var anim = { play: null, refs: null, t: 0, playing: false, rate: 1, last: 0, raf: 0 };
+  var anim = { play: null, refs: null, t: 0, playing: false, rate: 0.75, last: 0, raf: 0 };
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function render(t) {
@@ -610,7 +549,6 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     if (anim.stepIdx !== idx) {
       anim.stepIdx = idx;
       $('p-caption').textContent = play.steps[idx][1];
-      $('p-stepnum').textContent = (idx + 1) + '/' + play.steps.length;
     }
   }
   function tick(now) {
@@ -636,10 +574,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
   // ---------- UI ----------
   function $(id) { return document.getElementById(id); }
   function chipsHtml(play) {
-    var h = '<span class="chip ' + play.type + '">' + (play.type === 'pass' ? 'Pass' : 'Run') + '</span>';
-    h += play.qb === 'woman' ? '<span class="chip wqb">Woman QB only</span>' : '<span class="chip">Any QB</span>';
-    if (play.closed) h += '<span class="chip closed">Closed-play OK</span>';
-    return h;
+    return play.qb === 'woman' ? '<span class="chip wqb">Woman QB only</span>' : '';
   }
 
   function buildHome() {
@@ -681,7 +616,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       var g = gender(lp, k);
       var li = document.createElement('li');
       li.innerHTML = '<span class="badge ' + g + '">' + k + '</span><span></span>';
-      li.lastChild.textContent = POS[k].name + (g === W ? ' (woman)' : g === M ? ' (man)' : ' (anyone)');
+      li.lastChild.textContent = POS[k].name;
       ul.appendChild(li);
     });
   }
@@ -703,37 +638,25 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     refs.svg.addEventListener('click', function () { start(0); });
     anim.play = play; anim.refs = refs;
 
-    var facts = $('p-facts'); facts.innerHTML = '';
-    function fact(k, v, cls) {
-      var d = document.createElement('div'); d.className = 'fact' + (cls ? ' ' + cls : '');
-      d.innerHTML = '<span class="k"></span><span class="v"></span>';
-      d.querySelector('.k').textContent = k; d.querySelector('.v').textContent = v;
-      facts.appendChild(d);
-    }
-    fact('Ball goes to', play.ball);
-    fact('Call it when', play.when);
-    if (play.qbNote) fact('Heads up', play.qbNote, 'warn');
-    fact('Real football name', play.concept);
-
     var jobs = $('p-jobs'); jobs.innerHTML = '';
-    var order = ORDER.slice().sort(function (a, b) {
-      var ka = play.players[a] && play.players[a].kind === 'ball' ? 0 : 1;
-      var kb = play.players[b] && play.players[b].kind === 'ball' ? 0 : 1;
-      return ka - kb;
-    });
-    order.forEach(function (k) {
+    play.jobs.forEach(function (j) {
+      var k = j[0], all = k === 'ALL';
       var pl = play.players[k] || {};
-      var g = gender(play, k);
       var li = document.createElement('li');
       if (pl.kind === 'ball') li.className = 'star';
-      li.innerHTML = '<span class="badge ' + g + '">' + k + '</span><div><div class="who"></div><div class="do"></div></div>';
+      li.innerHTML = '<span class="badge ' + (all ? 'all' : gender(play, k)) + '">' + (all ? 'ALL' : k) + '</span><div><div class="who"></div><div class="do"></div></div>';
       var who = li.querySelector('.who');
-      who.textContent = POS[k].name;
+      who.textContent = all ? 'Everyone else' : POS[k].name;
       if (pl.kind === 'ball') { var em = document.createElement('em'); em.textContent = 'gets the ball'; who.appendChild(em); }
-      else if (pl.read) { var em2 = document.createElement('em'); em2.textContent = 'read #' + pl.read; who.appendChild(em2); }
-      li.querySelector('.do').textContent = pl.job || 'Stay put.';
+      li.querySelector('.do').textContent = j[1];
       jobs.appendChild(li);
     });
+
+    var facts = $('p-facts'); facts.innerHTML = '';
+    var d = document.createElement('div'); d.className = 'fact';
+    d.innerHTML = '<span class="k">Use it when</span><span class="v"></span>';
+    d.querySelector('.v').textContent = play.when;
+    facts.appendChild(d);
 
     var prev = PLAYS[(i - 1 + PLAYS.length) % PLAYS.length], next = PLAYS[(i + 1) % PLAYS.length];
     $('prev-name').textContent = prev.name;
@@ -768,11 +691,6 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     location.hash = '';
   });
   $('replay').addEventListener('click', function () { start(0); });
-  $('slow').addEventListener('click', function () {
-    anim.rate = anim.rate === 1 ? 0.45 : 1;
-    this.setAttribute('aria-pressed', anim.rate !== 1 ? 'true' : 'false');
-    if (!anim.playing) start(0);
-  });
   $('prev').addEventListener('click', function () { go(-1); });
   $('next').addEventListener('click', function () { go(1); });
 
