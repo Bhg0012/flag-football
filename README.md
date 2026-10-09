@@ -1,21 +1,23 @@
 # Coed Flag Playbook
 
-A one-page, phone-friendly playbook for our coed 7v7 flag football team. Tap a play to watch it run, see everyone's job, and swipe to the next play.
+A one-page, phone-friendly playbook for our coed 7v7 flag football team. Tap a play to watch it run, see the QB's options and everyone's job, and swipe to the next play.
 
 Everything is in `index.html`. It has no build step and no dependencies besides a Google Font.
 
 ## The plays
 
-Receivers are numbered 1 to 4 from left to right, #5 stands next to the QB, and C is the Center. Everyone keeps the same spot in every play except Criss Cross, where #2 lines up next to the Center. The **yellow** spots are women, the **blue** spots are men, and the **white** spot is the QB (anyone can play QB). On each diagram, the bold line shows who gets the ball.
+Positions: **QB**, **C** (center), **RB** (running back, next to the QB) and four **WR**s (outside left, inside left, inside right, outside right). Everyone keeps the same spot in every play except Criss Cross, where the inside left WR lines up next to the Center. **Yellow** dots are women, **blue** dots are men, and the **white** dot is the QB (anyone can play QB).
 
-| Play | Type | Real football name | Ball goes to |
-| --- | --- | --- | --- |
-| Pizza Slice | Pass | Slant & Flat | #3 (woman), or #5 if she's covered |
-| Criss Cross | Pass | Twins: slant + drag | #3 (woman) on the slant, or #1 running across |
-| Fireworks | Pass | Four Verticals | Whoever is open deep |
-| Pitch Perfect | Run | Toss Sweep | #5 (woman) |
-| Zoom | Run | Jet Sweep | #2 (woman), running sideways before the hike |
-| Houdini | Run | QB Bootleg | Woman QB keeps it |
+Pass plays show each of the QB's options with a number. Tap an option to watch the throw go there.
+
+| Play | Type | When | Real football name | Who can get the ball |
+| --- | --- | --- | --- | --- |
+| Pizza Slice | Pass | Any down | Slant & Flat | 1: inside right WR (slant), 2: RB (flat). Both women |
+| Criss Cross | Pass | Any down | Twins: slant + drag + go | 1: inside right WR (slant), 2: outside left WR (drag), 3: outside right WR (deep) |
+| Fireworks | Pass | 1st down | Four Verticals | 1 and 2: inside WRs deep, 3: Center short. All women |
+| Pitch Perfect | Run | 1st or 2nd down | Toss Sweep | RB (woman) |
+| Zoom | Run | 1st or 2nd down | Jet Sweep | Inside left WR (woman), running sideways before the hike |
+| Houdini | Run | Surprise play | QB Bootleg | Woman QB keeps it |
 
 ## Coed rules the plays are built around
 
