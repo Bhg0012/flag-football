@@ -158,6 +158,12 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .opt small { display: block; color: var(--muted); font-size: 14px; }
 .opt[aria-pressed="true"] { border-color: var(--accent); background: var(--soft); }
 .chip.down { background: var(--ink); color: var(--bg); }
+.side { margin: 0 0 10px; }
+.side p { margin: 0 0 8px; color: var(--muted); }
+.side p b { color: var(--ink); }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--soft); padding: 4px; border-radius: 12px; }
+.seg button { border: 0; background: transparent; border-radius: 9px; padding: 10px; font-weight: 800; font-size: 16px; cursor: pointer; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .setup { margin: 0 0 10px; padding: 10px 14px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-weight: 800; }
 .setup span { display: block; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
 
@@ -227,6 +233,13 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     <div class="chips" id="p-chips"></div>
     <h2 id="p-name"></h2>
     <p id="p-tag"></p>
+  </div>
+  <div class="side" id="p-side" hidden>
+    <p>Call it <b>Right</b> or <b>Left</b>. That's the side with 2 WRs.</p>
+    <div class="seg">
+      <button type="button" data-side="right">Right</button>
+      <button type="button" data-side="left">Left</button>
+    </div>
   </div>
   <p class="setup" id="p-setup" hidden></p>
   <div class="field-card">
@@ -302,9 +315,9 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, 'Both options run their routes.']]
     },
     {
-      id: 'criss-cross', name: 'Criss Cross', type: 'pass', qb: 'any',
+      id: 'criss-cross', name: 'Criss Cross', type: 'pass', qb: 'any', sides: true,
       down: 'Any down',
-      tag: 'Two WRs on the right, one on the left. The QB has 3 options.',
+      tag: 'Two WRs on one side, one on the other. The QB has 3 options.',
       when: 'The defense has figured out Pizza Slice.',
       setup: 'The inside left WR moves in and lines up next to the Center.',
       form: { LS: [140, 258] },
@@ -362,7 +375,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       steps: [[0, 'Get set.'], [0.8, 'Hike! QB steps back.'], [1.1, 'Everybody runs deep.']]
     },
     {
-      id: 'pitch-perfect', name: 'Pitch Perfect', type: 'run', qb: 'any',
+      id: 'slingshot', name: 'Slingshot', type: 'run', qb: 'any',
       down: '1st or 2nd down',
       tag: 'Toss it to the RB. She runs around the right side.',
       when: 'You need a few yards. Easy and safe.',
@@ -411,7 +424,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       id: 'houdini', name: 'Houdini', type: 'run', qb: 'woman',
       down: 'Surprise play',
       tag: 'Fake the toss right. The QB runs left.',
-      when: 'A woman is playing QB. Use it once or twice a game, after Pitch Perfect.',
+      when: 'A woman is playing QB. Use it once or twice a game, after Slingshot.',
       snap: 0.8,
       players: {
         QB: { p: [[150, 308], [95, 300], [55, 268], [55, 60]], kind: 'ball', start: 1.45, speed: 75 },
@@ -578,10 +591,17 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     if (opts.mini) svg.setAttribute('class', 'mini');
     svg.setAttribute('preserveAspectRatio', opts.mini ? 'xMidYMid slice' : 'xMidYMid meet');
     drawField(svg, opts);
-    var routes = el('g', {}, svg);
+    var mir = play.mirror && !opts.mini;
+    var stage = el('g', mir ? { transform: 'translate(' + VW + ' 0) scale(-1 1)' } : {}, svg);
+    var routes = el('g', {}, stage);
     DRAW.forEach(function (k) { drawRoute(routes, play, k, opts); });
-    var trails = el('g', {}, svg);
-    var dots = el('g', {}, svg);
+    var trails = el('g', {}, stage);
+    var dots = el('g', {}, stage);
+    // Text inside a mirrored play gets flipped back so it stays readable.
+    function tx(attrs, parent) {
+      if (mir) { attrs.x = -(attrs.x || 0); attrs.transform = 'scale(-1 1)'; }
+      return el('text', attrs, parent);
+    }
     var refs = { svg: svg, players: {}, trails: {}, rings: {} };
     DRAW.forEach(function (k) {
       var g = gender(play, k);
@@ -595,26 +615,26 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       el('circle', { r: r, fill: colorVar(g), stroke: '#0C2340', 'stroke-width': opts.mini ? 3 : 2 }, grp);
       if (!opts.mini) {
         var lb = POS[k].label;
-        var tx = el('text', { 'text-anchor': 'middle', y: lb.length > 1 ? 4 : 5, 'font-size': lb.length > 1 ? 11 : 15, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
-        tx.textContent = lb;
+        var lt = tx({ 'text-anchor': 'middle', y: lb.length > 1 ? 4 : 5, 'font-size': lb.length > 1 ? 11 : 15, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
+        lt.textContent = lb;
         var oi = optIndex(play, k);
         if (oi >= 0) {
           el('circle', { cx: 13, cy: -13, r: 9, fill: 'var(--accent)', stroke: '#0C2340', 'stroke-width': 1.5 }, grp);
-          var on = el('text', { x: 13, y: -9, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 800, fill: '#FFFFFF', 'font-family': 'Archivo, sans-serif' }, grp);
+          var on = tx({ x: 13, y: -9, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 800, fill: '#FFFFFF', 'font-family': 'Archivo, sans-serif' }, grp);
           on.textContent = oi + 1;
         }
       }
       refs.players[k] = grp;
     });
     if (!opts.mini) {
-      var shadow = el('ellipse', { rx: 6, ry: 3, fill: '#000', opacity: 0 }, svg);
-      var ball = el('g', {}, svg);
+      var shadow = el('ellipse', { rx: 6, ry: 3, fill: '#000', opacity: 0 }, stage);
+      var ball = el('g', {}, stage);
       el('ellipse', { rx: 7, ry: 4.5, fill: '#8B4A1F', stroke: '#3A1C07', 'stroke-width': 1.2 }, ball);
       el('line', { x1: -2.5, x2: 2.5, y1: 0, y2: 0, stroke: '#fff', 'stroke-width': 1.2 }, ball);
       refs.ball = ball; refs.shadow = shadow;
-      var pop = el('g', { opacity: 0 }, svg);
+      var pop = el('g', { opacity: 0 }, stage);
       el('rect', { x: -26, y: -12, width: 52, height: 20, rx: 10, fill: '#0C2340' }, pop);
-      var pt = el('text', { 'text-anchor': 'middle', y: 3, 'font-size': 11, 'font-weight': 800, fill: '#FFC93C', 'letter-spacing': 1, 'font-family': 'Archivo, sans-serif' }, pop);
+      var pt = tx({ 'text-anchor': 'middle', y: 3, 'font-size': 11, 'font-weight': 800, fill: '#FFC93C', 'letter-spacing': 1, 'font-family': 'Archivo, sans-serif' }, pop);
       pt.textContent = 'FAKE!';
       refs.pop = pop;
     }
@@ -657,7 +677,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     for (var i = 0; i < play.steps.length; i++) if (t >= play.steps[i][0]) idx = i;
     if (anim.stepIdx !== idx) {
       anim.stepIdx = idx;
-      $('p-caption').textContent = play.steps[idx][1];
+      $('p-caption').textContent = side(play, play.steps[idx][1]);
     }
   }
   function tick(now) {
@@ -682,9 +702,19 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 
   // ---------- UI ----------
   function $(id) { return document.getElementById(id); }
+  // A play called "Left" is the mirror image of "Right": swap the words too.
+  function side(play, str) {
+    if (!play.mirror) return str;
+    return str.replace(/\b(left|right|Left|Right)\b/g, function (w) {
+      return { left: 'right', right: 'left', Left: 'Right', Right: 'Left' }[w];
+    });
+  }
+  function nameOf(play, k) { return side(play, POS[k].name); }
+  function title(play) { return play.sides ? play.name + (play.mirror ? ' Left' : ' Right') : play.name; }
   function chipsHtml(play) {
     var h = '<span class="chip down"></span>';
     if (play.qb === 'woman') h += '<span class="chip wqb">Woman QB only</span>';
+    if (play.sides) h += '<span class="chip">Right or Left</span>';
     return h;
   }
 
@@ -744,14 +774,20 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     $('p-chips').innerHTML = chipsHtml(play);
     $('p-chips').querySelector('.chip.down').textContent = play.down;
     if (play.options) setOption(play, 0);
-    $('p-name').textContent = play.name;
+    $('p-name').textContent = title(play);
     $('p-tag').textContent = play.tag;
-    document.title = play.name + ' · Coed Flag Playbook';
+    document.title = title(play) + ' · Coed Flag Playbook';
+
+    var sd = $('p-side');
+    sd.hidden = !play.sides;
+    Array.prototype.forEach.call(sd.querySelectorAll('button'), function (b) {
+      b.setAttribute('aria-pressed', (b.getAttribute('data-side') === 'left') === !!play.mirror ? 'true' : 'false');
+    });
 
     var su = $('p-setup');
     su.hidden = !play.setup;
     su.innerHTML = '<span>Lining up is different on this play</span>';
-    if (play.setup) su.appendChild(document.createTextNode(play.setup));
+    if (play.setup) su.appendChild(document.createTextNode(side(play, play.setup)));
 
     var f = $('p-field'); f.innerHTML = '';
     var refs = buildSvg(play, { mini: false });
@@ -766,8 +802,8 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       btn.type = 'button'; btn.className = 'opt';
       btn.setAttribute('aria-pressed', n === 0 ? 'true' : 'false');
       btn.innerHTML = '<span class="n">' + (n + 1) + '</span><span class="ot"><b></b><small></small></span>';
-      btn.querySelector('b').textContent = POS[o.to].name;
-      btn.querySelector('small').textContent = o.what;
+      btn.querySelector('b').textContent = nameOf(play, o.to);
+      btn.querySelector('small').textContent = side(play, o.what);
       btn.addEventListener('click', function () {
         setOption(play, n);
         Array.prototype.forEach.call(ob.children, function (c, m) { c.setAttribute('aria-pressed', m === n ? 'true' : 'false'); });
@@ -785,9 +821,9 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       if (pl.kind === 'ball' || oi >= 0) li.className = 'star';
       li.innerHTML = '<span class="badge ' + (all ? 'all' : gender(play, k)) + '">' + (all ? 'ALL' : POS[k].label) + '</span><div><div class="who"></div><div class="do"></div></div>';
       var who = li.querySelector('.who');
-      who.textContent = all ? 'Everyone else' : POS[k].name;
+      who.textContent = all ? 'Everyone else' : nameOf(play, k);
       if (pl.kind === 'ball' || oi >= 0) { var em = document.createElement('em'); em.textContent = oi >= 0 ? 'option ' + (oi + 1) : 'gets the ball'; who.appendChild(em); }
-      li.querySelector('.do').textContent = j[1];
+      li.querySelector('.do').textContent = side(play, j[1]);
       jobs.appendChild(li);
     });
 
@@ -830,6 +866,13 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     location.hash = '';
   });
   $('replay').addEventListener('click', function () { start(0); });
+  Array.prototype.forEach.call($('p-side').querySelectorAll('button'), function (b) {
+    b.addEventListener('click', function () {
+      var play = PLAYS[current];
+      play.mirror = b.getAttribute('data-side') === 'left';
+      showPlay(current);
+    });
+  });
   $('prev').addEventListener('click', function () { go(-1); });
   $('next').addEventListener('click', function () { go(1); });
 
