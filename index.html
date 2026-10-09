@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coed Flag Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Graduate&display=swap">
+<style>
+/* Layout: one narrow phone column. Home = stacked play cards; tap one = full play view with animated field and sticky prev/next. */
+:root {
+  --bg: #EDF1EC;
+  --card: #FFFFFF;
+  --ink: #0C2340;
+  --muted: #56657A;
+  --line: #D5DDD6;
+  --accent: #E87722;
+  --accent-ink: #FFFFFF;
+  --field: #2E7A3C;
+  --field-2: #2A7137;
+  --chalk: rgba(255,255,255,0.78);
+  --women: #FFC93C;
+  --men: #6EC1FF;
+  --qb: #FFFFFF;
+  --dot-ink: #0C2340;
+  --soft: #F4F6F2;
+  --good: #1F7A45;
+  --font-display: "Graduate", "Rockwell", "Georgia", serif;
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A1624; --card: #12233A; --ink: #EAF0F7; --muted: #9AABC0; --line: #23374F;
+    --accent: #F28B3C; --accent-ink: #1A0D02; --soft: #172B44; --good: #5FD08F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A1624; --card: #12233A; --ink: #EAF0F7; --muted: #9AABC0; --line: #23374F;
+  --accent: #F28B3C; --accent-ink: #1A0D02; --soft: #172B44; --good: #5FD08F;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-tap-highlight-color: transparent;
+}
+button { font: inherit; color: inherit; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 560px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 40px; }
+
+/* ---------- Home ---------- */
+.eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-height: 1; margin: 6px 0 8px; letter-spacing: 0.01em; }
+.lede { margin: 0; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 16px 0 4px; font-size: 14px; font-weight: 600; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 14px; height: 14px; border-radius: 50%; display: inline-block; border: 1.5px solid var(--dot-ink); }
+.sw.w { background: var(--women); } .sw.m { background: var(--men); } .sw.q { background: var(--qb); }
+
+.section-h { display: flex; align-items: baseline; justify-content: space-between; margin: 28px 0 10px; }
+.section-h h2 { font-family: var(--font-display); font-weight: 400; font-size: 22px; margin: 0; }
+.section-h small { color: var(--muted); font-size: 13px; }
+
+.cards { display: grid; gap: 10px; }
+.play-card {
+  display: grid; grid-template-columns: 84px 1fr auto; gap: 14px; align-items: center;
+  width: 100%; text-align: left; padding: 10px 12px 10px 10px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px; cursor: pointer;
+  transition: transform .12s ease, border-color .12s ease;
+}
+.play-card:active { transform: scale(0.98); }
+.play-card:hover { border-color: var(--accent); }
+.play-card .mini { width: 84px; height: 80px; border-radius: 8px; overflow: hidden; display: block; }
+.play-card .txt { min-width: 0; }
+.play-card .name { font-family: var(--font-display); font-size: 20px; line-height: 1.1; display: block; }
+.play-card .tag { color: var(--muted); font-size: 14px; display: block; margin-top: 2px; }
+.play-card .chips { margin-top: 6px; }
+.play-card .go { font-size: 26px; color: var(--accent); font-weight: 800; padding-right: 2px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: var(--soft); color: var(--muted); }
+.chip.pass { background: var(--men); color: var(--dot-ink); }
+.chip.run { background: var(--women); color: var(--dot-ink); }
+.chip.wqb { background: var(--accent); color: var(--accent-ink); }
+.chip.closed { background: transparent; color: var(--good); border: 1.5px solid var(--good); padding: 2px 7px; }
+
+.info { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.info h3 { margin: 0 0 4px; font-size: 18px; }
+.info p { margin: 0 0 8px; color: var(--muted); }
+.lineup-svg { width: 100%; max-width: 100%; display: block; border-radius: 10px; margin: 10px 0 12px; }
+.spots { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 14px; margin: 0; padding: 0; list-style: none; }
+.spots li { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.badge { flex: none; width: 30px; height: 30px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 11px; font-weight: 800; color: var(--dot-ink); border: 2px solid var(--dot-ink); }
+.badge.w { background: var(--women); } .badge.m { background: var(--men); } .badge.q { background: var(--qb); }
+.note { margin-top: 12px; font-size: 14px; background: var(--soft); border-radius: 10px; padding: 10px 12px; }
+
+.rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.rules li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start; }
+.rules .ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-weight: 800; font-size: 14px; background: var(--soft); color: var(--accent); }
+.rules div > b { display: block; }
+.rules span { color: var(--muted); font-size: 14px; }
+.foot { text-align: center; color: var(--muted); font-size: 12px; margin-top: 28px; }
+
+/* ---------- Play view ---------- */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); display: flex; align-items: center; justify-content: space-between;
+  padding-block: 10px; margin-top: -20px; border-bottom: 1px solid var(--line);
+}
+.back { background: none; border: 0; padding: 8px 4px; font-weight: 800; color: var(--accent); font-size: 16px; cursor: pointer; }
+.count { font-size: 13px; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+.play-head { margin: 16px 0 12px; }
+.play-head h2 { font-family: var(--font-display); font-weight: 400; font-size: 34px; line-height: 1.05; margin: 6px 0 4px; text-wrap: balance; }
+.play-head p { margin: 0; color: var(--muted); }
+
+.field-card { background: var(--field); border-radius: 16px; overflow: hidden; position: relative; }
+.field-card svg { display: block; width: 100%; height: auto; touch-action: pan-y; cursor: pointer; }
+.caption {
+  background: var(--ink); color: var(--bg); font-weight: 600; font-size: 15px;
+  padding: 10px 14px; min-height: 44px; display: flex; align-items: center; gap: 10px;
+}
+.caption .num { flex: none; font-size: 12px; font-weight: 800; background: var(--accent); color: var(--accent-ink); border-radius: 999px; padding: 2px 8px; font-variant-numeric: tabular-nums; }
+.controls { display: flex; gap: 8px; margin-top: 10px; }
+.btn {
+  flex: 1; border: 0; border-radius: 12px; padding: 12px 14px; font-weight: 800; font-size: 16px; cursor: pointer;
+  background: var(--accent); color: var(--accent-ink);
+}
+.btn.ghost { flex: 0 0 auto; background: var(--card); color: var(--ink); border: 1.5px solid var(--line); }
+.btn.ghost[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+
+.facts { display: grid; gap: 10px; margin-top: 16px; }
+.fact { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.fact .k { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 2px; }
+.fact.warn { border-color: var(--accent); }
+.jobs-h { font-family: var(--font-display); font-weight: 400; font-size: 20px; margin: 22px 0 10px; }
+.jobs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.jobs li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.jobs li.star { border: 2px solid var(--accent); }
+.jobs .who { font-weight: 800; font-size: 14px; }
+.jobs .who em { font-style: normal; color: var(--accent); font-size: 12px; margin-left: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+.jobs .do { font-size: 15px; color: var(--muted); }
+.jobs .badge { width: 34px; height: 34px; font-size: 12px; }
+.howto { font-size: 13px; color: var(--muted); margin: 10px 2px 0; }
+
+.pager {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
+  background: var(--bg); border-top: 1px solid var(--line);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+}
+.pager .in { max-width: 528px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pager button {
+  border: 1.5px solid var(--line); background: var(--card); border-radius: 12px; padding: 10px 12px; cursor: pointer;
+  text-align: left; min-width: 0;
+}
+.pager button.next { text-align: right; }
+.pager small { display: block; font-size: 11px; color: var(--muted); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.pager strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#play { padding-bottom: 90px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .play-card { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<main class="wrap" id="home">
+  <p class="eyebrow">Coed 7 v 7 Flag</p>
+  <h1>The Playbook</h1>
+  <p class="lede">Seven plays. Same spot every play. Tap a play to watch it run.</p>
+  <div class="legend" aria-label="Color key">
+    <span><i class="sw w"></i>Woman</span>
+    <span><i class="sw m"></i>Man</span>
+    <span><i class="sw q"></i>QB (anyone)</span>
+  </div>
+
+  <div class="section-h"><h2>Passing</h2><small>Throw it</small></div>
+  <div class="cards" id="pass-cards"></div>
+
+  <div class="section-h"><h2>Running</h2><small>A woman carries it</small></div>
+  <div class="cards" id="run-cards"></div>
+
+  <div class="section-h"><h2>Find your spot</h2></div>
+  <div class="info">
+    <h3>Same lineup, every play</h3>
+    <p>Learn your spot once. Your job changes by play, your spot doesn't.</p>
+    <div id="lineup"></div>
+    <ul class="spots" id="spots"></ul>
+    <div class="note"><b>Woman at QB?</b> Then one of the yellow spots can be a man. You still have 4 women on the field.</div>
+  </div>
+
+  <div class="section-h"><h2>Rules that matter</h2></div>
+  <div class="info">
+    <ul class="rules">
+      <li><span class="ic">4</span><div><b>4 women on the field, always.</b><span>Max 3 men in a 7-player lineup.</span></div></li>
+      <li><span class="ic">W</span><div><b>Only women run the ball past the line.</b><span>Handoffs, pitches and QB runs go to women. A man can run only after he catches a pass past the line.</span></div></li>
+      <li><span class="ic">≠</span><div><b>No man-to-man pass twice in a row.</b><span>After a man completes a pass to a man, the next completion needs a woman throwing or catching. A woman's run doesn't reset it. Call <b>Pizza Slice</b>.</span></div></li>
+      <li><span class="ic">9</span><div><b>Woman throws or scores the TD = 9 points.</b><span>A regular TD is 6.</span></div></li>
+      <li><span class="ic">QB</span><div><b>QB lines up 2+ yards behind the center.</b><span>Throw from behind the line. One forward pass per play.</span></div></li>
+      <li><span class="ic">1s</span><div><b>Everyone freezes 1 second before the snap.</b><span>Only one player can be moving at the snap, and only sideways or backward.</span></div></li>
+      <li><span class="ic">⊥</span><div><b>Blocking = screen only.</b><span>Stand in their way, hands behind your back, no contact.</span></div></li>
+      <li><span class="ic">✋</span><div><b>Don't guard your flags.</b><span>No hands, arms or ball over your flags while you run.</span></div></li>
+      <li><span class="ic">+</span><div><b>Extra points:</b><span>1 pt from the 3, 2 pts from the 10, 3 pts from the 20.</span></div></li>
+    </ul>
+  </div>
+  <p class="foot">Based on the Co-Rec Flag Football Rules Guide.</p>
+</main>
+
+<main class="wrap" id="play" hidden>
+  <div class="topbar">
+    <button class="back" id="back" type="button">‹ All plays</button>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="play-head">
+    <div class="chips" id="p-chips"></div>
+    <h2 id="p-name"></h2>
+    <p id="p-tag"></p>
+  </div>
+  <div class="field-card">
+    <div id="p-field"></div>
+    <div class="caption" aria-live="polite"><span class="num" id="p-stepnum">1</span><span id="p-caption"></span></div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="replay" type="button">↻ Replay</button>
+    <button class="btn ghost" id="slow" type="button" aria-pressed="false">Slow-mo</button>
+  </div>
+  <p class="howto">Blue line = line of scrimmage. Dashed = where you run. Solid = who gets the ball. T = screen block. Tap the field to replay, swipe for the next play.</p>
+
+  <div class="facts" id="p-facts"></div>
+
+  <h3 class="jobs-h">Everyone's job</h3>
+  <ul class="jobs" id="p-jobs"></ul>
+</main>
+
+<nav class="pager" id="pager" hidden>
+  <div class="in">
+    <button type="button" id="prev"><small>‹ Prev</small><strong id="prev-name"></strong></button>
+    <button type="button" id="next" class="next"><small>Next ›</small><strong id="next-name"></strong></button>
+  </div>
+</nav>
+
+<script>
+(function () {
+  // ---------- Field geometry (10 units = 1 yard; offense goes up) ----------
+  var VW = 360, VH = 345, LOS = 245;
+  var W = 'w', M = 'm', Q = 'q';
+  var POS = {
+    LW: { x: 40,  y: 255, g: M, name: 'Left Wide' },
+    LS: { x: 105, y: 258, g: W, name: 'Left Slot' },
+    C:  { x: 180, y: 258, g: W, name: 'Center' },
+    RS: { x: 255, y: 258, g: W, name: 'Right Slot' },
+    RW: { x: 320, y: 255, g: M, name: 'Right Wide' },
+    QB: { x: 180, y: 300, g: Q, name: 'Quarterback' },
+    B:  { x: 222, y: 300, g: W, name: 'Back' }
+  };
+  var ORDER = ['QB', 'C', 'B', 'LS', 'RS', 'LW', 'RW'];
+  var DRAW = ['LW', 'LS', 'C', 'RS', 'RW', 'B', 'QB'];
+
+  // ---------- The plays ----------
+  // p: route points after the start spot. kind: route | block | ball (ball carrier / main target).
+  // start: when the player starts moving (seconds). Default is just after the snap.
+  var PLAYS = [
+    {
+      id: 'pizza-slice', name: 'Pizza Slice', type: 'pass', qb: 'any', closed: true,
+      concept: 'Slant & Flat',
+      tag: 'Quick throw. Slice it to the middle or drop it to the side.',
+      when: 'You need 5 to 10 yards, or it\'s a closed play. Both targets are women, so it\'s always legal.',
+      ball: 'RS on the slant first. If she\'s covered, B in the flat.',
+      snap: 0.8,
+      players: {
+        RS: { p: [[255, 218], [205, 172], [195, 90]], kind: 'ball', read: 1, job: 'Take 4 steps up, then cut hard toward the middle.' },
+        B:  { p: [[292, 268], [338, 252]], kind: 'route', read: 2, job: 'Run to the right sideline, just past the line.' },
+        LS: { p: [[105, 205], [113, 214]], kind: 'route', job: 'Run 6 steps, stop, turn and face the QB. Safety valve.' },
+        LW: { p: [[40, 60]], kind: 'route', job: 'Sprint straight deep. You pull a defender away.' },
+        RW: { p: [[320, 60]], kind: 'route', job: 'Sprint straight deep. Clear out the right side.' },
+        C:  { p: [[180, 248]], kind: 'block', job: 'Snap it, then stand in a rusher\'s way. Hands behind your back.' },
+        QB: { p: [[180, 308]], job: 'Catch the snap. Look at RS first, then B. Throw it fast.' }
+      },
+      events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 1.55, to: 'RS', f: 0.4, pass: true }],
+      steps: [[0, 'Everyone set. Freeze for 1 second.'], [0.8, 'Snap.'], [1.0, 'RS cuts in. B heads for the sideline.'], [1.55, 'QB throws to RS. Covered? Throw to B.'], [2.0, 'Catch it and run!']]
+    },
+    {
+      id: 'layer-cake', name: 'Layer Cake', type: 'pass', qb: 'any',
+      concept: 'Flood',
+      tag: 'Three receivers stacked on one side: deep, middle, short.',
+      when: 'Any down. Great against a zone defense because one layer is almost always open.',
+      ball: 'Read top to bottom: RW deep, RS middle, B short.',
+      snap: 0.8,
+      players: {
+        RW: { p: [[320, 40]], kind: 'route', read: 1, speed: 85, job: 'Sprint straight deep. You\'re the top layer.' },
+        RS: { p: [[255, 168], [332, 168], [336, 80]], kind: 'ball', read: 2, job: 'Run 9 steps up, then cut hard to the sideline.' },
+        B:  { p: [[285, 262], [336, 240]], kind: 'route', read: 3, job: 'Run to the right flat, just past the line.' },
+        LW: { p: [[40, 150], [115, 75]], kind: 'route', job: 'Run deep, then angle to the middle. Decoy.' },
+        LS: { p: [[105, 198], [112, 207]], kind: 'route', job: 'Run 6 steps, stop, turn around. Safety valve.' },
+        C:  { p: [[180, 248]], kind: 'block', job: 'Snap it, then screen a rusher. Hands behind your back.' },
+        QB: { p: [[180, 312]], job: 'Read the right side top to bottom. Throw to the first open layer.' }
+      },
+      events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 2.2, to: 'RS', f: 0.5, pass: true }],
+      steps: [[0, 'Everyone set. Freeze for 1 second.'], [0.8, 'Snap.'], [1.1, 'Three layers on the right: RW deep, RS middle, B short.'], [2.2, 'QB reads deep to short. RS is open.'], [2.7, 'Catch at the sideline, turn upfield.']]
+    },
+    {
+      id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
+      concept: 'Four Verticals',
+      tag: 'Everybody goes deep. Throw it to whoever is open.',
+      when: 'You need a big play, or the defense is crowding the line.',
+      ball: 'Whoever has nobody near them. A woman\'s TD catch = 9 points.',
+      qbNote: 'Needs a QB who can throw 20+ yards. If nobody is open, dump it to C or B.',
+      snap: 0.8,
+      players: {
+        LS: { p: [[122, 40]], kind: 'ball', speed: 78, job: 'Sprint straight deep. Look back for the ball.' },
+        RS: { p: [[238, 40]], kind: 'route', speed: 78, job: 'Sprint straight deep. Look back for the ball.' },
+        LW: { p: [[40, 40]], kind: 'route', speed: 78, job: 'Sprint straight deep along the sideline.' },
+        RW: { p: [[320, 40]], kind: 'route', speed: 78, job: 'Sprint straight deep along the sideline.' },
+        C:  { p: [[180, 215], [175, 224]], kind: 'route', job: 'Snap, run 4 steps, turn around. Emergency target.' },
+        B:  { p: [[300, 272], [338, 256]], kind: 'route', job: 'Run to the right flat. Emergency target.' },
+        QB: { p: [[180, 318]], job: 'Drop back 2 steps. Throw to the most open runner. Throw it ahead of them.' }
+      },
+      events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 2.3, to: 'LS', f: 0.85, pass: true }],
+      steps: [[0, 'Everyone set. Freeze for 1 second.'], [0.8, 'Snap. QB drops back.'], [1.1, 'All four receivers sprint deep.'], [2.3, 'Throw to whoever is most open. Here: LS.'], [3.15, 'Touchdown by a woman = 9 points!']]
+    },
+    {
+      id: 'pitch-perfect', name: 'Pitch Perfect', type: 'run', qb: 'any',
+      concept: 'Toss Sweep',
+      tag: 'Toss it to B and race around the right side.',
+      when: 'Short yards, or the defense is sitting back waiting for a pass.',
+      ball: 'B, on a quick underhand pitch.',
+      qbNote: 'The pitch must go sideways or backward. If it hits the ground, it\'s just a dead ball, not a turnover.',
+      snap: 0.8,
+      players: {
+        B:  { p: [[305, 296], [340, 255], [340, 50]], kind: 'ball', speed: 80, job: 'Sprint toward the right sideline, catch the pitch, turn upfield.' },
+        RS: { p: [[262, 222]], kind: 'block', job: 'Step up and stand in front of the nearest defender. Hands behind your back.' },
+        RW: { p: [[300, 212]], kind: 'block', job: 'Screen the defender on your side. No contact.' },
+        C:  { p: [[205, 240]], kind: 'block', job: 'Snap it, then screen to the right.' },
+        LW: { p: [[40, 110]], kind: 'route', job: 'Run deep. Take your defender far away.' },
+        LS: { p: [[125, 130]], kind: 'route', job: 'Run deep. Take your defender far away.' },
+        QB: { p: [[186, 300]], job: 'Catch the snap and toss it underhand to B right away.' }
+      },
+      events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 1.15, to: 'B', f: 0.3 }],
+      steps: [[0, 'Everyone set. Freeze for 1 second.'], [0.8, 'Snap.'], [1.15, 'QB tosses it underhand to B.'], [1.5, 'RS, RW and C screen. Hands behind backs.'], [2.1, 'B turns the corner and goes!']]
+    },
+    {
+      id: 'zoom', name: 'Zoom', type: 'run', qb: 'any',
+      concept: 'Jet Sweep',
+      tag: 'LS is already sprinting when the ball is snapped. Pure speed.',
+      when: 'The defense is slow to the edge. Put your fastest woman at LS.',
+      ball: 'LS, on a handoff as she runs past the QB.',
+      qbNote: 'Only LS moves before the snap, and she runs sideways, never forward. Everyone else stays frozen.',
+      snap: 0.9,
+      players: {
+        LS: { p: [[150, 280], [215, 284], [300, 276], [342, 240], [342, 60]], kind: 'ball', start: 0.2, speed: 85, job: 'Before the snap, run sideways toward the QB. Take the handoff at full speed and keep going around the right side.' },
+        B:  { p: [[265, 288], [318, 215]], kind: 'block', job: 'Run ahead of LS and screen a defender.' },
+        RS: { p: [[275, 222]], kind: 'block', job: 'Screen the nearest defender. Hands behind your back.' },
+        RW: { p: [[325, 100]], kind: 'route', job: 'Sprint deep. Take your defender out of the way.' },
+        C:  { p: [[200, 245]], kind: 'block', job: 'Snap it when the QB calls it, then screen to the right.' },
+        LW: { p: [[40, 120]], kind: 'route', job: 'Run deep. Decoy.' },
+        QB: { p: [[184, 290]], job: 'Call "hike" when LS is 2 steps from the center. Hand it to her as she passes.' }
+      },
+      events: [{ t: 0.9, to: 'QB', f: 0.25 }, { t: 1.15, to: 'LS', f: 0.12 }],
+      steps: [[0, 'LS starts running sideways. Only she moves.'], [0.9, 'Snap as she gets to the QB.'], [1.15, 'QB hands it to her as she flies by.'], [1.6, 'B and RS screen. RW runs his defender away.'], [2.4, 'LS races around the right edge.']]
+    },
+    {
+      id: 'uno-reverse', name: 'Uno Reverse', type: 'run', qb: 'any',
+      concept: 'Reverse',
+      tag: 'Looks exactly like Pitch Perfect, then goes the other way.',
+      when: 'After Pitch Perfect works once or twice. The defense will over-chase to the right.',
+      ball: 'RS, on a handoff behind the QB.',
+      qbNote: 'Sell the fake. Everyone moving right makes the defense follow.',
+      snap: 0.8,
+      players: {
+        RS: { p: [[238, 292], [190, 322], [120, 314], [48, 272], [48, 60]], kind: 'ball', start: 1.1, speed: 80, job: 'Take 2 steps back, run behind the QB, take the handoff and sprint left.' },
+        B:  { p: [[305, 296], [338, 258], [338, 200]], kind: 'route', speed: 80, job: 'Sell it! Run right exactly like Pitch Perfect.' },
+        RW: { p: [[320, 140]], kind: 'route', job: 'Run deep right. Make it look real.' },
+        LW: { p: [[88, 205]], kind: 'block', job: 'Screen your defender. Hands behind your back.' },
+        LS: { p: [[135, 215]], kind: 'block', job: 'Screen the nearest defender on the left.' },
+        C:  { p: [[160, 242]], kind: 'block', job: 'Snap it, then screen to the left.' },
+        QB: { p: [[178, 304]], job: 'Fake the pitch to B. Then turn and hand it to RS as she runs behind you.' }
+      },
+      events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 2.15, to: 'RS', f: 0.15 }],
+      pops: [{ t: 1.15, at: 'QB', text: 'FAKE!' }],
+      steps: [[0, 'Everyone set. Freeze for 1 second.'], [0.8, 'Snap. Everyone flows right.'], [1.15, 'QB fakes the pitch to B.'], [1.6, 'RS loops behind the QB.'], [2.15, 'Handoff to RS. She heads left.'], [2.8, 'Defense went right. She has open field.']]
+    },
+    {
+      id: 'houdini', name: 'Houdini', type: 'run', qb: 'woman',
+      concept: 'QB Bootleg',
+      tag: 'Fake the pitch right. The QB disappears left with the ball.',
+      when: 'A woman is at QB and the defense keeps chasing B.',
+      ball: 'The QB keeps it.',
+      qbNote: 'Woman QB only. Men can\'t run the ball past the line.',
+      snap: 0.8,
+      players: {
+        QB: { p: [[150, 308], [95, 300], [55, 268], [55, 60]], kind: 'ball', start: 1.45, speed: 75, job: 'Fake the pitch to B. Hide the ball on your hip, then run left.' },
+        B:  { p: [[305, 296], [338, 258], [338, 170]], kind: 'route', speed: 80, job: 'Sell it! Run right like you have the ball.' },
+        RS: { p: [[280, 190]], kind: 'route', job: 'Run right and deep. Pull defenders that way.' },
+        RW: { p: [[322, 130]], kind: 'route', job: 'Run deep. Pull your defender away.' },
+        LW: { p: [[40, 90]], kind: 'route', job: 'Run deep. Clear out the left side.' },
+        LS: { p: [[92, 222]], kind: 'block', job: 'Screen the nearest defender on the left.' },
+        C:  { p: [[152, 240]], kind: 'block', job: 'Snap it, then screen to the left.' }
+      },
+      events: [{ t: 0.8, to: 'QB', f: 0.25 }],
+      pops: [{ t: 1.15, at: 'QB', text: 'FAKE!' }],
+      steps: [[0, 'Everyone set. Woman at QB.'], [0.8, 'Snap.'], [1.15, 'QB fakes the pitch to B.'], [1.5, 'Defense chases B to the right...'], [2.0, '...while the QB runs left with the ball.'], [2.8, 'Gone. Like magic.']]
+    }
+  ];
+
+  // ---------- Geometry helpers ----------
+  function pts(play, key) {
+    var s = POS[key], pl = play.players[key] || {};
+    return [[s.x, s.y]].concat(pl.p || []);
+  }
+  function info(points) {
+    var lens = [], total = 0;
+    for (var i = 1; i < points.length; i++) {
+      var dx = points[i][0] - points[i - 1][0], dy = points[i][1] - points[i - 1][1];
+      var l = Math.sqrt(dx * dx + dy * dy); lens.push(l); total += l;
+    }
+    return { pts: points, lens: lens, total: total };
+  }
+  function pointAt(inf, d) {
+    var p = inf.pts;
+    if (d <= 0 || inf.total === 0) return p[0];
+    for (var i = 0; i < inf.lens.length; i++) {
+      if (d <= inf.lens[i]) {
+        var u = d / inf.lens[i];
+        return [p[i][0] + (p[i + 1][0] - p[i][0]) * u, p[i][1] + (p[i + 1][1] - p[i][1]) * u];
+      }
+      d -= inf.lens[i];
+    }
+    return p[p.length - 1];
+  }
+  function gender(play, key) {
+    if (key === 'QB') return play.qb === 'woman' ? W : Q;
+    return POS[key].g;
+  }
+  function colorVar(g) { return g === W ? 'var(--women)' : g === M ? 'var(--men)' : 'var(--qb)'; }
+
+  // Precompute timing per play
+  PLAYS.forEach(function (play) {
+    play.t = {};
+    var end = 0;
+    Object.keys(POS).forEach(function (k) {
+      var pl = play.players[k] || {};
+      var inf = info(pts(play, k));
+      var start = pl.start != null ? pl.start : play.snap + 0.05;
+      var speed = pl.speed || 70;
+      play.t[k] = { inf: inf, start: start, speed: speed };
+      end = Math.max(end, start + inf.total / speed);
+    });
+    play.events.forEach(function (e) { end = Math.max(end, e.t + e.f); });
+    play.end = end + 0.7;
+  });
+
+  function posAt(play, key, t) {
+    var r = play.t[key];
+    return pointAt(r.inf, Math.max(0, (t - r.start) * r.speed));
+  }
+  function ballAt(play, t) {
+    var holder = 'C';
+    for (var i = 0; i < play.events.length; i++) {
+      var e = play.events[i];
+      if (t < e.t) break;
+      if (t < e.t + e.f) {
+        var u = (t - e.t) / e.f;
+        var a = posAt(play, holder, e.t), b = posAt(play, e.to, e.t + e.f);
+        var lift = e.pass ? Math.sin(Math.PI * u) : 0;
+        return { x: a[0] + (b[0] - a[0]) * u, y: a[1] + (b[1] - a[1]) * u, s: 1 + lift * 0.7, lift: lift };
+      }
+      holder = e.to;
+    }
+    var p = posAt(play, holder, t);
+    return { x: p[0] + 11, y: p[1] + 9, s: 1, lift: 0 };
+  }
+
+  // ---------- SVG drawing ----------
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(name, attrs, parent) {
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function polyStr(p) { return p.map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' '); }
+
+  function drawField(svg, opts) {
+    el('rect', { x: 0, y: 0, width: VW, height: VH, fill: 'var(--field)' }, svg);
+    for (var y = LOS - 250; y < VH; y += 50) {
+      if (((y - LOS) / 50) % 2 === 0) el('rect', { x: 0, y: y, width: VW, height: 50, fill: 'var(--field-2)' }, svg);
+    }
+    for (var i = 1; i <= 4; i++) {
+      var yy = LOS - i * 50;
+      el('line', { x1: 0, x2: VW, y1: yy, y2: yy, stroke: 'var(--chalk)', 'stroke-width': 1.2, opacity: 0.5 }, svg);
+      if (!opts.mini) {
+        var t = el('text', { x: 8, y: yy - 5, fill: 'var(--chalk)', 'font-size': 11, 'font-weight': 700, opacity: 0.7, 'font-family': 'Archivo, sans-serif' }, svg);
+        t.textContent = (i * 5) + ' yd';
+      }
+    }
+    el('line', { x1: 0, x2: VW, y1: LOS, y2: LOS, stroke: '#9FD3FF', 'stroke-width': 2.5, opacity: 0.9 }, svg);
+  }
+
+  function drawRoute(svg, play, key, opts) {
+    var pl = play.players[key];
+    if (!pl || !pl.p) return;
+    var p = pts(play, key);
+    var g = gender(play, key);
+    var col = colorVar(g);
+    var isBall = pl.kind === 'ball';
+    var sw = opts.mini ? (isBall ? 4 : 3) : (isBall ? 3.5 : 2.2);
+    var attrs = { points: polyStr(p), fill: 'none', stroke: col, 'stroke-width': sw, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: isBall ? 1 : 0.85 };
+    if (!isBall) attrs['stroke-dasharray'] = opts.mini ? '7 6' : '6 5';
+    el('polyline', attrs, svg);
+    var a = p[p.length - 2], b = p[p.length - 1];
+    var dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy) || 1;
+    dx /= L; dy /= L;
+    var px = -dy, py = dx;
+    var k = opts.mini ? 1.5 : 1;
+    if (pl.kind === 'block') {
+      el('line', { x1: b[0] + px * 9 * k, y1: b[1] + py * 9 * k, x2: b[0] - px * 9 * k, y2: b[1] - py * 9 * k, stroke: col, 'stroke-width': sw + 1, 'stroke-linecap': 'round' }, svg);
+    } else if (key !== 'QB' || pl.kind === 'ball') {
+      var s = 10 * k, w = 6 * k;
+      el('polygon', { points: polyStr([[b[0] + dx * 3, b[1] + dy * 3], [b[0] - dx * s + px * w, b[1] - dy * s + py * w], [b[0] - dx * s - px * w, b[1] - dy * s - py * w]]), fill: col }, svg);
+    }
+  }
+
+  function buildSvg(play, opts) {
+    var svg = el('svg', { viewBox: opts.mini ? '0 20 ' + VW + ' ' + (VH - 20) : '0 0 ' + VW + ' ' + VH, role: 'img', 'aria-label': opts.mini ? play.name + ' diagram' : play.name + ' animated play diagram' });
+    if (opts.mini) svg.setAttribute('class', 'mini');
+    svg.setAttribute('preserveAspectRatio', opts.mini ? 'xMidYMid slice' : 'xMidYMid meet');
+    drawField(svg, opts);
+    var routes = el('g', {}, svg);
+    DRAW.forEach(function (k) { drawRoute(routes, play, k, opts); });
+    var trails = el('g', {}, svg);
+    var dots = el('g', {}, svg);
+    var refs = { svg: svg, players: {}, trails: {} };
+    DRAW.forEach(function (k) {
+      var g = gender(play, k);
+      var s = POS[k];
+      if (!opts.mini && play.players[k] && play.players[k].p) {
+        refs.trails[k] = el('polyline', { points: polyStr(pts(play, k)), fill: 'none', stroke: colorVar(g), 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: 0.55, 'stroke-dasharray': '0 99999' }, trails);
+      }
+      var grp = el('g', { transform: 'translate(' + s.x + ' ' + s.y + ')' }, dots);
+      var r = opts.mini ? 17 : 14;
+      el('circle', { r: r, fill: colorVar(g), stroke: '#0C2340', 'stroke-width': opts.mini ? 3 : 2 }, grp);
+      if (!opts.mini) {
+        var tx = el('text', { 'text-anchor': 'middle', y: 4, 'font-size': k.length > 1 ? 10.5 : 12, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
+        tx.textContent = k;
+        var rd = play.players[k] && play.players[k].read;
+        if (rd) {
+          el('circle', { cx: 12, cy: -12, r: 8, fill: 'var(--accent)', stroke: '#0C2340', 'stroke-width': 1.5 }, grp);
+          var rt = el('text', { x: 12, y: -8.5, 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 800, fill: '#fff', 'font-family': 'Archivo, sans-serif' }, grp);
+          rt.textContent = rd;
+        }
+      }
+      refs.players[k] = grp;
+    });
+    if (!opts.mini) {
+      var shadow = el('ellipse', { rx: 6, ry: 3, fill: '#000', opacity: 0 }, svg);
+      var ball = el('g', {}, svg);
+      el('ellipse', { rx: 7, ry: 4.5, fill: '#8B4A1F', stroke: '#3A1C07', 'stroke-width': 1.2 }, ball);
+      el('line', { x1: -2.5, x2: 2.5, y1: 0, y2: 0, stroke: '#fff', 'stroke-width': 1.2 }, ball);
+      refs.ball = ball; refs.shadow = shadow;
+      var pop = el('g', { opacity: 0 }, svg);
+      el('rect', { x: -26, y: -12, width: 52, height: 20, rx: 10, fill: '#0C2340' }, pop);
+      var pt = el('text', { 'text-anchor': 'middle', y: 3, 'font-size': 11, 'font-weight': 800, fill: '#FFC93C', 'letter-spacing': 1, 'font-family': 'Archivo, sans-serif' }, pop);
+      pt.textContent = 'FAKE!';
+      refs.pop = pop;
+    }
+    return refs;
+  }
+
+  // ---------- Animation ----------
+  var anim = { play: null, refs: null, t: 0, playing: false, rate: 1, last: 0, raf: 0 };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function render(t) {
+    var play = anim.play, refs = anim.refs;
+    Object.keys(refs.players).forEach(function (k) {
+      var p = posAt(play, k, t);
+      refs.players[k].setAttribute('transform', 'translate(' + p[0].toFixed(1) + ' ' + p[1].toFixed(1) + ')');
+      var tr = refs.trails[k];
+      if (tr) {
+        var r = play.t[k];
+        var d = Math.max(0, Math.min(r.inf.total, (t - r.start) * r.speed));
+        tr.setAttribute('stroke-dasharray', d.toFixed(1) + ' 99999');
+      }
+    });
+    var b = ballAt(play, t);
+    refs.ball.setAttribute('transform', 'translate(' + b.x.toFixed(1) + ' ' + (b.y - b.lift * 14).toFixed(1) + ') scale(' + b.s.toFixed(2) + ')');
+    refs.shadow.setAttribute('cx', b.x.toFixed(1));
+    refs.shadow.setAttribute('cy', (b.y + 4).toFixed(1));
+    refs.shadow.setAttribute('opacity', (b.lift * 0.3).toFixed(2));
+    var popOn = false;
+    (play.pops || []).forEach(function (pp) {
+      if (t >= pp.t && t < pp.t + 0.9) {
+        var q = posAt(play, pp.at, t);
+        refs.pop.setAttribute('transform', 'translate(' + q[0].toFixed(1) + ' ' + (q[1] + 30).toFixed(1) + ')');
+        popOn = true;
+      }
+    });
+    refs.pop.setAttribute('opacity', popOn ? 1 : 0);
+    var idx = 0;
+    for (var i = 0; i < play.steps.length; i++) if (t >= play.steps[i][0]) idx = i;
+    if (anim.stepIdx !== idx) {
+      anim.stepIdx = idx;
+      $('p-caption').textContent = play.steps[idx][1];
+      $('p-stepnum').textContent = (idx + 1) + '/' + play.steps.length;
+    }
+  }
+  function tick(now) {
+    if (!anim.playing) return;
+    var dt = Math.min(0.05, (now - anim.last) / 1000);
+    anim.last = now;
+    anim.t += dt * anim.rate;
+    if (anim.t >= anim.play.end) { anim.t = anim.play.end; anim.playing = false; }
+    render(anim.t);
+    if (anim.playing) anim.raf = requestAnimationFrame(tick);
+  }
+  function start(delay) {
+    cancelAnimationFrame(anim.raf);
+    anim.t = 0; anim.stepIdx = -1; render(0);
+    anim.playing = true;
+    setTimeout(function () {
+      anim.last = performance.now();
+      anim.raf = requestAnimationFrame(tick);
+    }, delay || 0);
+  }
+  function stop() { anim.playing = false; cancelAnimationFrame(anim.raf); }
+
+  // ---------- UI ----------
+  function $(id) { return document.getElementById(id); }
+  function chipsHtml(play) {
+    var h = '<span class="chip ' + play.type + '">' + (play.type === 'pass' ? 'Pass' : 'Run') + '</span>';
+    h += play.qb === 'woman' ? '<span class="chip wqb">Woman QB only</span>' : '<span class="chip">Any QB</span>';
+    if (play.closed) h += '<span class="chip closed">Closed-play OK</span>';
+    return h;
+  }
+
+  function buildHome() {
+    PLAYS.forEach(function (play) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'play-card';
+      var refs = buildSvg(play, { mini: true });
+      b.appendChild(refs.svg);
+      var txt = document.createElement('span'); txt.className = 'txt';
+      txt.innerHTML = '<span class="name"></span><span class="tag"></span><span class="chips">' + chipsHtml(play) + '</span>';
+      txt.querySelector('.name').textContent = play.name;
+      txt.querySelector('.tag').textContent = play.tag;
+      b.appendChild(txt);
+      var go = document.createElement('span'); go.className = 'go'; go.textContent = '›'; go.setAttribute('aria-hidden', 'true');
+      b.appendChild(go);
+      b.addEventListener('click', function () { location.hash = play.id; });
+      $(play.type === 'pass' ? 'pass-cards' : 'run-cards').appendChild(b);
+    });
+
+    // Lineup diagram
+    var lp = { players: {}, qb: 'any' };
+    var svg = el('svg', { viewBox: '0 205 ' + VW + ' 130', class: 'lineup-svg', role: 'img', 'aria-label': 'Starting lineup' });
+    el('rect', { x: 0, y: 205, width: VW, height: 130, fill: 'var(--field)' }, svg);
+    el('line', { x1: 0, x2: VW, y1: LOS, y2: LOS, stroke: '#9FD3FF', 'stroke-width': 2.5 }, svg);
+    var lt = el('text', { x: VW - 8, y: LOS - 7, fill: '#CFE9FF', 'font-size': 10, 'font-weight': 800, 'text-anchor': 'end', 'letter-spacing': 1, 'font-family': 'Archivo, sans-serif' }, svg);
+    lt.textContent = 'LINE OF SCRIMMAGE';
+    var arrow = el('text', { x: 10, y: 228, fill: 'var(--chalk)', 'font-size': 11, 'font-weight': 800, 'font-family': 'Archivo, sans-serif' }, svg);
+    arrow.textContent = '↑ ATTACKING THIS WAY';
+    DRAW.forEach(function (k) {
+      var s = POS[k], g = gender(lp, k);
+      var grp = el('g', { transform: 'translate(' + s.x + ' ' + s.y + ')' }, svg);
+      el('circle', { r: 15, fill: colorVar(g), stroke: '#0C2340', 'stroke-width': 2 }, grp);
+      var tx = el('text', { 'text-anchor': 'middle', y: 4, 'font-size': 11, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
+      tx.textContent = k;
+    });
+    $('lineup').appendChild(svg);
+    var ul = $('spots');
+    ORDER.forEach(function (k) {
+      var g = gender(lp, k);
+      var li = document.createElement('li');
+      li.innerHTML = '<span class="badge ' + g + '">' + k + '</span><span></span>';
+      li.lastChild.textContent = POS[k].name + (g === W ? ' (woman)' : g === M ? ' (man)' : ' (anyone)');
+      ul.appendChild(li);
+    });
+  }
+
+  var current = -1;
+  function showPlay(i) {
+    var play = PLAYS[i];
+    current = i;
+    $('home').hidden = true; $('play').hidden = false; $('pager').hidden = false;
+    $('count').textContent = 'Play ' + (i + 1) + ' of ' + PLAYS.length;
+    $('p-chips').innerHTML = chipsHtml(play);
+    $('p-name').textContent = play.name;
+    $('p-tag').textContent = play.tag;
+    document.title = play.name + ' · Coed Flag Playbook';
+
+    var f = $('p-field'); f.innerHTML = '';
+    var refs = buildSvg(play, { mini: false });
+    f.appendChild(refs.svg);
+    refs.svg.addEventListener('click', function () { start(0); });
+    anim.play = play; anim.refs = refs;
+
+    var facts = $('p-facts'); facts.innerHTML = '';
+    function fact(k, v, cls) {
+      var d = document.createElement('div'); d.className = 'fact' + (cls ? ' ' + cls : '');
+      d.innerHTML = '<span class="k"></span><span class="v"></span>';
+      d.querySelector('.k').textContent = k; d.querySelector('.v').textContent = v;
+      facts.appendChild(d);
+    }
+    fact('Ball goes to', play.ball);
+    fact('Call it when', play.when);
+    if (play.qbNote) fact('Heads up', play.qbNote, 'warn');
+    fact('Real football name', play.concept);
+
+    var jobs = $('p-jobs'); jobs.innerHTML = '';
+    var order = ORDER.slice().sort(function (a, b) {
+      var ka = play.players[a] && play.players[a].kind === 'ball' ? 0 : 1;
+      var kb = play.players[b] && play.players[b].kind === 'ball' ? 0 : 1;
+      return ka - kb;
+    });
+    order.forEach(function (k) {
+      var pl = play.players[k] || {};
+      var g = gender(play, k);
+      var li = document.createElement('li');
+      if (pl.kind === 'ball') li.className = 'star';
+      li.innerHTML = '<span class="badge ' + g + '">' + k + '</span><div><div class="who"></div><div class="do"></div></div>';
+      var who = li.querySelector('.who');
+      who.textContent = POS[k].name;
+      if (pl.kind === 'ball') { var em = document.createElement('em'); em.textContent = 'gets the ball'; who.appendChild(em); }
+      else if (pl.read) { var em2 = document.createElement('em'); em2.textContent = 'read #' + pl.read; who.appendChild(em2); }
+      li.querySelector('.do').textContent = pl.job || 'Stay put.';
+      jobs.appendChild(li);
+    });
+
+    var prev = PLAYS[(i - 1 + PLAYS.length) % PLAYS.length], next = PLAYS[(i + 1) % PLAYS.length];
+    $('prev-name').textContent = prev.name;
+    $('next-name').textContent = next.name;
+
+    window.scrollTo(0, 0);
+    if (reduce) { stop(); anim.stepIdx = -1; render(play.end); }
+    else start(450);
+  }
+  function showHome() {
+    stop(); current = -1;
+    $('home').hidden = false; $('play').hidden = true; $('pager').hidden = true;
+    document.title = 'Coed Flag Playbook';
+  }
+  function route() {
+    var id = location.hash.replace('#', '');
+    var idx = -1;
+    for (var i = 0; i < PLAYS.length; i++) if (PLAYS[i].id === id) idx = i;
+    var wasHome = current === -1;
+    if (idx >= 0) showPlay(idx);
+    else { showHome(); if (!wasHome) window.scrollTo(0, 0); }
+  }
+  function go(delta) {
+    var i = (current + delta + PLAYS.length) % PLAYS.length;
+    try { history.replaceState(null, '', '#' + PLAYS[i].id); } catch (err) { /* sandboxed frame */ }
+    showPlay(i);
+  }
+
+  var cameFromHome = false;
+  $('back').addEventListener('click', function () {
+    if (cameFromHome) { cameFromHome = false; history.back(); return; }
+    location.hash = '';
+  });
+  $('replay').addEventListener('click', function () { start(0); });
+  $('slow').addEventListener('click', function () {
+    anim.rate = anim.rate === 1 ? 0.45 : 1;
+    this.setAttribute('aria-pressed', anim.rate !== 1 ? 'true' : 'false');
+    if (!anim.playing) start(0);
+  });
+  $('prev').addEventListener('click', function () { go(-1); });
+  $('next').addEventListener('click', function () { go(1); });
+
+  // Swipe left/right between plays
+  var sx = 0, sy = 0, st = 0;
+  $('play').addEventListener('touchstart', function (e) { var t = e.touches[0]; sx = t.clientX; sy = t.clientY; st = Date.now(); }, { passive: true });
+  $('play').addEventListener('touchend', function (e) {
+    var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Date.now() - st < 700 && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1);
+  }, { passive: true });
+  document.addEventListener('keydown', function (e) {
+    if (current < 0) return;
+    if (e.key === 'ArrowRight') go(1);
+    else if (e.key === 'ArrowLeft') go(-1);
+    else if (e.key === 'Escape') $('back').click();
+  });
+
+  window.addEventListener('hashchange', function () {
+    cameFromHome = current === -1 && location.hash.length > 1;
+    route();
+  });
+
+  buildHome();
+  route();
+})();
+</script>
+</body>
+</html>
