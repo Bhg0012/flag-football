@@ -6,14 +6,14 @@ Everything is in `index.html`. It has no build step and no dependencies besides 
 
 ## The plays
 
-Positions: **QB**, **C** (center), **RB** (running back, next to the QB) and four **WR**s (outside left, inside left, inside right, outside right). Everyone keeps the same spot in every play except Criss Cross, where the inside left WR lines up next to the Center. **Yellow** dots are women, **blue** dots are men, and the **white** dot is the QB (anyone can play QB).
+Positions: **QB**, **C** (center), **RB** (running back, next to the QB) and four **WR**s (outside left, inside left, inside right, outside right). Everyone keeps the same spot in every play except Criss Cross, where the inside left WR lines up next to the Center and blocks. **Yellow** dots are women, **blue** dots are men, and the **white** dot is the QB (anyone can play QB).
 
 Criss Cross is called Right or Left: that's the side with 2 WRs, and the Left version is the mirror image. Pass plays show each of the QB's options with a number. Tap an option to watch the throw go there.
 
 | Play | Type | When | Real football name | Who can get the ball |
 | --- | --- | --- | --- | --- |
 | Pizza Slice | Pass | Any down | Slant & Flat | 1: inside right WR (slant), 2: RB (flat). Both women |
-| Criss Cross Right / Left | Pass | Any down | Twins: slant + drag + go | 1: inside right WR (slant), 2: outside left WR (drag), 3: outside right WR (deep) |
+| Criss Cross Right / Left | Pass | Any down | Twins: slant + drag | 1: inside right WR (slant), 2: outside left WR (drag) |
 | Fireworks | Pass | 1st down | Four Verticals | 1 and 2: inside WRs deep, 3: Center short. All women |
 | Slingshot | Run | 1st or 2nd down | Toss Sweep | RB (woman) |
 | Zoom | Run | 1st or 2nd down | Jet Sweep | Inside left WR (woman), running sideways before the hike |

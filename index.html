@@ -317,33 +317,31 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     {
       id: 'criss-cross', name: 'Criss Cross', type: 'pass', qb: 'any', sides: true,
       down: 'Any down',
-      tag: 'Two WRs on one side, one on the other. The QB has 3 options.',
+      tag: 'One WR cuts in, one runs across. The QB has 2 options.',
       when: 'The defense has figured out Pizza Slice.',
-      setup: 'The inside left WR moves in and lines up next to the Center.',
+      setup: 'The inside left WR lines up next to the Center and blocks.',
       form: { LS: [140, 258] },
       snap: 0.8,
       players: {
         RS: { p: [[255, 220], [190, 165], [170, 100]] },
         LW: { p: [[70, 205], [300, 205], [340, 205]], speed: 85 },
         RW: { p: [[320, 40]] },
-        LS: { p: [[100, 240], [45, 235]] },
-        B:  { p: [[215, 285]] },
+        LS: { p: [[140, 248]] },
+        B:  { p: [[215, 288]] },
         C:  { p: [[180, 248]] },
         QB: { p: [[180, 308]] }
       },
       options: [
         { to: 'RS', t: 1.6, f: 0.4, what: 'Cuts to the middle' },
-        { to: 'LW', t: 2.55, f: 0.45, what: 'Runs across the field' },
-        { to: 'RW', t: 2.3, f: 0.8, what: 'Goes deep' }
+        { to: 'LW', t: 2.55, f: 0.45, what: 'Runs across the field' }
       ],
       jobs: [
-        ['QB', 'Look at option 1, then 2, then 3. Throw to the first one that\'s open.'],
-        ['RS', 'Take 4 steps, then cut hard to the middle.'],
-        ['LW', 'Take 3 steps, then run straight across the field, shallow.'],
-        ['RW', 'Run straight deep.'],
-        ['ALL', 'The WR next to the Center runs to the left sideline. RB and Center block.']
+        ['QB', 'Look at option 1 first. Covered? Throw to option 2.'],
+        ['RS', 'Take 4 steps, then cut to the middle.'],
+        ['LW', 'Take 3 steps, then run across the field.'],
+        ['ALL', 'Outside right WR runs deep. Everyone else blocks.']
       ],
-      steps: [[0, 'One WR lines up next to the Center.'], [0.8, 'Hike!'], [1.0, 'All 3 options run their routes.']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, 'Option 1 cuts in. Option 2 runs across.']]
     },
     {
       id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
