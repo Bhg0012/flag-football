@@ -1,5 +1,9 @@
 # Coed Flag Playbook
 
+## [▶ Open the playbook](https://claude.ai/artifact/PCzQrtL9SHw2UAFQ9rsC2y)
+
+https://claude.ai/artifact/PCzQrtL9SHw2UAFQ9rsC2y
+
 A one-page, phone-friendly playbook for our coed 7v7 flag football team. Tap a play to watch it run, see the QB's options and everyone's job, and swipe to the next play.
 
 Everything is in `index.html`. It has no build step and no dependencies besides a Google Font.
