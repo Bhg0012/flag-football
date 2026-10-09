@@ -6,14 +6,15 @@ Everything is in `index.html`. It has no build step and no dependencies besides 
 
 ## The plays
 
-Everyone keeps the same spot in every play. The **yellow** spots are women, the **blue** spots are men, and the **white** spot is the QB (anyone can play QB). On each diagram, the bold line shows who gets the ball.
+Receivers are numbered 1 to 4 from left to right, #5 stands next to the QB, and C is the Center. Everyone keeps the same spot in every play except Criss Cross, where #2 lines up next to the Center. The **yellow** spots are women, the **blue** spots are men, and the **white** spot is the QB (anyone can play QB). On each diagram, the bold line shows who gets the ball.
 
 | Play | Type | Real football name | Ball goes to |
 | --- | --- | --- | --- |
-| Pizza Slice | Pass | Slant & Flat | RS (woman), or B if she's covered |
+| Pizza Slice | Pass | Slant & Flat | #3 (woman), or #5 if she's covered |
+| Criss Cross | Pass | Twins: slant + drag | #3 (woman) on the slant, or #1 running across |
 | Fireworks | Pass | Four Verticals | Whoever is open deep |
-| Pitch Perfect | Run | Toss Sweep | B (woman) |
-| Zoom | Run | Jet Sweep | LS (woman), running sideways before the hike |
+| Pitch Perfect | Run | Toss Sweep | #5 (woman) |
+| Zoom | Run | Jet Sweep | #2 (woman), running sideways before the hike |
 | Houdini | Run | QB Bootleg | Woman QB keeps it |
 
 ## Coed rules the plays are built around

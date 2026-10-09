@@ -94,9 +94,9 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .info h3 { margin: 0 0 4px; font-size: 18px; }
 .info p { margin: 0 0 8px; color: var(--muted); }
 .lineup-svg { width: 100%; max-width: 100%; display: block; border-radius: 10px; margin: 10px 0 12px; }
-.spots { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 14px; margin: 0; padding: 0; list-style: none; }
+.spots { display: grid; grid-template-columns: 1fr; gap: 8px; font-size: 14px; margin: 0; padding: 0; list-style: none; }
 .spots li { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.badge { flex: none; width: 30px; height: 30px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 11px; font-weight: 800; color: var(--dot-ink); border: 2px solid var(--dot-ink); }
+.badge { flex: none; width: 30px; height: 30px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 13px; font-weight: 800; color: var(--dot-ink); border: 2px solid var(--dot-ink); }
 .badge.w { background: var(--women); } .badge.m { background: var(--men); } .badge.q { background: var(--qb); }
 .badge.all { background: var(--soft); color: var(--ink); border-color: var(--line); font-size: 10px; }
 .note { margin-top: 12px; font-size: 14px; background: var(--soft); border-radius: 10px; padding: 10px 12px; }
@@ -142,7 +142,10 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .jobs .who { font-weight: 800; font-size: 14px; }
 .jobs .who em { font-style: normal; color: var(--accent); font-size: 12px; margin-left: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
 .jobs .do { font-size: 15px; color: var(--muted); }
-.jobs .badge { width: 34px; height: 34px; font-size: 12px; }
+.jobs .badge { width: 34px; height: 34px; font-size: 15px; }
+.jobs .badge.all, .jobs .badge.q { font-size: 11px; }
+.setup { margin: 0 0 10px; padding: 10px 14px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-weight: 800; }
+.setup span { display: block; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
 
 .pager {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
@@ -169,7 +172,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 <main class="wrap" id="home">
   <p class="eyebrow">Coed 7 v 7 Flag</p>
   <h1>The Playbook</h1>
-  <p class="lede">5 plays. Tap one to watch it.</p>
+  <p class="lede">6 plays. Tap one to watch it.</p>
 
   <div class="section-h"><h2>Pass plays</h2></div>
   <div class="cards" id="pass-cards"></div>
@@ -179,7 +182,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 
   <div class="section-h"><h2>Where do I stand?</h2></div>
   <div class="info">
-    <p>Same spot in every play.</p>
+    <p>Receivers are numbered 1 to 4, left to right. Your spot stays the same on every play except Criss Cross.</p>
     <div id="lineup"></div>
     <div class="legend" aria-label="Color key">
       <span><i class="sw w"></i>Woman</span>
@@ -211,6 +214,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     <h2 id="p-name"></h2>
     <p id="p-tag"></p>
   </div>
+  <p class="setup" id="p-setup" hidden></p>
   <div class="field-card">
     <div id="p-field"></div>
     <div class="caption" aria-live="polite"><span id="p-caption"></span></div>
@@ -237,15 +241,15 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
   var VW = 360, VH = 345, LOS = 245;
   var W = 'w', M = 'm', Q = 'q';
   var POS = {
-    LW: { x: 40,  y: 255, g: M, name: 'Left Wide' },
-    LS: { x: 105, y: 258, g: W, name: 'Left Slot' },
-    C:  { x: 180, y: 258, g: W, name: 'Center' },
-    RS: { x: 255, y: 258, g: W, name: 'Right Slot' },
-    RW: { x: 320, y: 255, g: M, name: 'Right Wide' },
-    QB: { x: 180, y: 300, g: Q, name: 'Quarterback' },
-    B:  { x: 222, y: 300, g: W, name: 'Back' }
+    LW: { x: 40,  y: 255, g: M, label: '1',  name: '#1',          where: 'Far left, on the line.' },
+    LS: { x: 105, y: 258, g: W, label: '2',  name: '#2',          where: 'Left, between #1 and the Center.' },
+    C:  { x: 180, y: 258, g: W, label: 'C',  name: 'Center',      where: 'Middle. Hikes the ball to the QB.' },
+    RS: { x: 255, y: 258, g: W, label: '3',  name: '#3',          where: 'Right, between the Center and #4.' },
+    RW: { x: 320, y: 255, g: M, label: '4',  name: '#4',          where: 'Far right, on the line.' },
+    QB: { x: 180, y: 300, g: Q, label: 'QB', name: 'Quarterback', where: '5 steps behind the Center.' },
+    B:  { x: 222, y: 300, g: W, label: '5',  name: '#5',          where: 'Right next to the QB.' }
   };
-  var ORDER = ['QB', 'C', 'B', 'LS', 'RS', 'LW', 'RW'];
+  var ORDER = ['LW', 'LS', 'C', 'RS', 'RW', 'QB', 'B'];
   var DRAW = ['LW', 'LS', 'C', 'RS', 'RW', 'B', 'QB'];
 
   // ---------- The plays ----------
@@ -254,7 +258,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
   var PLAYS = [
     {
       id: 'pizza-slice', name: 'Pizza Slice', type: 'pass', qb: 'any',
-      tag: 'Quick, short throw to RS.',
+      tag: 'Quick, short throw to #3.',
       when: 'You need a few yards. Always legal, because a woman catches it.',
       snap: 0.8,
       players: {
@@ -268,11 +272,37 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       },
       jobs: [
         ['RS', 'Take 4 steps, then cut to the middle. Catch it.'],
-        ['QB', 'Throw to RS fast. If she\'s covered, throw to B.'],
+        ['QB', 'Throw to #3 fast. If she\'s covered, throw to #5.'],
         ['ALL', 'Everyone else runs straight deep.']
       ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 1.55, to: 'RS', f: 0.4, pass: true }],
-      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, 'RS cuts to the middle.'], [1.55, 'QB throws to RS.'], [2.0, 'Catch it and run!']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, '#3 cuts to the middle.'], [1.55, 'QB throws to #3.'], [2.0, 'Catch it and run!']]
+    },
+    {
+      id: 'criss-cross', name: 'Criss Cross', type: 'pass', qb: 'any',
+      tag: 'Two receivers right, one left. #3 cuts in, #1 runs across.',
+      when: 'The defense has figured out Pizza Slice. Two crossing routes are hard to cover.',
+      setup: '#2 moves in and lines up right next to the Center.',
+      form: { LS: [140, 258] },
+      snap: 0.8,
+      players: {
+        RS: { p: [[255, 220], [190, 165], [170, 100]], kind: 'ball' },
+        LW: { p: [[70, 222], [300, 222], [340, 222]] },
+        RW: { p: [[320, 40]] },
+        LS: { p: [[100, 240], [45, 235]] },
+        B:  { p: [[215, 285]] },
+        C:  { p: [[180, 248]] },
+        QB: { p: [[180, 308]] }
+      },
+      jobs: [
+        ['RS', 'Take 4 steps, then cut hard to the middle. Catch it.'],
+        ['QB', 'Throw to #3. If she\'s covered, throw to #1 running across.'],
+        ['LW', 'Take 3 steps, then run straight across the field, shallow.'],
+        ['LS', 'Line up next to the Center. Run to the left sideline.'],
+        ['ALL', '#4 runs straight deep. #5 and the Center block.']
+      ],
+      events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 1.6, to: 'RS', f: 0.4, pass: true }],
+      steps: [[0, '#2 lines up next to the Center.'], [0.8, 'Hike!'], [1.0, '#3 cuts in. #1 runs across.'], [1.6, 'QB throws to #3.'], [2.1, 'Catch it and run!']]
     },
     {
       id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
@@ -291,14 +321,14 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       jobs: [
         ['QB', 'Step back. Throw to whoever is most open.'],
         ['ALL', 'Everyone else sprints straight deep.'],
-        ['C', 'Center and Back stay short, in case the QB needs a quick throw.']
+        ['C', 'Stay short with #5, in case the QB needs a quick throw.']
       ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 2.3, to: 'LS', f: 0.85, pass: true }],
       steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.1, 'Everybody runs deep.'], [2.3, 'Throw to the open one.'], [3.15, 'Touchdown!']]
     },
     {
       id: 'pitch-perfect', name: 'Pitch Perfect', type: 'run', qb: 'any',
-      tag: 'Toss it to B. She runs around the right side.',
+      tag: 'Toss it to #5. She runs around the right side.',
       when: 'You need a few yards. Easy and safe.',
       snap: 0.8,
       players: {
@@ -312,16 +342,16 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       },
       jobs: [
         ['B', 'Run to the right sideline. Catch the toss. Run up the field.'],
-        ['QB', 'Toss it underhand to B right away.'],
+        ['QB', 'Toss it underhand to #5 right away.'],
         ['ALL', 'Everyone else: stand in a defender\'s way, hands behind your back.']
       ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 1.15, to: 'B', f: 0.3 }],
-      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.15, 'QB tosses it to B.'], [1.8, 'B runs around the edge!']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.15, 'QB tosses it to #5.'], [1.8, '#5 runs around the edge!']]
     },
     {
       id: 'zoom', name: 'Zoom', type: 'run', qb: 'any',
-      tag: 'LS runs sideways, grabs the handoff, keeps going.',
-      when: 'Your fastest woman is at LS.',
+      tag: '#2 runs sideways, grabs the handoff, keeps going.',
+      when: 'Your fastest woman is at #2.',
       snap: 0.9,
       players: {
         LS: { p: [[150, 280], [215, 284], [300, 276], [342, 240], [342, 60]], kind: 'ball', start: 0.2, speed: 85 },
@@ -334,11 +364,11 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       },
       jobs: [
         ['LS', 'Before the hike, run sideways behind the line. Take the handoff. Keep running right.'],
-        ['QB', 'Say "hike" when LS is almost to you. Hand it to her.'],
+        ['QB', 'Say "hike" when #2 is almost to you. Hand it to her.'],
         ['ALL', 'Everyone else: stand still until the hike, then get in a defender\'s way.']
       ],
       events: [{ t: 0.9, to: 'QB', f: 0.25 }, { t: 1.15, to: 'LS', f: 0.12 }],
-      steps: [[0, 'LS runs sideways.'], [0.9, 'Hike!'], [1.15, 'QB hands it to LS.'], [1.8, 'LS runs around the edge!']]
+      steps: [[0, '#2 runs sideways.'], [0.9, 'Hike!'], [1.15, 'QB hands it to #2.'], [1.8, '#2 runs around the edge!']]
     },
     {
       id: 'houdini', name: 'Houdini', type: 'run', qb: 'woman',
@@ -355,19 +385,23 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
         C:  { p: [[180, 240]] }
       },
       jobs: [
-        ['QB', 'Pretend to toss it to B. Keep it. Run left.'],
+        ['QB', 'Pretend to toss it to #5. Keep it. Run left.'],
         ['B', 'Run right and act like you have the ball.'],
         ['ALL', 'Everyone else runs deep.']
       ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }],
       pops: [{ t: 1.15, at: 'QB', text: 'FAKE!' }],
-      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.15, 'QB fakes the toss to B.'], [1.6, 'Defense chases B...'], [2.0, '...QB runs left with the ball!']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.15, 'QB fakes the toss to #5.'], [1.6, 'Defense chases #5...'], [2.0, '...QB runs left with the ball!']]
     }
   ];
   // ---------- Geometry helpers ----------
+  function home(play, key) {
+    var f = play.form && play.form[key];
+    return f ? f : [POS[key].x, POS[key].y];
+  }
   function pts(play, key) {
-    var s = POS[key], pl = play.players[key] || {};
-    return [[s.x, s.y]].concat(pl.p || []);
+    var pl = play.players[key] || {};
+    return [home(play, key)].concat(pl.p || []);
   }
   function info(points) {
     var lens = [], total = 0;
@@ -485,7 +519,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     var refs = { svg: svg, players: {}, trails: {} };
     DRAW.forEach(function (k) {
       var g = gender(play, k);
-      var s = POS[k];
+      var h = home(play, k), s = { x: h[0], y: h[1] };
       if (!opts.mini && play.players[k] && play.players[k].kind === 'ball') {
         refs.trails[k] = el('polyline', { points: polyStr(pts(play, k)), fill: 'none', stroke: colorVar(g), 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: 0.55, 'stroke-dasharray': '0 99999' }, trails);
       }
@@ -494,8 +528,9 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       if (!opts.mini && play.players[k] && play.players[k].kind === 'ball') el('circle', { r: r + 5, fill: 'none', stroke: '#FFFFFF', 'stroke-width': 3 }, grp);
       el('circle', { r: r, fill: colorVar(g), stroke: '#0C2340', 'stroke-width': opts.mini ? 3 : 2 }, grp);
       if (!opts.mini) {
-        var tx = el('text', { 'text-anchor': 'middle', y: 4, 'font-size': k.length > 1 ? 10.5 : 12, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
-        tx.textContent = k;
+        var lb = POS[k].label;
+        var tx = el('text', { 'text-anchor': 'middle', y: lb.length > 1 ? 4 : 5, 'font-size': lb.length > 1 ? 11 : 15, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
+        tx.textContent = lb;
       }
       refs.players[k] = grp;
     });
@@ -607,16 +642,18 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       var s = POS[k], g = gender(lp, k);
       var grp = el('g', { transform: 'translate(' + s.x + ' ' + s.y + ')' }, svg);
       el('circle', { r: 15, fill: colorVar(g), stroke: '#0C2340', 'stroke-width': 2 }, grp);
-      var tx = el('text', { 'text-anchor': 'middle', y: 4, 'font-size': 11, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
-      tx.textContent = k;
+      var lb = POS[k].label;
+      var tx = el('text', { 'text-anchor': 'middle', y: lb.length > 1 ? 4 : 5.5, 'font-size': lb.length > 1 ? 11 : 16, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
+      tx.textContent = lb;
     });
     $('lineup').appendChild(svg);
     var ul = $('spots');
     ORDER.forEach(function (k) {
       var g = gender(lp, k);
       var li = document.createElement('li');
-      li.innerHTML = '<span class="badge ' + g + '">' + k + '</span><span></span>';
-      li.lastChild.textContent = POS[k].name;
+      li.innerHTML = '<span class="badge ' + g + '">' + POS[k].label + '</span><span><b></b> <span></span></span>';
+      li.querySelector('b').textContent = POS[k].name;
+      li.lastChild.lastChild.textContent = POS[k].where;
       ul.appendChild(li);
     });
   }
@@ -632,6 +669,11 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     $('p-tag').textContent = play.tag;
     document.title = play.name + ' · Coed Flag Playbook';
 
+    var su = $('p-setup');
+    su.hidden = !play.setup;
+    su.innerHTML = '<span>Lining up is different on this play</span>';
+    if (play.setup) su.appendChild(document.createTextNode(play.setup));
+
     var f = $('p-field'); f.innerHTML = '';
     var refs = buildSvg(play, { mini: false });
     f.appendChild(refs.svg);
@@ -644,7 +686,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       var pl = play.players[k] || {};
       var li = document.createElement('li');
       if (pl.kind === 'ball') li.className = 'star';
-      li.innerHTML = '<span class="badge ' + (all ? 'all' : gender(play, k)) + '">' + (all ? 'ALL' : k) + '</span><div><div class="who"></div><div class="do"></div></div>';
+      li.innerHTML = '<span class="badge ' + (all ? 'all' : gender(play, k)) + '">' + (all ? 'ALL' : POS[k].label) + '</span><div><div class="who"></div><div class="do"></div></div>';
       var who = li.querySelector('.who');
       who.textContent = all ? 'Everyone else' : POS[k].name;
       if (pl.kind === 'ball') { var em = document.createElement('em'); em.textContent = 'gets the ball'; who.appendChild(em); }
