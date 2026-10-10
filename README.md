@@ -18,7 +18,7 @@ Lightning is called Right or Left: that's the side with 2 WRs, and the Left vers
 | --- | --- | --- | --- |
 | Bubble Wrap | Pass | RB Screen | 1: RB (short pass behind 2 blockers), 2: inside left WR (hitch). Both women. Center + 2 linemen block |
 | Lightning Right / Left | Pass | Twins: slant, drag, long slant. Center + 2 linemen + RB block | 1: outside left WR (quick slant), 2: inside right WR (drag, woman), 3: outside right WR (long slant) |
-| Fireworks | Pass | Verticals (3 WRs deep) | 1 and 2: inside WRs deep. Both women. Center + 2 linemen + RB block |
+| Fireworks | Pass | Verticals (3 WRs deep) | 1 and 2: inside WRs deep, 3: RB blocks first, then pops out short. All women. Center + 2 linemen block |
 | Slingshot | Run | Toss Sweep | RB (woman) |
 | Zoom | Run | Jet Sweep | Inside left WR (woman), running sideways before the hike |
 | Houdini | Run | QB Bootleg | Woman QB keeps it. Center + 2 linemen block; inside left WR runs deep, then blocks |

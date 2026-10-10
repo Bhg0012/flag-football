@@ -353,8 +353,8 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     },
     {
       id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
-      tag: 'Three WRs run deep. 4 blockers. The QB has 2 options.',
-      when: 'You want a big play, or the defense is crowding the line. Both options are women, so a TD is worth 9.',
+      tag: 'Three WRs run deep. The RB blocks first, then pops out. The QB has 3 options.',
+      when: 'You want a big play, or the defense is crowding the line. All 3 options are women, so a TD is worth 9.',
       setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
       form: { LW: [140, 258] },
       labels: { LW: 'L' },
@@ -367,20 +367,23 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
         RW: { p: [[320, 40]], speed: 78 },
         RL: { p: [[218, 248]] },
         C:  { p: [[180, 248]] },
-        B:  { p: [[200, 288]] },
+        B:  { p: [[205, 288], [280, 230]], hold: [0, 0.9] },
         QB: { p: [[180, 318]] }
       },
       options: [
         { to: 'LS', t: 2.3, f: 0.85, what: 'Deep, left side' },
-        { to: 'RS', t: 2.3, f: 0.85, what: 'Deep, right side' }
+        { to: 'RS', t: 2.3, f: 0.85, what: 'Deep, right side' },
+        { to: 'B', t: 2.95, f: 0.32, what: 'Blocks first, then pops out short' }
       ],
       jobs: [
-        ['QB', 'Step back. Throw to whichever option is more open. Throw it ahead of her. Nobody open? Throw it out of bounds.'],
+        ['QB', 'Step back. Look deep first: option 1 or 2. Nobody open deep? Throw it short to the RB.'],
         ['LS', 'Sprint straight deep. Look back for the ball.'],
         ['RS', 'Sprint straight deep. Look back for the ball.'],
-        ['ALL', 'Linemen, Center and RB: stay in and block the rushers. Outside right WR: sprint deep to pull a defender away.']
+        ['B', 'Block first. Count "one-Mississippi, two." Nobody rushing at you? Pop out to the right a few steps past the line and turn around.'],
+        ['ALL', 'Linemen and Center: stay in and block the rushers. Outside right WR: sprint deep to pull a defender away.']
       ],
-      steps: [[0, 'Get set.'], [0.8, 'Hike! 4 blockers protect the QB.'], [1.1, 'Three WRs run deep.']]
+      pops: [{ t: 1.15, at: 'B', text: 'BLOCK', dx: 48, dy: -30 }, { t: 2.05, at: 'B', text: 'POP OUT', dx: 0, dy: 30 }],
+      steps: [[0, 'Get set.'], [0.8, 'Hike! 4 blockers protect the QB.'], [1.15, 'Three WRs run deep. The RB blocks first.'], [2.05, 'No rush coming? The RB pops out short.']]
     },
     {
       id: 'slingshot', name: 'Slingshot', type: 'run', qb: 'any',
@@ -504,8 +507,15 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       var inf = info(pts(play, k));
       var start = pl.start != null ? pl.start : play.snap + 0.05;
       var speed = pl.speed || 70;
-      play.t[k] = { inf: inf, start: start, speed: speed };
-      end = Math.max(end, start + inf.total / speed);
+      // hold: [i, secs] pauses for secs once the player reaches route point i (e.g. block first, then release).
+      var holdD = Infinity, holdS = 0;
+      if (pl.hold) {
+        holdD = 0;
+        for (var i = 0; i <= pl.hold[0]; i++) holdD += inf.lens[i];
+        holdS = pl.hold[1];
+      }
+      play.t[k] = { inf: inf, start: start, speed: speed, holdD: holdD, holdS: holdS };
+      end = Math.max(end, start + inf.total / speed + holdS);
     });
     if (play.options) {
       play.baseSteps = play.steps;
@@ -539,9 +549,14 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     return null;
   }
 
-  function posAt(play, key, t) {
+  function distAt(play, key, t) {
     var r = play.t[key];
-    return pointAt(r.inf, Math.max(0, (t - r.start) * r.speed));
+    var d = Math.max(0, (t - r.start) * r.speed);
+    if (d > r.holdD) d = Math.max(r.holdD, d - r.holdS * r.speed);
+    return Math.min(d, r.inf.total);
+  }
+  function posAt(play, key, t) {
+    return pointAt(play.t[key].inf, distAt(play, key, t));
   }
   function ballAt(play, t) {
     var holder = 'C';
@@ -648,10 +663,10 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       el('line', { x1: -2.5, x2: 2.5, y1: 0, y2: 0, stroke: '#fff', 'stroke-width': 1.2 }, ball);
       refs.ball = ball; refs.shadow = shadow;
       var pop = el('g', { opacity: 0 }, stage);
-      el('rect', { x: -26, y: -12, width: 52, height: 20, rx: 10, fill: '#0C2340' }, pop);
+      refs.popRect = el('rect', { x: -26, y: -12, width: 52, height: 20, rx: 10, fill: '#0C2340' }, pop);
       var pt = tx({ 'text-anchor': 'middle', y: 3, 'font-size': 11, 'font-weight': 800, fill: '#FFC93C', 'letter-spacing': 1, 'font-family': 'Archivo, sans-serif' }, pop);
       pt.textContent = 'FAKE!';
-      refs.pop = pop;
+      refs.pop = pop; refs.popText = pt;
     }
     return refs;
   }
@@ -668,7 +683,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       var tr = refs.trails[k];
       if (tr) {
         var r = play.t[k];
-        var d = Math.max(0, Math.min(r.inf.total, (t - r.start) * r.speed));
+        var d = distAt(play, k, t);
         tr.setAttribute('stroke-dasharray', d.toFixed(1) + ' 99999');
       }
     });
@@ -683,7 +698,14 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     (play.pops || []).forEach(function (pp) {
       if (t >= pp.t && t < pp.t + 0.9) {
         var q = posAt(play, pp.at, t);
-        refs.pop.setAttribute('transform', 'translate(' + q[0].toFixed(1) + ' ' + (q[1] + 30).toFixed(1) + ')');
+        var px = q[0] + (pp.dx || 0), py = q[1] + (pp.dy != null ? pp.dy : 30);
+        refs.pop.setAttribute('transform', 'translate(' + px.toFixed(1) + ' ' + py.toFixed(1) + ')');
+        if (refs.popText.textContent !== pp.text) {
+          var w = pp.text.length * 8 + 16;
+          refs.popText.textContent = pp.text;
+          refs.popRect.setAttribute('x', -w / 2);
+          refs.popRect.setAttribute('width', w);
+        }
         popOn = true;
       }
     });
