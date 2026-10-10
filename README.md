@@ -10,7 +10,7 @@ Everything is in `index.html`. It has no build step and no dependencies besides 
 
 ## The plays
 
-Positions: **QB**, **C** (center), **RB** (running back, next to the QB) and four **WR**s (outside left, inside left, inside right, outside right). Everyone keeps the same spot in every play except two. In Lightning, the inside left WR and the RB line up next to the Center as linemen (L) and block. In Bubble Wrap, the outside left WR lines up next to the Center as a lineman. **Yellow** dots are women, **blue** dots are men, and the **white** dot is the QB (anyone can play QB).
+Positions: **QB**, **C** (center), **RB** (running back, next to the QB) and four **WR**s (outside left, inside left, inside right, outside right). Everyone keeps the same spot in every play except two. In Lightning, the inside left WR and the RB line up next to the Center as linemen (L) and block. In Bubble Wrap and Houdini, the outside left WR lines up next to the Center as a lineman. **Yellow** dots are women, **blue** dots are men, and the **white** dot is the QB (anyone can play QB).
 
 Lightning is called Right or Left: that's the side with 2 WRs, and the Left version is the mirror image. Pass plays show each of the QB's options with a number. Tap an option to watch the throw go there.
 
@@ -21,7 +21,7 @@ Lightning is called Right or Left: that's the side with 2 WRs, and the Left vers
 | Fireworks | Pass | 1st down | Four Verticals | 1 and 2: inside WRs deep. Both women. Center + RB block |
 | Slingshot | Run | 1st or 2nd down | Toss Sweep | RB (woman) |
 | Zoom | Run | 1st or 2nd down | Jet Sweep | Inside left WR (woman), running sideways before the hike |
-| Houdini | Run | Surprise play | QB Bootleg | Woman QB keeps it. Center + inside left WR block |
+| Houdini | Run | Surprise play | QB Bootleg | Woman QB keeps it. Center + 1 lineman block; everyone else flows right |
 
 ## Coed rules the plays are built around
 
