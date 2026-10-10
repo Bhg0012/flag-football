@@ -424,7 +424,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     },
     {
       id: 'houdini', name: 'Houdini', type: 'run', qb: 'woman',
-      tag: 'Everyone flows right. The QB fakes the toss, then runs left.',
+      tag: 'Fake the toss right. The QB runs left.',
       when: 'A woman is playing QB, because league rules don\'t let guys run the ball past the line. Use it once or twice a game, after Slingshot.',
       setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
       form: { LW: [140, 258] },
@@ -434,7 +434,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       players: {
         QB: { p: [[150, 308], [95, 300], [55, 268], [55, 60]], kind: 'ball', start: 1.45, speed: 75 },
         B:  { p: [[305, 296], [338, 258], [338, 170]], speed: 80 },
-        LS: { p: [[105, 210], [270, 200]], speed: 80 },
+        LS: { p: [[100, 140]], speed: 80 },
         RS: { p: [[285, 175], [290, 110]] },
         RW: { p: [[330, 80]] },
         LW: { p: [[130, 240]] },
@@ -445,7 +445,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
         ['B', 'Run right and act like you have the ball.'],
         ['LW', 'Block on the left so the QB has room to run.'],
         ['C', 'Block anyone rushing at the QB.'],
-        ['LS', 'Run across to the right. Take your defender with you.'],
+        ['LS', 'Sprint deep on the left and take your defender with you. Then turn around and get in their way so the QB can run.'],
         ['ALL', 'Right side WRs run right and deep. Pull defenders away.']
       ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }],

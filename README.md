@@ -21,7 +21,7 @@ Lightning is called Right or Left: that's the side with 2 WRs, and the Left vers
 | Fireworks | Pass | Verticals (3 WRs deep) | 1 and 2: inside WRs deep. Both women. Center + RB + 1 lineman block |
 | Slingshot | Run | Toss Sweep | RB (woman) |
 | Zoom | Run | Jet Sweep | Inside left WR (woman), running sideways before the hike |
-| Houdini | Run | QB Bootleg | Woman QB keeps it. Center + 1 lineman block; everyone else flows right |
+| Houdini | Run | QB Bootleg | Woman QB keeps it. Center + 1 lineman block; inside left WR runs deep, then blocks |
 
 ## Coed rules the plays are built around
 
