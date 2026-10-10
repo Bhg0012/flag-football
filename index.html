@@ -202,7 +202,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 
   <div class="section-h"><h2>Where do I stand?</h2></div>
   <div class="info">
-    <p>WR = wide receiver. RB = running back. C = center. L = lineman (a blocker). Your spot stays the same on every play except Lightning, Bubble Wrap and Houdini.</p>
+    <p>WR = wide receiver. RB = running back. C = center. L = lineman (a blocker). Your spot stays the same on every play except Lightning, Bubble Wrap, Fireworks and Houdini.</p>
     <div id="lineup"></div>
     <div class="legend" aria-label="Color key">
       <span><i class="sw w"></i>Woman</span>
@@ -354,13 +354,17 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     {
       id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
       down: '1st down',
-      tag: 'Four WRs run deep. 2 blockers. The QB has 2 options.',
+      tag: 'Three WRs run deep. 3 blockers. The QB has 2 options.',
       when: 'You want a big play, or the defense is crowding the line. Both options are women, so a TD is worth 9.',
+      setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
+      form: { LW: [140, 258] },
+      labels: { LW: 'L' },
+      names: { LW: 'Left lineman' },
       snap: 0.8,
       players: {
-        LS: { p: [[122, 40]], speed: 78 },
+        LS: { p: [[95, 40]], speed: 78 },
         RS: { p: [[238, 40]], speed: 78 },
-        LW: { p: [[40, 40]], speed: 78 },
+        LW: { p: [[140, 248]] },
         RW: { p: [[320, 40]], speed: 78 },
         C:  { p: [[180, 248]] },
         B:  { p: [[200, 288]] },
@@ -374,9 +378,9 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
         ['QB', 'Step back. Throw to whichever option is more open. Throw it ahead of her. Nobody open? Throw it out of bounds.'],
         ['LS', 'Sprint straight deep. Look back for the ball.'],
         ['RS', 'Sprint straight deep. Look back for the ball.'],
-        ['ALL', 'Center and RB: stay in and block the rushers. Outside WRs: sprint deep to pull defenders away.']
+        ['ALL', 'Lineman, Center and RB: stay in and block the rushers. Outside right WR: sprint deep to pull a defender away.']
       ],
-      steps: [[0, 'Get set.'], [0.8, 'Hike! Center and RB block.'], [1.1, 'Four WRs run deep.']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike! 3 blockers protect the QB.'], [1.1, 'Three WRs run deep.']]
     },
     {
       id: 'slingshot', name: 'Slingshot', type: 'run', qb: 'any',
