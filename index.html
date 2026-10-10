@@ -157,7 +157,6 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 .opt b { display: block; font-size: 15px; }
 .opt small { display: block; color: var(--muted); font-size: 14px; }
 .opt[aria-pressed="true"] { border-color: var(--accent); background: var(--soft); }
-.chip.down { background: var(--ink); color: var(--bg); }
 .side { margin: 0 0 10px; }
 .side p { margin: 0 0 8px; color: var(--muted); }
 .side p b { color: var(--ink); }
@@ -289,7 +288,6 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
   var PLAYS = [
     {
       id: 'bubble-wrap', name: 'Bubble Wrap', type: 'pass', qb: 'any',
-      down: 'Any down',
       tag: 'Quick short pass to the RB, with 2 blockers in front of her.',
       when: 'The defense rushes hard or plays far back. Always legal, because both options are women.',
       setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
@@ -320,7 +318,6 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     },
     {
       id: 'lightning', name: 'Lightning', type: 'pass', qb: 'any', sides: true,
-      down: 'Any down',
       tag: '3 blockers. Two slants and a drag. The QB has 3 options.',
       when: 'The defense is rushing hard. 3 blockers give the QB time. If the last pass was guy-to-guy, throw to option 2.',
       setup: 'The inside left WR and the RB line up on each side of the Center. They are linemen (L) and block.',
@@ -353,7 +350,6 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     },
     {
       id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
-      down: '1st down',
       tag: 'Three WRs run deep. 3 blockers. The QB has 2 options.',
       when: 'You want a big play, or the defense is crowding the line. Both options are women, so a TD is worth 9.',
       setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
@@ -384,7 +380,6 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     },
     {
       id: 'slingshot', name: 'Slingshot', type: 'run', qb: 'any',
-      down: '1st or 2nd down',
       tag: 'Toss it to the RB. She runs around the right side.',
       when: 'You need a few yards. Easy and safe.',
       snap: 0.8,
@@ -407,7 +402,6 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     },
     {
       id: 'zoom', name: 'Zoom', type: 'run', qb: 'any',
-      down: '1st or 2nd down',
       tag: 'A WR runs sideways, grabs the handoff, and keeps going.',
       when: 'Your fastest woman plays inside left WR.',
       snap: 0.9,
@@ -430,7 +424,6 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     },
     {
       id: 'houdini', name: 'Houdini', type: 'run', qb: 'woman',
-      down: 'Surprise play',
       tag: 'Everyone flows right. The QB fakes the toss, then runs left.',
       when: 'A woman is playing QB, because league rules don\'t let guys run the ball past the line. Use it once or twice a game, after Slingshot.',
       setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
@@ -727,7 +720,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
   function nameOf(play, k) { return side(play, (play.names && play.names[k]) || POS[k].name); }
   function title(play) { return play.sides ? play.name + (play.mirror ? ' Left' : ' Right') : play.name; }
   function chipsHtml(play) {
-    var h = '<span class="chip down"></span>';
+    var h = '';
     if (play.qb === 'woman') h += '<span class="chip wqb">Woman QB only</span>';
     if (play.sides) h += '<span class="chip">Right or Left</span>';
     return h;
@@ -743,7 +736,6 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       txt.innerHTML = '<span class="name"></span><span class="tag"></span><span class="chips">' + chipsHtml(play) + '</span>';
       txt.querySelector('.name').textContent = play.name;
       txt.querySelector('.tag').textContent = play.tag;
-      txt.querySelector('.chip.down').textContent = play.down;
       b.appendChild(txt);
       var go = document.createElement('span'); go.className = 'go'; go.textContent = '›'; go.setAttribute('aria-hidden', 'true');
       b.appendChild(go);
@@ -787,7 +779,6 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     $('home').hidden = true; $('play').hidden = false; $('pager').hidden = false;
     $('count').textContent = 'Play ' + (i + 1) + ' of ' + PLAYS.length;
     $('p-chips').innerHTML = chipsHtml(play);
-    $('p-chips').querySelector('.chip.down').textContent = play.down;
     if (play.options) setOption(play, 0);
     $('p-name').textContent = title(play);
     $('p-tag').textContent = play.tag;
