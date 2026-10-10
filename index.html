@@ -202,7 +202,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 
   <div class="section-h"><h2>Where do I stand?</h2></div>
   <div class="info">
-    <p>WR = wide receiver. RB = running back. C = center. Your spot stays the same on every play except Lightning.</p>
+    <p>WR = wide receiver. RB = running back. C = center. L = lineman (a blocker). Your spot stays the same on every play except Lightning and Bubble Wrap.</p>
     <div id="lineup"></div>
     <div class="legend" aria-label="Color key">
       <span><i class="sw w"></i>Woman</span>
@@ -292,13 +292,17 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       down: 'Any down',
       tag: 'Quick short pass to the RB, with 2 blockers in front of her.',
       when: 'The defense rushes hard or plays far back. Always legal, because both options are women.',
+      setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
+      form: { LW: [140, 258] },
+      labels: { LW: 'L' },
+      names: { LW: 'Left lineman' },
       snap: 0.8,
       players: {
         B:  { p: [[290, 300], [300, 290], [298, 200], [295, 80]] },
         LS: { p: [[105, 205], [110, 215]] },
         RS: { p: [[255, 215]] },
         RW: { p: [[338, 205]] },
-        LW: { p: [[40, 90]] },
+        LW: { p: [[140, 248]] },
         C:  { p: [[180, 248]] },
         QB: { p: [[180, 305]] }
       },
@@ -310,7 +314,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
         ['QB', 'Throw it fast to option 1. Covered? Throw to option 2.'],
         ['B', 'Run toward the right sideline. Catch it, then run up the field between your blockers.'],
         ['LS', 'Take 5 steps, stop, turn around.'],
-        ['ALL', 'Right side WRs: step up and stand in a defender\'s way, hands behind your back. Center blocks. Outside left WR runs deep.']
+        ['ALL', 'Lineman and Center: block the rushers. Right side WRs: step up and stand in a defender\'s way. Hands behind your back.']
       ],
       steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, 'RB slides right. Two WRs set up as blockers.']]
     },
@@ -350,31 +354,29 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     {
       id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
       down: '1st down',
-      tag: 'Everybody runs deep. The QB has 3 options.',
-      when: 'You want a big play, or the defense is crowding the line. All 3 options are women, so a TD is worth 9.',
+      tag: 'Four WRs run deep. 2 blockers. The QB has 2 options.',
+      when: 'You want a big play, or the defense is crowding the line. Both options are women, so a TD is worth 9.',
       snap: 0.8,
       players: {
         LS: { p: [[122, 40]], speed: 78 },
         RS: { p: [[238, 40]], speed: 78 },
         LW: { p: [[40, 40]], speed: 78 },
         RW: { p: [[320, 40]], speed: 78 },
-        C:  { p: [[180, 215]] },
-        B:  { p: [[300, 272], [338, 256]] },
+        C:  { p: [[180, 248]] },
+        B:  { p: [[200, 288]] },
         QB: { p: [[180, 318]] }
       },
       options: [
         { to: 'LS', t: 2.3, f: 0.85, what: 'Deep, left side' },
-        { to: 'RS', t: 2.3, f: 0.85, what: 'Deep, right side' },
-        { to: 'C', t: 1.9, f: 0.3, what: 'Short, if nobody is open deep' }
+        { to: 'RS', t: 2.3, f: 0.85, what: 'Deep, right side' }
       ],
       jobs: [
-        ['QB', 'Step back. Throw to whichever option is most open. Throw it ahead of them.'],
+        ['QB', 'Step back. Throw to whichever option is more open. Throw it ahead of her. Nobody open? Throw it out of bounds.'],
         ['LS', 'Sprint straight deep. Look back for the ball.'],
         ['RS', 'Sprint straight deep. Look back for the ball.'],
-        ['C', 'Hike it, run 4 steps, turn around.'],
-        ['ALL', 'Outside WRs sprint deep to pull defenders away. RB runs to the right sideline.']
+        ['ALL', 'Center and RB: stay in and block the rushers. Outside WRs: sprint deep to pull defenders away.']
       ],
-      steps: [[0, 'Get set.'], [0.8, 'Hike! QB steps back.'], [1.1, 'Everybody runs deep.']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike! Center and RB block.'], [1.1, 'Four WRs run deep.']]
     },
     {
       id: 'slingshot', name: 'Slingshot', type: 'run', qb: 'any',
@@ -434,13 +436,15 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
         RS: { p: [[280, 190]] },
         RW: { p: [[322, 130]] },
         LW: { p: [[40, 90]] },
-        LS: { p: [[110, 120]] },
-        C:  { p: [[180, 240]] }
+        LS: { p: [[95, 220]] },
+        C:  { p: [[180, 245]] }
       },
       jobs: [
         ['QB', 'Pretend to toss it to the RB. Keep it. Run left.'],
         ['B', 'Run right and act like you have the ball.'],
-        ['ALL', 'Everyone else runs deep.']
+        ['C', 'Block anyone rushing at the QB.'],
+        ['LS', 'Step left and block, so the QB has room to run.'],
+        ['ALL', 'Everyone else runs deep to pull defenders away.']
       ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }],
       pops: [{ t: 1.15, at: 'QB', text: 'FAKE!' }],
