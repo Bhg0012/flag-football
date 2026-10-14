@@ -28,7 +28,7 @@ Lightning is called Right or Left: that's the side with 2 WRs, and the Left vers
 
 - 8 players: at least 4 women, at most 4 men. The lineup has 4 women and 3 men plus the QB, so it's legal with a man or a woman at QB.
 - Men can't run the ball across the line. Every run play goes to a woman.
-- No two man-to-man completions in a row. Bubble Wrap, Fireworks and Emily Sandwich always go to a woman (they're marked "Pass to a woman").
+- No two man-to-man completions in a row. Emily Sandwich is the play for that: it always goes to a woman (it's marked "Pass to a woman").
 - A woman throwing or scoring a touchdown is worth 9 points.
 - Only one player can be moving before the hike, and only sideways (Zoom).
 - The defense can rush the QB right at the hike, and usually does. Every pass play keeps at least 2 blockers in, and the run plays get the ball out of the QB's hands right away.

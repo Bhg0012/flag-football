@@ -216,7 +216,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     <ul class="rules">
       <li><span class="ic">4</span><div><b>4 women on the field. Always.</b></div></li>
       <li><span class="ic">W</span><div><b>Only women can run the ball.</b><span>Guys can only run after catching a pass.</span></div></li>
-      <li><span class="ic">2×</span><div><b>No guy-to-guy pass twice in a row.</b><span>If it just happened, the next pass must go to a woman (a yellow dot). Bubble Wrap, Fireworks and Emily Sandwich always do.</span></div></li>
+      <li><span class="ic">2×</span><div><b>No guy-to-guy pass twice in a row.</b><span>If it just happened, the next pass must go to a woman (a yellow dot). Call Emily Sandwich.</span></div></li>
       <li><span class="ic">9</span><div><b>Woman scores or throws a TD = 9 points.</b><span>A normal TD is 6.</span></div></li>
     </ul>
   </div>
@@ -288,7 +288,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
   // start: when the player starts moving (seconds). Default is just after the snap.
   var PLAYS = [
     {
-      id: 'bubble-wrap', name: 'Bubble Wrap', type: 'pass', qb: 'any', women: true,
+      id: 'bubble-wrap', name: 'Bubble Wrap', type: 'pass', qb: 'any',
       tag: 'Quick short pass to the RB, with 2 WRs blocking in front of her.',
       when: 'The defense rushes hard or plays far back. Always legal, because both options are women.',
       setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
@@ -352,7 +352,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       steps: [[0, 'Get set.'], [0.8, 'Hike! 4 blockers protect the QB.'], [1.0, 'Two slants and a drag.']]
     },
     {
-      id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any', women: true,
+      id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
       tag: 'Three WRs run deep. The RB blocks first, then pops out. The QB has 3 options.',
       when: 'You want a big play, or the defense is crowding the line. All 3 options are women, so a TD is worth 9.',
       setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
