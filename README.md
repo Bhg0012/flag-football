@@ -10,7 +10,7 @@ Everything is in `index.html`. It has no build step and no dependencies besides 
 
 ## The plays
 
-Positions (8 players): **QB**, **C** (center), a right lineman (**L**, next to the Center), **RB** (running back, next to the QB) and four **WR**s (outside left, inside left, inside right, outside right). Everyone keeps the same spot in every play except four. In Lightning, the inside left WR lines up next to the Center as a second lineman. In Bubble Wrap, Fireworks and Houdini, the outside left WR lines up next to the Center as a lineman. **Yellow** dots are women, **blue** dots are men, and the **white** dot is the QB (anyone can play QB).
+Positions (8 players): **QB**, **C** (center), a right lineman (**L**, next to the Center), **RB** (running back, next to the QB) and four **WR**s (outside left, inside left, inside right, outside right). Everyone keeps the same spot in every play except five. In Lightning, the inside left WR lines up next to the Center as a second lineman. In Bubble Wrap, Fireworks and Houdini, the outside left WR lines up next to the Center as a lineman. In Sandwich, the RB lines up next to the Center (on the left) as a lineman. **Yellow** dots are women, **blue** dots are men, and the **white** dot is the QB (anyone can play QB).
 
 Lightning is called Right or Left: that's the side with 2 WRs, and the Left version is the mirror image. Pass plays show each of the QB's options with a number. Tap an option to watch the throw go there.
 
@@ -19,7 +19,7 @@ Lightning is called Right or Left: that's the side with 2 WRs, and the Left vers
 | Bubble Wrap | Pass | RB Screen | 1: RB (short pass behind 2 blockers), 2: inside left WR (hitch). Both women. Center + 2 linemen block |
 | Lightning Right / Left | Pass | Twins: slant, drag, long slant. Center + 2 linemen + RB block | 1: outside left WR (quick slant), 2: inside right WR (drag, woman), 3: outside right WR (long slant) |
 | Fireworks | Pass | Verticals (3 WRs deep) | 1 and 2: inside WRs deep, 3: RB blocks first, then pops out short. All women. Center + 2 linemen block |
-| Sandwich | Pass | High-low slants | 1: inside left WR (short slant), 2: inside right WR (deep slant). Both women. Outside WRs run deep to clear the middle. Center + right lineman + RB block |
+| Sandwich | Pass | High-low slants | 1: inside left WR (short slant), 2: inside right WR (deep slant). Both women. Outside WRs run deep to clear the middle. RB lines up next to the Center as a lineman. Center + 2 linemen block |
 | Slingshot | Run | Toss Sweep | RB (woman) |
 | Zoom | Run | Jet Sweep | Inside left WR (woman), running sideways before the hike |
 | Houdini | Run | QB Bootleg | Woman QB keeps it. Center + 2 linemen block; inside left WR runs deep, then blocks |

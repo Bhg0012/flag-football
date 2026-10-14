@@ -201,7 +201,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 
   <div class="section-h"><h2>Where do I stand?</h2></div>
   <div class="info">
-    <p>WR = wide receiver. RB = running back. C = center. L = lineman (a blocker). Your spot stays the same on every play except Lightning, Bubble Wrap, Fireworks and Houdini. 8 players: at least 4 women, at most 4 men.</p>
+    <p>WR = wide receiver. RB = running back. C = center. L = lineman (a blocker). Your spot stays the same on every play except Lightning, Bubble Wrap, Fireworks, Sandwich and Houdini. 8 players: at least 4 women, at most 4 men.</p>
     <div id="lineup"></div>
     <div class="legend" aria-label="Color key">
       <span><i class="sw w"></i>Woman</span>
@@ -389,13 +389,17 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       id: 'sandwich', name: 'Sandwich', type: 'pass', qb: 'any', women: true,
       tag: 'Two women run slants, one short and one deep. The QB throws to the open one.',
       when: 'You need a pass to a woman, like right after a guy-to-guy catch. Both options are women, so it\'s always legal.',
+      setup: 'The RB lines up next to the Center, on the left. She is a lineman (L) and blocks.',
+      form: { B: [140, 258] },
+      labels: { B: 'L' },
+      names: { B: 'Left lineman' },
       snap: 0.8,
       players: {
         LS: { p: [[105, 230], [180, 206], [215, 198]] },
         RS: { p: [[258, 168], [175, 115], [140, 98]], speed: 75 },
         LW: { p: [[40, 40]], speed: 78 },
         RW: { p: [[320, 40]], speed: 78 },
-        B:  { p: [[210, 288]] },
+        B:  { p: [[140, 248]] },
         RL: { p: [[218, 248]] },
         C:  { p: [[180, 248]] },
         QB: { p: [[180, 308]] }
@@ -408,7 +412,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
         ['QB', 'Look at option 1 first. Covered? Throw to option 2. Throw it fast.'],
         ['LS', 'Take 3 steps, then cut in toward the middle. Stay short.'],
         ['RS', 'Take 8 steps, then cut in toward the middle, deeper than option 1.'],
-        ['ALL', 'Outside WRs: sprint deep and take your defender with you, away from the middle. Center, right lineman and RB: block the rushers. Hands behind your back.']
+        ['ALL', 'Outside WRs: sprint deep and take your defender with you, away from the middle. Linemen and Center: block the rushers. Hands behind your back.']
       ],
       steps: [[0, 'Get set.'], [0.8, 'Hike! 3 blockers protect the QB.'], [1.0, 'Two slants: one short, one deep. The outside WRs clear out.']]
     },
