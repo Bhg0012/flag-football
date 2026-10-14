@@ -10,7 +10,7 @@ Everything is in `index.html`. It has no build step and no dependencies besides 
 
 ## The plays
 
-Positions (8 players): **QB**, **C** (center), a right lineman (**L**, next to the Center), **RB** (running back, next to the QB) and four **WR**s (outside left, inside left, inside right, outside right). Everyone keeps the same spot in every play except five. In Lightning, the inside left WR lines up next to the Center as a second lineman, and the RB lines up as a third WR on the right. In Bubble Wrap, Fireworks and Houdini, the outside left WR lines up next to the Center as a lineman. In Emily Sandwich, the RB lines up next to the Center (on the left) as a lineman. **Yellow** dots are women, **blue** dots are men, and the **white** dot is the QB (anyone can play QB).
+Positions (8 players): **QB**, **C** (center), a right lineman (**L**, next to the Center), **RB** (running back, next to the QB) and four **WR**s (outside left, inside left, inside right, outside right). Everyone keeps the same spot in every play except six. In Lightning, the inside left WR lines up next to the Center as a second lineman, and the RB lines up as a third WR on the right. In Bubble Wrap, Fireworks and Houdini, the outside left WR lines up next to the Center as a lineman. In Emily Sandwich, the RB lines up next to the Center (on the left) as a lineman. In Emily², the inside left WR lines up right behind the RB, next to the QB. **Yellow** dots are women, **blue** dots are men, and the **white** dot is the QB (anyone can play QB).
 
 Lightning is called Right or Left: that's the side with 3 WRs, and the Left version is the mirror image. Pass plays show each of the QB's options with a number. Tap an option to watch the throw go there.
 
@@ -23,6 +23,7 @@ Lightning is called Right or Left: that's the side with 3 WRs, and the Left vers
 | Slingshot | Run | Toss Sweep | RB (woman) |
 | Zoom | Run | Jet Sweep | Inside left WR (woman), running sideways before the hike |
 | Houdini | Run | QB Bootleg | Woman QB keeps it. Center + 2 linemen block; inside left WR runs deep, then blocks |
+| Emily² | Run | I formation (handoff, with a lead blocker) | Back RB (inside left WR, woman) takes the handoff. Front RB (woman) runs ahead and blocks. Right side WRs block |
 
 ## Coed rules the plays are built around
 

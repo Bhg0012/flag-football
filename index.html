@@ -191,7 +191,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 <main class="wrap" id="home">
   <p class="eyebrow">Coed 8 v 8 Flag</p>
   <h1>The Playbook</h1>
-  <p class="lede">7 plays. Tap one to watch how it works.</p>
+  <p class="lede">8 plays. Tap one to watch how it works.</p>
 
   <div class="section-h"><h2>Pass plays</h2></div>
   <div class="cards" id="pass-cards"></div>
@@ -201,7 +201,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 
   <div class="section-h"><h2>Where do I stand?</h2></div>
   <div class="info">
-    <p>WR = wide receiver. RB = running back. C = center. L = lineman (a blocker). Your spot stays the same on every play except Lightning, Bubble Wrap, Fireworks, Emily Sandwich and Houdini. 8 players: at least 4 women, at most 4 men.</p>
+    <p>WR = wide receiver. RB = running back. C = center. L = lineman (a blocker). Your spot stays the same on every play except Lightning, Bubble Wrap, Fireworks, Emily Sandwich, Houdini and Emily². 8 players: at least 4 women, at most 4 men.</p>
     <div id="lineup"></div>
     <div class="legend" aria-label="Color key">
       <span><i class="sw w"></i>Woman</span>
@@ -494,6 +494,34 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       events: [{ t: 0.8, to: 'QB', f: 0.25 }],
       pops: [{ t: 1.15, at: 'QB', text: 'FAKE!' }],
       steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.15, 'QB fakes the toss to the RB.'], [1.6, 'Defense chases the RB...'], [2.0, '...QB runs left with the ball!']]
+    },
+    {
+      id: 'emily-squared', name: 'Emily²', type: 'run', qb: 'any',
+      tag: 'Two RBs line up one behind the other. The back one gets the handoff. The front one leads the way.',
+      when: 'You need a few yards. Two women running the same way are hard to stop.',
+      setup: 'The inside left WR lines up right behind the RB, next to the QB. The two of them make a straight line (an I).',
+      form: { B: [222, 294], LS: [222, 324] },
+      labels: { LS: 'RB' },
+      names: { B: 'Front RB', LS: 'Back RB' },
+      snap: 0.8,
+      players: {
+        LS: { p: [[223, 323], [262, 322], [315, 298], [338, 250], [338, 60]], kind: 'ball', speed: 80, hold: [0, 0.25] },
+        B:  { p: [[285, 286], [325, 235], [322, 190]], speed: 75 },
+        RS: { p: [[290, 215]] },
+        RW: { p: [[315, 165]] },
+        RL: { p: [[230, 240]] },
+        C:  { p: [[196, 242]] },
+        LW: { p: [[40, 110]] },
+        QB: { p: [[198, 312]] }
+      },
+      jobs: [
+        ['LS', 'Take the handoff. Follow the front RB to the right. Run up the sideline.'],
+        ['B', 'Run right, ahead of the back RB. Stand in the way of the first defender you see. Hands behind your back.'],
+        ['QB', 'Turn right and hand it to the back RB right away.'],
+        ['ALL', 'Right side WRs: step up and stand in a defender\'s way, hands behind your back. Center and lineman: block. Outside left WR: run deep.']
+      ],
+      events: [{ t: 0.8, to: 'QB', f: 0.25 }, { t: 1.08, to: 'LS', f: 0.12 }],
+      steps: [[0, 'Get set. Two RBs line up next to the QB.'], [0.8, 'Hike!'], [1.08, 'QB hands it to the back RB.'], [1.5, 'The front RB leads the way. The WRs block on the right.']]
     }
   ];
   // ---------- Geometry helpers ----------
