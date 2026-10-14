@@ -6,7 +6,7 @@
 <title>Coed Flag Playbook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Graduate&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Barlow:wght@700;800&display=swap">
 <style>
 /* Layout: one narrow phone column. Home = stacked play cards; tap one = full play view with animated field and sticky prev/next. */
 :root {
@@ -26,7 +26,7 @@
   --dot-ink: #0C2340;
   --soft: #F4F6F2;
   --good: #1F7A45;
-  --font-display: "Graduate", "Rockwell", "Georgia", serif;
+  --font-display: "Barlow", "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
   color-scheme: light;
 }
@@ -59,7 +59,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 
 /* ---------- Home ---------- */
 .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0; }
-h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-height: 1; margin: 6px 0 8px; letter-spacing: 0.01em; }
+h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-height: 1; margin: 6px 0 8px; letter-spacing: -0.01em; }
 .lede { margin: 0; color: var(--muted); }
 .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 12px; font-size: 14px; font-weight: 600; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -67,7 +67,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .sw.w { background: var(--women); } .sw.m { background: var(--men); } .sw.q { background: var(--qb); }
 
 .section-h { display: flex; align-items: baseline; justify-content: space-between; margin: 28px 0 10px; }
-.section-h h2 { font-family: var(--font-display); font-weight: 400; font-size: 22px; margin: 0; }
+.section-h h2 { font-family: var(--font-display); font-weight: 800; font-size: 24px; margin: 0; }
 .section-h small { color: var(--muted); font-size: 13px; }
 
 .cards { display: grid; gap: 10px; }
@@ -81,7 +81,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .play-card:hover { border-color: var(--accent); }
 .play-card .mini { width: 84px; height: 80px; border-radius: 8px; overflow: hidden; display: block; }
 .play-card .txt { min-width: 0; }
-.play-card .name { font-family: var(--font-display); font-size: 20px; line-height: 1.1; display: block; }
+.play-card .name { font-family: var(--font-display); font-weight: 800; font-size: 22px; line-height: 1.1; display: block; }
 .play-card .tag { color: var(--muted); font-size: 14px; display: block; margin-top: 2px; }
 .play-card .chips { margin-top: 6px; }
 .play-card .go { font-size: 26px; color: var(--accent); font-weight: 800; padding-right: 2px; }
@@ -117,7 +117,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .back { background: none; border: 0; padding: 8px 4px; font-weight: 800; color: var(--accent); font-size: 16px; cursor: pointer; }
 .count { font-size: 13px; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
 .play-head { margin: 16px 0 12px; }
-.play-head h2 { font-family: var(--font-display); font-weight: 400; font-size: 34px; line-height: 1.05; margin: 6px 0 4px; text-wrap: balance; }
+.play-head h2 { font-family: var(--font-display); font-weight: 800; font-size: 36px; line-height: 1.05; margin: 6px 0 4px; text-wrap: balance; }
 .play-head p { margin: 0; color: var(--muted); }
 
 .field-card { background: var(--field); border-radius: 16px; overflow: hidden; position: relative; }
@@ -135,7 +135,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .facts { display: grid; gap: 10px; margin-top: 10px; }
 .fact { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
 .fact .k { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 2px; }
-.jobs-h { font-family: var(--font-display); font-weight: 400; font-size: 20px; margin: 22px 0 10px; }
+.jobs-h { font-family: var(--font-display); font-weight: 800; font-size: 22px; margin: 22px 0 10px; }
 .jobs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .jobs li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
 .jobs li.star { border: 2px solid var(--accent); }
@@ -157,7 +157,6 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 .opt b { display: block; font-size: 15px; }
 .opt small { display: block; color: var(--muted); font-size: 14px; }
 .opt[aria-pressed="true"] { border-color: var(--accent); background: var(--soft); }
-.chip.down { background: var(--ink); color: var(--bg); }
 .side { margin: 0 0 10px; }
 .side p { margin: 0 0 8px; color: var(--muted); }
 .side p b { color: var(--ink); }
@@ -179,7 +178,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 }
 .pager button.next { text-align: right; }
 .pager small { display: block; font-size: 11px; color: var(--muted); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
-.pager strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pager strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #play { padding-bottom: 90px; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -190,7 +189,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 <body>
 
 <main class="wrap" id="home">
-  <p class="eyebrow">Coed 7 v 7 Flag</p>
+  <p class="eyebrow">Coed 8 v 8 Flag</p>
   <h1>The Playbook</h1>
   <p class="lede">6 plays. Tap one to watch how it works.</p>
 
@@ -202,7 +201,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
 
   <div class="section-h"><h2>Where do I stand?</h2></div>
   <div class="info">
-    <p>WR = wide receiver. RB = running back. C = center. L = lineman (a blocker). Your spot stays the same on every play except Lightning and Bubble Wrap.</p>
+    <p>WR = wide receiver. RB = running back. C = center. L = lineman (a blocker). Your spot stays the same on every play except Lightning, Bubble Wrap, Fireworks and Houdini. 8 players: at least 4 women, at most 4 men.</p>
     <div id="lineup"></div>
     <div class="legend" aria-label="Color key">
       <span><i class="sw w"></i>Woman</span>
@@ -275,13 +274,14 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     LW: { x: 40,  y: 255, g: M, label: 'WR', name: 'Outside left WR',  where: 'Far left, on the line.' },
     LS: { x: 105, y: 258, g: W, label: 'WR', name: 'Inside left WR',   where: 'Left, halfway to the Center.' },
     C:  { x: 180, y: 258, g: W, label: 'C',  name: 'Center',           where: 'Middle. Hikes the ball to the QB.' },
-    RS: { x: 255, y: 258, g: W, label: 'WR', name: 'Inside right WR',  where: 'Right, halfway to the Center.' },
+    RL: { x: 218, y: 258, g: M, label: 'L',  name: 'Right lineman',    where: 'Right next to the Center. Blocks.' },
+    RS: { x: 258, y: 258, g: W, label: 'WR', name: 'Inside right WR',  where: 'Right, halfway to the outside WR.' },
     RW: { x: 320, y: 255, g: M, label: 'WR', name: 'Outside right WR', where: 'Far right, on the line.' },
     QB: { x: 180, y: 300, g: Q, label: 'QB', name: 'Quarterback',      where: '5 steps behind the Center.' },
     B:  { x: 222, y: 300, g: W, label: 'RB', name: 'Running back',     where: 'Right next to the QB.' }
   };
-  var ORDER = ['LW', 'LS', 'C', 'RS', 'RW', 'QB', 'B'];
-  var DRAW = ['LW', 'LS', 'C', 'RS', 'RW', 'B', 'QB'];
+  var ORDER = ['LW', 'LS', 'C', 'RL', 'RS', 'RW', 'QB', 'B'];
+  var DRAW = ['LW', 'LS', 'C', 'RL', 'RS', 'RW', 'B', 'QB'];
 
   // ---------- The plays ----------
   // p: route points after the start spot. kind: route | block | ball (ball carrier / main target).
@@ -289,8 +289,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
   var PLAYS = [
     {
       id: 'bubble-wrap', name: 'Bubble Wrap', type: 'pass', qb: 'any',
-      down: 'Any down',
-      tag: 'Quick short pass to the RB, with 2 blockers in front of her.',
+      tag: 'Quick short pass to the RB, with 2 WRs blocking in front of her.',
       when: 'The defense rushes hard or plays far back. Always legal, because both options are women.',
       setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
       form: { LW: [140, 258] },
@@ -304,6 +303,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
         RW: { p: [[338, 205]] },
         LW: { p: [[140, 248]] },
         C:  { p: [[180, 248]] },
+        RL: { p: [[218, 248]] },
         QB: { p: [[180, 305]] }
       },
       options: [
@@ -314,26 +314,26 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
         ['QB', 'Throw it fast to option 1. Covered? Throw to option 2.'],
         ['B', 'Run toward the right sideline. Catch it, then run up the field between your blockers.'],
         ['LS', 'Take 5 steps, stop, turn around.'],
-        ['ALL', 'Lineman and Center: block the rushers. Right side WRs: step up and stand in a defender\'s way. Hands behind your back.']
+        ['ALL', 'Linemen and Center: block the rushers. Right side WRs: step up and stand in a defender\'s way. Hands behind your back.']
       ],
       steps: [[0, 'Get set.'], [0.8, 'Hike!'], [1.0, 'RB slides right. Two WRs set up as blockers.']]
     },
     {
       id: 'lightning', name: 'Lightning', type: 'pass', qb: 'any', sides: true,
-      down: 'Any down',
-      tag: '3 blockers. Two slants and a drag. The QB has 3 options.',
-      when: 'The defense is rushing hard. 3 blockers give the QB time. If the last pass was guy-to-guy, throw to option 2.',
-      setup: 'The inside left WR and the RB line up on each side of the Center. They are linemen (L) and block.',
-      form: { LS: [140, 258], B: [220, 258] },
-      labels: { LS: 'L', B: 'L' },
-      names: { LS: 'Left lineman', B: 'Right lineman' },
+      tag: '4 blockers. Two slants and a drag. The QB has 3 options.',
+      when: 'The defense is rushing hard. 4 blockers give the QB time. If the last pass was guy-to-guy, throw to option 2.',
+      setup: 'The inside left WR lines up next to the Center. She is a lineman (L) and blocks.',
+      form: { LS: [140, 258] },
+      labels: { LS: 'L' },
+      names: { LS: 'Left lineman' },
       snap: 0.8,
       players: {
         LW: { p: [[40, 222], [115, 165], [140, 120]] },
         RS: { p: [[240, 210], [100, 205], [50, 205]] },
         RW: { p: [[320, 175], [230, 110], [200, 70]], speed: 75 },
         LS: { p: [[140, 248]] },
-        B:  { p: [[220, 248]] },
+        B:  { p: [[210, 288]] },
+        RL: { p: [[218, 248]] },
         C:  { p: [[180, 248]] },
         QB: { p: [[180, 308]] }
       },
@@ -347,48 +347,55 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
         ['LW', 'Take 3 steps, then cut in toward the middle.'],
         ['RS', 'Take 4 steps, then run across the field.'],
         ['RW', 'Take 8 steps, then cut in toward the middle.'],
-        ['ALL', 'Linemen and Center: stand in front of the rushers. Hands behind your back.']
+        ['ALL', 'Linemen, Center and RB: stand in front of the rushers. Hands behind your back.']
       ],
-      steps: [[0, 'Get set.'], [0.8, 'Hike! 3 blockers protect the QB.'], [1.0, 'Two slants and a drag.']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike! 4 blockers protect the QB.'], [1.0, 'Two slants and a drag.']]
     },
     {
       id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
-      down: '1st down',
-      tag: 'Four WRs run deep. 2 blockers. The QB has 2 options.',
-      when: 'You want a big play, or the defense is crowding the line. Both options are women, so a TD is worth 9.',
+      tag: 'Three WRs run deep. The RB blocks first, then pops out. The QB has 3 options.',
+      when: 'You want a big play, or the defense is crowding the line. All 3 options are women, so a TD is worth 9.',
+      setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
+      form: { LW: [140, 258] },
+      labels: { LW: 'L' },
+      names: { LW: 'Left lineman' },
       snap: 0.8,
       players: {
-        LS: { p: [[122, 40]], speed: 78 },
+        LS: { p: [[95, 40]], speed: 78 },
         RS: { p: [[238, 40]], speed: 78 },
-        LW: { p: [[40, 40]], speed: 78 },
+        LW: { p: [[140, 248]] },
         RW: { p: [[320, 40]], speed: 78 },
+        RL: { p: [[218, 248]] },
         C:  { p: [[180, 248]] },
-        B:  { p: [[200, 288]] },
+        B:  { p: [[205, 288], [280, 230]], hold: [0, 0.9] },
         QB: { p: [[180, 318]] }
       },
       options: [
         { to: 'LS', t: 2.3, f: 0.85, what: 'Deep, left side' },
-        { to: 'RS', t: 2.3, f: 0.85, what: 'Deep, right side' }
+        { to: 'RS', t: 2.3, f: 0.85, what: 'Deep, right side' },
+        { to: 'B', t: 2.95, f: 0.32, what: 'Blocks first, then pops out short' }
       ],
       jobs: [
-        ['QB', 'Step back. Throw to whichever option is more open. Throw it ahead of her. Nobody open? Throw it out of bounds.'],
+        ['QB', 'Step back. Look deep first: option 1 or 2. Nobody open deep? Throw it short to the RB.'],
         ['LS', 'Sprint straight deep. Look back for the ball.'],
         ['RS', 'Sprint straight deep. Look back for the ball.'],
-        ['ALL', 'Center and RB: stay in and block the rushers. Outside WRs: sprint deep to pull defenders away.']
+        ['B', 'Block first. Count "one-Mississippi, two." Nobody rushing at you? Pop out to the right a few steps past the line and turn around.'],
+        ['ALL', 'Linemen and Center: stay in and block the rushers. Outside right WR: sprint deep to pull a defender away.']
       ],
-      steps: [[0, 'Get set.'], [0.8, 'Hike! Center and RB block.'], [1.1, 'Four WRs run deep.']]
+      pops: [{ t: 1.15, at: 'B', text: 'BLOCK', dx: 48, dy: -30 }, { t: 2.05, at: 'B', text: 'POP OUT', dx: 0, dy: 30 }],
+      steps: [[0, 'Get set.'], [0.8, 'Hike! 4 blockers protect the QB.'], [1.15, 'Three WRs run deep. The RB blocks first.'], [2.05, 'No rush coming? The RB pops out short.']]
     },
     {
       id: 'slingshot', name: 'Slingshot', type: 'run', qb: 'any',
-      down: '1st or 2nd down',
       tag: 'Toss it to the RB. She runs around the right side.',
       when: 'You need a few yards. Easy and safe.',
       snap: 0.8,
       players: {
         B:  { p: [[305, 296], [340, 255], [340, 50]], kind: 'ball', speed: 80 },
-        RS: { p: [[262, 222]] },
-        RW: { p: [[300, 212]] },
-        C:  { p: [[205, 240]] },
+        RS: { p: [[265, 220]] },
+        RW: { p: [[302, 210]] },
+        RL: { p: [[230, 238]] },
+        C:  { p: [[196, 242]] },
         LW: { p: [[40, 110]] },
         LS: { p: [[125, 130]] },
         QB: { p: [[186, 300]] }
@@ -403,16 +410,16 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     },
     {
       id: 'zoom', name: 'Zoom', type: 'run', qb: 'any',
-      down: '1st or 2nd down',
       tag: 'A WR runs sideways, grabs the handoff, and keeps going.',
       when: 'Your fastest woman plays inside left WR.',
       snap: 0.9,
       players: {
         LS: { p: [[150, 280], [215, 284], [300, 276], [342, 240], [342, 60]], kind: 'ball', start: 0.2, speed: 85 },
         B:  { p: [[265, 288], [318, 215]] },
-        RS: { p: [[275, 222]] },
+        RS: { p: [[278, 222]] },
         RW: { p: [[325, 100]] },
-        C:  { p: [[200, 245]] },
+        RL: { p: [[240, 238]] },
+        C:  { p: [[198, 245]] },
         LW: { p: [[40, 120]] },
         QB: { p: [[184, 290]] }
       },
@@ -426,25 +433,30 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     },
     {
       id: 'houdini', name: 'Houdini', type: 'run', qb: 'woman',
-      down: 'Surprise play',
       tag: 'Fake the toss right. The QB runs left.',
-      when: 'A woman is playing QB. Use it once or twice a game, after Slingshot.',
+      when: 'A woman is playing QB, because league rules don\'t let guys run the ball past the line. Use it once or twice a game, after Slingshot.',
+      setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
+      form: { LW: [140, 258] },
+      labels: { LW: 'L' },
+      names: { LW: 'Left lineman' },
       snap: 0.8,
       players: {
         QB: { p: [[150, 308], [95, 300], [55, 268], [55, 60]], kind: 'ball', start: 1.45, speed: 75 },
         B:  { p: [[305, 296], [338, 258], [338, 170]], speed: 80 },
-        RS: { p: [[280, 190]] },
-        RW: { p: [[322, 130]] },
-        LW: { p: [[40, 90]] },
-        LS: { p: [[95, 220]] },
-        C:  { p: [[180, 245]] }
+        LS: { p: [[100, 140]], speed: 80 },
+        RS: { p: [[285, 175], [290, 110]] },
+        RW: { p: [[330, 80]] },
+        LW: { p: [[130, 240]] },
+        C:  { p: [[180, 245]] },
+        RL: { p: [[215, 245]] }
       },
       jobs: [
         ['QB', 'Pretend to toss it to the RB. Keep it. Run left.'],
         ['B', 'Run right and act like you have the ball.'],
-        ['C', 'Block anyone rushing at the QB.'],
-        ['LS', 'Step left and block, so the QB has room to run.'],
-        ['ALL', 'Everyone else runs deep to pull defenders away.']
+        ['LW', 'Block on the left so the QB has room to run.'],
+        ['C', 'Block anyone rushing at the QB. The right lineman does the same.'],
+        ['LS', 'Sprint deep on the left and take your defender with you. Then turn around and get in their way so the QB can run.'],
+        ['ALL', 'Right side WRs run right and deep. Pull defenders away.']
       ],
       events: [{ t: 0.8, to: 'QB', f: 0.25 }],
       pops: [{ t: 1.15, at: 'QB', text: 'FAKE!' }],
@@ -495,8 +507,15 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       var inf = info(pts(play, k));
       var start = pl.start != null ? pl.start : play.snap + 0.05;
       var speed = pl.speed || 70;
-      play.t[k] = { inf: inf, start: start, speed: speed };
-      end = Math.max(end, start + inf.total / speed);
+      // hold: [i, secs] pauses for secs once the player reaches route point i (e.g. block first, then release).
+      var holdD = Infinity, holdS = 0;
+      if (pl.hold) {
+        holdD = 0;
+        for (var i = 0; i <= pl.hold[0]; i++) holdD += inf.lens[i];
+        holdS = pl.hold[1];
+      }
+      play.t[k] = { inf: inf, start: start, speed: speed, holdD: holdD, holdS: holdS };
+      end = Math.max(end, start + inf.total / speed + holdS);
     });
     if (play.options) {
       play.baseSteps = play.steps;
@@ -530,9 +549,14 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     return null;
   }
 
-  function posAt(play, key, t) {
+  function distAt(play, key, t) {
     var r = play.t[key];
-    return pointAt(r.inf, Math.max(0, (t - r.start) * r.speed));
+    var d = Math.max(0, (t - r.start) * r.speed);
+    if (d > r.holdD) d = Math.max(r.holdD, d - r.holdS * r.speed);
+    return Math.min(d, r.inf.total);
+  }
+  function posAt(play, key, t) {
+    return pointAt(play.t[key].inf, distAt(play, key, t));
   }
   function ballAt(play, t) {
     var holder = 'C';
@@ -639,10 +663,10 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       el('line', { x1: -2.5, x2: 2.5, y1: 0, y2: 0, stroke: '#fff', 'stroke-width': 1.2 }, ball);
       refs.ball = ball; refs.shadow = shadow;
       var pop = el('g', { opacity: 0 }, stage);
-      el('rect', { x: -26, y: -12, width: 52, height: 20, rx: 10, fill: '#0C2340' }, pop);
+      refs.popRect = el('rect', { x: -26, y: -12, width: 52, height: 20, rx: 10, fill: '#0C2340' }, pop);
       var pt = tx({ 'text-anchor': 'middle', y: 3, 'font-size': 11, 'font-weight': 800, fill: '#FFC93C', 'letter-spacing': 1, 'font-family': 'Archivo, sans-serif' }, pop);
       pt.textContent = 'FAKE!';
-      refs.pop = pop;
+      refs.pop = pop; refs.popText = pt;
     }
     return refs;
   }
@@ -659,7 +683,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       var tr = refs.trails[k];
       if (tr) {
         var r = play.t[k];
-        var d = Math.max(0, Math.min(r.inf.total, (t - r.start) * r.speed));
+        var d = distAt(play, k, t);
         tr.setAttribute('stroke-dasharray', d.toFixed(1) + ' 99999');
       }
     });
@@ -674,7 +698,14 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     (play.pops || []).forEach(function (pp) {
       if (t >= pp.t && t < pp.t + 0.9) {
         var q = posAt(play, pp.at, t);
-        refs.pop.setAttribute('transform', 'translate(' + q[0].toFixed(1) + ' ' + (q[1] + 30).toFixed(1) + ')');
+        var px = q[0] + (pp.dx || 0), py = q[1] + (pp.dy != null ? pp.dy : 30);
+        refs.pop.setAttribute('transform', 'translate(' + px.toFixed(1) + ' ' + py.toFixed(1) + ')');
+        if (refs.popText.textContent !== pp.text) {
+          var w = pp.text.length * 8 + 16;
+          refs.popText.textContent = pp.text;
+          refs.popRect.setAttribute('x', -w / 2);
+          refs.popRect.setAttribute('width', w);
+        }
         popOn = true;
       }
     });
@@ -718,7 +749,7 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
   function nameOf(play, k) { return side(play, (play.names && play.names[k]) || POS[k].name); }
   function title(play) { return play.sides ? play.name + (play.mirror ? ' Left' : ' Right') : play.name; }
   function chipsHtml(play) {
-    var h = '<span class="chip down"></span>';
+    var h = '';
     if (play.qb === 'woman') h += '<span class="chip wqb">Woman QB only</span>';
     if (play.sides) h += '<span class="chip">Right or Left</span>';
     return h;
@@ -734,7 +765,6 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
       txt.innerHTML = '<span class="name"></span><span class="tag"></span><span class="chips">' + chipsHtml(play) + '</span>';
       txt.querySelector('.name').textContent = play.name;
       txt.querySelector('.tag').textContent = play.tag;
-      txt.querySelector('.chip.down').textContent = play.down;
       b.appendChild(txt);
       var go = document.createElement('span'); go.className = 'go'; go.textContent = '›'; go.setAttribute('aria-hidden', 'true');
       b.appendChild(go);
@@ -778,7 +808,6 @@ h1 { font-family: var(--font-display); font-weight: 400; font-size: 40px; line-h
     $('home').hidden = true; $('play').hidden = false; $('pager').hidden = false;
     $('count').textContent = 'Play ' + (i + 1) + ' of ' + PLAYS.length;
     $('p-chips').innerHTML = chipsHtml(play);
-    $('p-chips').querySelector('.chip.down').textContent = play.down;
     if (play.options) setOption(play, 0);
     $('p-name').textContent = title(play);
     $('p-tag').textContent = play.tag;
