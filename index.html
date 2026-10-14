@@ -191,7 +191,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 <main class="wrap" id="home">
   <p class="eyebrow">Coed 8 v 8 Flag</p>
   <h1>The Playbook</h1>
-  <p class="lede">6 plays. Tap one to watch how it works.</p>
+  <p class="lede">7 plays. Tap one to watch how it works.</p>
 
   <div class="section-h"><h2>Pass plays</h2></div>
   <div class="cards" id="pass-cards"></div>
@@ -216,7 +216,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     <ul class="rules">
       <li><span class="ic">4</span><div><b>4 women on the field. Always.</b></div></li>
       <li><span class="ic">W</span><div><b>Only women can run the ball.</b><span>Guys can only run after catching a pass.</span></div></li>
-      <li><span class="ic">2×</span><div><b>No guy-to-guy pass twice in a row.</b><span>If it just happened, the next pass must go to a woman (a yellow dot). Bubble Wrap and Fireworks always do.</span></div></li>
+      <li><span class="ic">2×</span><div><b>No guy-to-guy pass twice in a row.</b><span>If it just happened, the next pass must go to a woman (a yellow dot). Bubble Wrap, Fireworks and Sandwich always do.</span></div></li>
       <li><span class="ic">9</span><div><b>Woman scores or throws a TD = 9 points.</b><span>A normal TD is 6.</span></div></li>
     </ul>
   </div>
@@ -288,7 +288,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
   // start: when the player starts moving (seconds). Default is just after the snap.
   var PLAYS = [
     {
-      id: 'bubble-wrap', name: 'Bubble Wrap', type: 'pass', qb: 'any',
+      id: 'bubble-wrap', name: 'Bubble Wrap', type: 'pass', qb: 'any', women: true,
       tag: 'Quick short pass to the RB, with 2 WRs blocking in front of her.',
       when: 'The defense rushes hard or plays far back. Always legal, because both options are women.',
       setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
@@ -352,7 +352,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       steps: [[0, 'Get set.'], [0.8, 'Hike! 4 blockers protect the QB.'], [1.0, 'Two slants and a drag.']]
     },
     {
-      id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
+      id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any', women: true,
       tag: 'Three WRs run deep. The RB blocks first, then pops out. The QB has 3 options.',
       when: 'You want a big play, or the defense is crowding the line. All 3 options are women, so a TD is worth 9.',
       setup: 'The outside left WR lines up next to the Center. He is a lineman (L) and blocks.',
@@ -384,6 +384,33 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       ],
       pops: [{ t: 1.15, at: 'B', text: 'BLOCK', dx: 48, dy: -30 }, { t: 2.05, at: 'B', text: 'POP OUT', dx: 0, dy: 30 }],
       steps: [[0, 'Get set.'], [0.8, 'Hike! 4 blockers protect the QB.'], [1.15, 'Three WRs run deep. The RB blocks first.'], [2.05, 'No rush coming? The RB pops out short.']]
+    },
+    {
+      id: 'sandwich', name: 'Sandwich', type: 'pass', qb: 'any', women: true,
+      tag: 'Two women run slants, one short and one deep. The QB throws to the open one.',
+      when: 'You need a pass to a woman, like right after a guy-to-guy catch. Both options are women, so it\'s always legal.',
+      snap: 0.8,
+      players: {
+        LS: { p: [[105, 230], [180, 206], [215, 198]] },
+        RS: { p: [[258, 168], [175, 115], [140, 98]], speed: 75 },
+        LW: { p: [[40, 40]], speed: 78 },
+        RW: { p: [[320, 40]], speed: 78 },
+        B:  { p: [[210, 288]] },
+        RL: { p: [[218, 248]] },
+        C:  { p: [[180, 248]] },
+        QB: { p: [[180, 308]] }
+      },
+      options: [
+        { to: 'LS', t: 1.45, f: 0.4, what: 'Short slant' },
+        { to: 'RS', t: 2.3, f: 0.55, what: 'Deep slant' }
+      ],
+      jobs: [
+        ['QB', 'Look at option 1 first. Covered? Throw to option 2. Throw it fast.'],
+        ['LS', 'Take 3 steps, then cut in toward the middle. Stay short.'],
+        ['RS', 'Take 8 steps, then cut in toward the middle, deeper than option 1.'],
+        ['ALL', 'Outside WRs: sprint deep and take your defender with you, away from the middle. Center, right lineman and RB: block the rushers. Hands behind your back.']
+      ],
+      steps: [[0, 'Get set.'], [0.8, 'Hike! 3 blockers protect the QB.'], [1.0, 'Two slants: one short, one deep. The outside WRs clear out.']]
     },
     {
       id: 'slingshot', name: 'Slingshot', type: 'run', qb: 'any',
@@ -751,6 +778,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
   function chipsHtml(play) {
     var h = '';
     if (play.qb === 'woman') h += '<span class="chip wqb">Woman QB only</span>';
+    if (play.women) h += '<span class="chip wqb">Pass to a woman</span>';
     if (play.sides) h += '<span class="chip">Right or Left</span>';
     return h;
   }

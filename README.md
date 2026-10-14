@@ -19,6 +19,7 @@ Lightning is called Right or Left: that's the side with 2 WRs, and the Left vers
 | Bubble Wrap | Pass | RB Screen | 1: RB (short pass behind 2 blockers), 2: inside left WR (hitch). Both women. Center + 2 linemen block |
 | Lightning Right / Left | Pass | Twins: slant, drag, long slant. Center + 2 linemen + RB block | 1: outside left WR (quick slant), 2: inside right WR (drag, woman), 3: outside right WR (long slant) |
 | Fireworks | Pass | Verticals (3 WRs deep) | 1 and 2: inside WRs deep, 3: RB blocks first, then pops out short. All women. Center + 2 linemen block |
+| Sandwich | Pass | High-low slants | 1: inside left WR (short slant), 2: inside right WR (deep slant). Both women. Outside WRs run deep to clear the middle. Center + right lineman + RB block |
 | Slingshot | Run | Toss Sweep | RB (woman) |
 | Zoom | Run | Jet Sweep | Inside left WR (woman), running sideways before the hike |
 | Houdini | Run | QB Bootleg | Woman QB keeps it. Center + 2 linemen block; inside left WR runs deep, then blocks |
@@ -27,7 +28,7 @@ Lightning is called Right or Left: that's the side with 2 WRs, and the Left vers
 
 - 8 players: at least 4 women, at most 4 men. The lineup has 4 women and 3 men plus the QB, so it's legal with a man or a woman at QB.
 - Men can't run the ball across the line. Every run play goes to a woman.
-- No two man-to-man completions in a row. Bubble Wrap and Fireworks always go to a woman.
+- No two man-to-man completions in a row. Bubble Wrap, Fireworks and Sandwich always go to a woman (they're marked "Pass to a woman").
 - A woman throwing or scoring a touchdown is worth 9 points.
 - Only one player can be moving before the hike, and only sideways (Zoom).
 - The defense can rush the QB right at the hike, and usually does. Every pass play keeps at least 2 blockers in, and the run plays get the ball out of the QB's hands right away.
