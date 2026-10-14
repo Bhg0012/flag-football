@@ -234,7 +234,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     <p id="p-tag"></p>
   </div>
   <div class="side" id="p-side" hidden>
-    <p>Call it <b>Right</b> or <b>Left</b>. That's the side with 2 WRs.</p>
+    <p>Call it <b>Right</b> or <b>Left</b>. That's the side with 3 WRs.</p>
     <div class="seg">
       <button type="button" data-side="right">Right</button>
       <button type="button" data-side="left">Left</button>
@@ -320,36 +320,38 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     },
     {
       id: 'lightning', name: 'Lightning', type: 'pass', qb: 'any', sides: true,
-      tag: '4 blockers. Two slants and a drag. The QB has 3 options.',
-      when: 'The defense is rushing hard. 4 blockers give the QB time. If the last pass was guy-to-guy, throw to option 2.',
-      setup: 'The inside left WR lines up next to the Center. She is a lineman (L) and blocks.',
-      form: { LS: [140, 258] },
-      labels: { LS: 'L' },
-      names: { LS: 'Left lineman' },
+      tag: 'Three WRs on one side. Two slants, a drag and a quick stop. The QB has 4 options.',
+      when: 'You want a quick throw. If the last pass was guy-to-guy, throw to option 2 or 3.',
+      setup: 'The inside left WR lines up next to the Center. She is a lineman (L) and blocks. The RB lines up as a WR on the right, between the other two WRs.',
+      form: { LS: [140, 258], B: [289, 272] },
+      labels: { LS: 'L', B: 'WR' },
+      names: { LS: 'Left lineman', B: 'Middle right WR' },
       snap: 0.8,
       players: {
         LW: { p: [[40, 222], [115, 165], [140, 120]] },
+        B:  { p: [[289, 212], [289, 220]] },
         RS: { p: [[240, 210], [100, 205], [50, 205]] },
         RW: { p: [[320, 175], [230, 110], [200, 70]], speed: 75 },
         LS: { p: [[140, 248]] },
-        B:  { p: [[210, 288]] },
         RL: { p: [[218, 248]] },
         C:  { p: [[180, 248]] },
         QB: { p: [[180, 308]] }
       },
       options: [
         { to: 'LW', t: 1.45, f: 0.4, what: 'Quick slant' },
+        { to: 'B', t: 1.65, f: 0.4, what: '5 steps, then turns around' },
         { to: 'RS', t: 1.9, f: 0.45, what: 'Runs across the field' },
         { to: 'RW', t: 2.3, f: 0.55, what: 'Long slant' }
       ],
       jobs: [
-        ['QB', 'Look at option 1, then 2, then 3. Throw to the first one that\'s open.'],
+        ['QB', 'Look at option 1, then 2, 3 and 4. Throw to the first one that\'s open.'],
         ['LW', 'Take 3 steps, then cut in toward the middle.'],
+        ['B', 'Take 5 steps, stop, turn around.'],
         ['RS', 'Take 4 steps, then run across the field.'],
         ['RW', 'Take 8 steps, then cut in toward the middle.'],
-        ['ALL', 'Linemen, Center and RB: stand in front of the rushers. Hands behind your back.']
+        ['ALL', 'Linemen and Center: stand in front of the rushers. Hands behind your back.']
       ],
-      steps: [[0, 'Get set.'], [0.8, 'Hike! 4 blockers protect the QB.'], [1.0, 'Two slants and a drag.']]
+      steps: [[0, 'Get set.'], [0.8, 'Hike! 3 blockers protect the QB.'], [1.0, 'Two slants, a drag and a quick stop.']]
     },
     {
       id: 'fireworks', name: 'Fireworks', type: 'pass', qb: 'any',
