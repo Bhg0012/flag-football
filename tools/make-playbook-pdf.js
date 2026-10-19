@@ -21,7 +21,7 @@ const SPECIAL = {
   'emily-sandwich': { tags: ['Pass to a woman'], lines: ['Lineup: RB plays L'] },
   'slingshot': { tags: ['Toss'], lines: [] },
   'zoom': { tags: ['Motion'], lines: ['Motion: WR runs sideways behind the line before the hike.'] },
-  'houdini': { tags: ['Fake handoff'], lines: ['Lineup: outside left WR plays L', 'Fake handoff to the RB. QB keeps it and runs left.'] },
+  'houdini': { tags: ['Fake'], lines: ['Lineup: outside left WR plays L', 'Fake to the RB. QB keeps it and runs left.'] },
   'emily-squared': { tags: ['Handoff'], lines: ['Lineup: inside left WR lines up behind the RB'] }
 };
 
@@ -31,17 +31,14 @@ function render(args) {
   const NS = 'http://www.w3.org/2000/svg';
   const INK = '#0C2340';
   // Colors by role, not by gender: receivers and RBs, linemen and Center, QB.
-  const FILL = { skill: '#FFC93C', line: '#B7C1CC', qb: '#FFFFFF', womanQb: '#A66BE0' };
+  const FILL = { skill: '#FFC93C', line: '#B7C1CC', qb: '#FFFFFF', wqb: '#A66BE0' };
   // Squeeze the depth a little so the field is wider than tall and fills a landscape box.
   const DEPTH = 0.56;
   const Y = y => (y < P.LOS ? P.LOS - (P.LOS - y) * DEPTH : y);
   const XY = p => [p[0], Y(p[1])];
   const TOP = Y(32), BOTTOM = 342;
-  function role(play, k) {
-    if (k === 'QB') return play.qb === 'woman' ? 'womanQb' : 'qb';
-    const lb = (play.labels && play.labels[k]) || P.POS[k].label;
-    return lb === 'C' || lb === 'L' ? 'line' : 'skill';
-  }
+  // Same position colors as the app; purple ('wqb') = this spot must be a woman.
+  const role = (play, k) => P.role(play, k);
 
   function el(name, attrs, parent) {
     const n = document.createElementNS(NS, name);
@@ -109,8 +106,8 @@ function render(args) {
       el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: '#6B7785', 'stroke-width': 2.5, 'stroke-dasharray': '1 5', 'stroke-linecap': 'round' }, extras);
       // Label sits right under the QB, who is the one faking.
       const tag = el('g', { transform: 'translate(' + a[0] + ' ' + (a[1] + 29) + ')' }, over);
-      el('rect', { x: -50, y: -9, width: 100, height: 18, rx: 9, fill: '#FFFFFF', stroke: INK, 'stroke-width': 1.5 }, tag);
-      label(tag, 0, 4, 'FAKE HANDOFF', INK);
+      el('rect', { x: -24, y: -9, width: 48, height: 18, rx: 9, fill: '#FFFFFF', stroke: INK, 'stroke-width': 1.5 }, tag);
+      label(tag, 0, 4, 'FAKE', INK);
     });
 
     P.DRAW.forEach(k => {
@@ -146,7 +143,7 @@ function render(args) {
       const grp = el('g', { transform: 'translate(' + s[0] + ' ' + s[1] + ')' }, dots);
       el('circle', { r: 15, fill: FILL[r], stroke: INK, 'stroke-width': 2 }, grp);
       const lb = (play.labels && play.labels[k]) || P.POS[k].label;
-      const t = el('text', { 'text-anchor': 'middle', y: lb.length > 1 ? 4.5 : 5.5, 'font-size': lb.length > 1 ? 12 : 15, 'font-weight': 800, fill: r === 'womanQb' ? '#FFFFFF' : INK, 'font-family': 'Archivo, sans-serif' }, grp);
+      const t = el('text', { 'text-anchor': 'middle', y: lb.length > 1 ? 4.5 : 5.5, 'font-size': lb.length > 1 ? 12 : 15, 'font-weight': 800, fill: r === 'wqb' ? '#FFFFFF' : INK, 'font-family': 'Archivo, sans-serif' }, grp);
       t.textContent = lb;
       const oi = P.optIndex(play, k);
       if (oi >= 0) {
@@ -188,7 +185,7 @@ function render(args) {
     const plays = P.PLAYS.filter(p => p.type === type).slice(0, 4);
     const legend = h('div', 'legend');
     const keys = [['skill', 'WR / RB'], ['line', 'C / L (line)'], ['qb', 'QB']];
-    if (plays.some(p => p.qb === 'woman')) keys.push(['womanQb', 'Woman QB']);
+    if (plays.some(p => P.DRAW.some(k => role(p, k) === 'wqb'))) keys.push(['wqb', 'Must be a woman']);
     keys.forEach(([r, t]) => {
       const it = h('span');
       const sw = h('i', 'sw');
@@ -233,7 +230,7 @@ function render(args) {
     .tags { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.05in; }
     .tag { font-size: 9pt; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.03in 0.09in; border-radius: 999px; border: 1.5px solid ${INK}; white-space: nowrap; }
     .tag.pass { background: ${INK}; color: #fff; } .tag.run { background: ${INK}; color: #fff; }
-    .tag.wqb { background: ${FILL.womanQb}; border-color: ${FILL.womanQb}; color: #fff; }
+    .tag.wqb { background: ${FILL.wqb}; border-color: ${FILL.wqb}; color: #fff; }
     .diagram { flex: 1; min-height: 0; margin-top: 0.06in; }
     .diagram svg { width: 100%; height: 100%; display: block; }
     .notes { margin-top: 0.04in; font-size: 10.5pt; font-weight: 700; line-height: 1.25; }

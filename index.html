@@ -208,7 +208,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       <span><i class="sw skill"></i>WR / RB</span>
       <span><i class="sw line"></i>C / L (line)</span>
       <span><i class="sw qb"></i>QB</span>
-      <span><i class="sw wqb"></i>Woman QB</span>
+      <span><i class="sw wqb"></i>Must be a woman</span>
     </div>
     <ul class="spots" id="spots"></ul>
   </div>
@@ -390,7 +390,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       steps: [[0, 'Get set.'], [0.8, 'Hike! 4 blockers protect the QB.'], [1.15, 'Three WRs run deep. The RB blocks first.'], [2.05, 'No rush coming? The RB pops out short.']]
     },
     {
-      id: 'emily-sandwich', name: 'Emily Sandwich', type: 'pass', qb: 'any', women: true,
+      id: 'emily-sandwich', name: 'Emily Sandwich', type: 'pass', qb: 'any', women: true, mustBeWoman: ['LS', 'RS'],
       tag: 'Two women run slants, one short and one deep. The QB throws to the open one.',
       when: 'You need a pass to a woman, like right after a guy-to-guy catch. Both options are women, so it\'s always legal.',
       setup: 'The RB lines up next to the Center, on the left. She is a lineman (L) and blocks.',
@@ -560,8 +560,17 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     return POS[key].g;
   }
   // Dots are colored by position, not gender: WR/RB, line (C and L), QB, or a woman-only QB.
+  // Purple ('wqb') marks a spot that must be a woman: a woman-only QB, anyone carrying the ball on a run
+  // (only women can run it past the line), or spots a play lists in mustBeWoman.
+  function mustBeWoman(play, key) {
+    if (key === 'QB' && play.qb === 'woman') return true;
+    if (play.mustBeWoman && play.mustBeWoman.indexOf(key) >= 0) return true;
+    var pl = play.players && play.players[key];
+    return play.type === 'run' && !!pl && pl.kind === 'ball';
+  }
   function role(play, key) {
-    if (key === 'QB') return play.qb === 'woman' ? 'wqb' : 'qb';
+    if (mustBeWoman(play, key)) return 'wqb';
+    if (key === 'QB') return 'qb';
     var lb = (play.labels && play.labels[key]) || POS[key].label;
     return lb === 'C' || lb === 'L' ? 'line' : 'skill';
   }
@@ -1003,7 +1012,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 
   // Read-only hooks for tools/make-playbook-pdf.js, which draws the printable play sheets from this same data.
   window.Playbook = { POS: POS, PLAYS: PLAYS, DRAW: DRAW, LOS: LOS, VW: VW, home: home, pts: pts, gender: gender,
-    optIndex: optIndex, isBold: isBold, posAt: posAt, nameOf: nameOf, title: title };
+    optIndex: optIndex, isBold: isBold, posAt: posAt, nameOf: nameOf, title: title, role: role };
 
   buildHome();
   route();
