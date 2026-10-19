@@ -21,7 +21,7 @@ const SPECIAL = {
   'emily-sandwich': { tags: ['Pass to a woman'], lines: ['Lineup: RB plays L'] },
   'slingshot': { tags: ['Toss'], lines: [] },
   'zoom': { tags: ['Motion'], lines: ['Motion: WR runs sideways behind the line before the hike.'] },
-  'houdini': { tags: ['Fake'], lines: ['Lineup: outside left WR plays L', 'Fake the toss right. QB keeps it and runs left.'] },
+  'houdini': { tags: ['Fake handoff'], lines: ['Lineup: outside left WR plays L', 'Fake handoff to the RB. QB keeps it and runs left.'] },
   'emily-squared': { tags: ['Handoff'], lines: ['Lineup: inside left WR lines up behind the RB'] }
 };
 
@@ -36,7 +36,7 @@ function render(args) {
   const DEPTH = 0.56;
   const Y = y => (y < P.LOS ? P.LOS - (P.LOS - y) * DEPTH : y);
   const XY = p => [p[0], Y(p[1])];
-  const TOP = Y(32), BOTTOM = 334;
+  const TOP = Y(32), BOTTOM = 342;
   function role(play, k) {
     if (k === 'QB') return play.qb === 'woman' ? 'womanQb' : 'qb';
     const lb = (play.labels && play.labels[k]) || P.POS[k].label;
@@ -107,9 +107,10 @@ function render(args) {
       if (pp.text.indexOf('FAKE') !== 0) return;
       const a = XY(P.home(play, pp.at)), b = XY(P.posAt(play, 'B', pp.t + 0.6));
       el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: '#6B7785', 'stroke-width': 2.5, 'stroke-dasharray': '1 5', 'stroke-linecap': 'round' }, extras);
-      const tag = el('g', { transform: 'translate(' + b[0] + ' ' + (b[1] - 18) + ')' }, over);
-      el('rect', { x: -24, y: -9, width: 48, height: 18, rx: 9, fill: '#FFFFFF', stroke: INK, 'stroke-width': 1.5 }, tag);
-      label(tag, 0, 4, 'FAKE', INK);
+      // Label sits right under the QB, who is the one faking.
+      const tag = el('g', { transform: 'translate(' + a[0] + ' ' + (a[1] + 29) + ')' }, over);
+      el('rect', { x: -50, y: -9, width: 100, height: 18, rx: 9, fill: '#FFFFFF', stroke: INK, 'stroke-width': 1.5 }, tag);
+      label(tag, 0, 4, 'FAKE HANDOFF', INK);
     });
 
     P.DRAW.forEach(k => {
