@@ -992,6 +992,10 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     route();
   });
 
+  // Read-only hooks for tools/make-playbook-pdf.js, which draws the printable play sheets from this same data.
+  window.Playbook = { POS: POS, PLAYS: PLAYS, DRAW: DRAW, LOS: LOS, VW: VW, home: home, pts: pts, gender: gender,
+    optIndex: optIndex, isBold: isBold, posAt: posAt, nameOf: nameOf, title: title };
+
   buildHome();
   route();
 })();
