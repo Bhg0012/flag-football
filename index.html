@@ -20,9 +20,10 @@
   --field: #2E7A3C;
   --field-2: #2A7137;
   --chalk: rgba(255,255,255,0.78);
-  --women: #FFC93C;
-  --men: #6EC1FF;
-  --qb: #FFFFFF;
+  --pos-skill: #FFC93C;
+  --pos-line: #B7C1CC;
+  --pos-qb: #FFFFFF;
+  --pos-wqb: #A66BE0;
   --dot-ink: #0C2340;
   --soft: #F4F6F2;
   --good: #1F7A45;
@@ -64,7 +65,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 12px; font-size: 14px; font-weight: 600; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .sw { width: 14px; height: 14px; border-radius: 50%; display: inline-block; border: 1.5px solid var(--dot-ink); }
-.sw.w { background: var(--women); } .sw.m { background: var(--men); } .sw.q { background: var(--qb); }
+.sw.skill { background: var(--pos-skill); } .sw.line { background: var(--pos-line); } .sw.qb { background: var(--pos-qb); } .sw.wqb { background: var(--pos-wqb); }
 
 .section-h { display: flex; align-items: baseline; justify-content: space-between; margin: 28px 0 10px; }
 .section-h h2 { font-family: var(--font-display); font-weight: 800; font-size: 24px; margin: 0; }
@@ -88,7 +89,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: var(--soft); color: var(--muted); }
-.chip.wqb { background: var(--accent); color: var(--accent-ink); }
+.chip.wqb { background: var(--pos-wqb); color: #FFFFFF; }
 
 .info { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
 .info h3 { margin: 0 0 4px; font-size: 18px; }
@@ -97,7 +98,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 .spots { display: grid; grid-template-columns: 1fr; gap: 8px; font-size: 14px; margin: 0; padding: 0; list-style: none; }
 .spots li { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .badge { flex: none; width: 30px; height: 30px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 13px; font-weight: 800; color: var(--dot-ink); border: 2px solid var(--dot-ink); }
-.badge.w { background: var(--women); } .badge.m { background: var(--men); } .badge.q { background: var(--qb); }
+.badge.skill { background: var(--pos-skill); } .badge.line { background: var(--pos-line); } .badge.qb { background: var(--pos-qb); } .badge.wqb { background: var(--pos-wqb); color: #FFFFFF; }
 .badge.all { background: var(--soft); color: var(--ink); border-color: var(--line); font-size: 10px; }
 .note { margin-top: 12px; font-size: 14px; background: var(--soft); border-radius: 10px; padding: 10px 12px; }
 
@@ -143,7 +144,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 .jobs .who em { font-style: normal; color: var(--accent); font-size: 12px; margin-left: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
 .jobs .do { font-size: 15px; color: var(--muted); }
 .jobs .badge { width: 34px; height: 34px; font-size: 15px; }
-.jobs .badge.all, .jobs .badge.q { font-size: 11px; }
+.jobs .badge.all, .jobs .badge.qb, .jobs .badge.wqb { font-size: 11px; }
 .opts { margin-top: 10px; }
 .opts-note { margin: 0 0 8px; font-size: 15px; color: var(--muted); }
 .opts-note b { color: var(--ink); }
@@ -204,9 +205,10 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     <p>WR = wide receiver. RB = running back. C = center. L = lineman (a blocker). Your spot stays the same on every play except Lightning, Bubble Wrap, Fireworks, Emily Sandwich, Houdini and Emily². 8 players: at least 4 women, at most 4 men.</p>
     <div id="lineup"></div>
     <div class="legend" aria-label="Color key">
-      <span><i class="sw w"></i>Woman</span>
-      <span><i class="sw m"></i>Man</span>
-      <span><i class="sw q"></i>QB (anyone)</span>
+      <span><i class="sw skill"></i>WR / RB</span>
+      <span><i class="sw line"></i>C / L (line)</span>
+      <span><i class="sw qb"></i>QB</span>
+      <span><i class="sw wqb"></i>Woman QB</span>
     </div>
     <ul class="spots" id="spots"></ul>
   </div>
@@ -216,7 +218,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     <ul class="rules">
       <li><span class="ic">4</span><div><b>4 women on the field. Always.</b></div></li>
       <li><span class="ic">W</span><div><b>Only women can run the ball.</b><span>Guys can only run after catching a pass.</span></div></li>
-      <li><span class="ic">2×</span><div><b>No guy-to-guy pass twice in a row.</b><span>If it just happened, the next pass must go to a woman (a yellow dot). Call Emily Sandwich.</span></div></li>
+      <li><span class="ic">2×</span><div><b>No guy-to-guy pass twice in a row.</b><span>If it just happened, the next pass must go to a woman. Call Emily Sandwich.</span></div></li>
       <li><span class="ic">9</span><div><b>Woman scores or throws a TD = 9 points.</b><span>A normal TD is 6.</span></div></li>
     </ul>
   </div>
@@ -557,7 +559,14 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     if (key === 'QB') return play.qb === 'woman' ? W : Q;
     return POS[key].g;
   }
-  function colorVar(g) { return g === W ? 'var(--women)' : g === M ? 'var(--men)' : 'var(--qb)'; }
+  // Dots are colored by position, not gender: WR/RB, line (C and L), QB, or a woman-only QB.
+  function role(play, key) {
+    if (key === 'QB') return play.qb === 'woman' ? 'wqb' : 'qb';
+    var lb = (play.labels && play.labels[key]) || POS[key].label;
+    return lb === 'C' || lb === 'L' ? 'line' : 'skill';
+  }
+  function roleColor(r) { return 'var(--pos-' + r + ')'; }
+  function roleInk(r) { return r === 'wqb' ? '#FFFFFF' : '#0C2340'; }
 
   // Precompute timing per play
   PLAYS.forEach(function (play) {
@@ -665,7 +674,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       el('polyline', { points: polyStr(p), fill: 'none', stroke: '#FFFFFF', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: 0.28 }, svg);
       return;
     }
-    var col = colorVar(gender(play, key));
+    var col = roleColor(role(play, key));
     var sw = opts.mini ? 9 : 5;
     el('polyline', { points: polyStr(p), fill: 'none', stroke: '#0C2340', 'stroke-width': sw + 4, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', opacity: 0.35 }, svg);
     el('polyline', { points: polyStr(p), fill: 'none', stroke: col, 'stroke-width': sw, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, svg);
@@ -695,18 +704,18 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     }
     var refs = { svg: svg, players: {}, trails: {}, rings: {} };
     DRAW.forEach(function (k) {
-      var g = gender(play, k);
+      var g = role(play, k);
       var h = home(play, k), s = { x: h[0], y: h[1] };
       if (!opts.mini && isBold(play, k)) {
-        refs.trails[k] = el('polyline', { points: polyStr(pts(play, k)), fill: 'none', stroke: colorVar(g), 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: 0.55, 'stroke-dasharray': '0 99999' }, trails);
+        refs.trails[k] = el('polyline', { points: polyStr(pts(play, k)), fill: 'none', stroke: roleColor(g), 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: 0.55, 'stroke-dasharray': '0 99999' }, trails);
       }
       var grp = el('g', { transform: 'translate(' + s.x + ' ' + s.y + ')' }, dots);
       var r = opts.mini ? 17 : 14;
       if (!opts.mini && isBold(play, k)) refs.rings[k] = el('circle', { r: r + 5, fill: 'none', stroke: '#FFFFFF', 'stroke-width': 3 }, grp);
-      el('circle', { r: r, fill: colorVar(g), stroke: '#0C2340', 'stroke-width': opts.mini ? 3 : 2 }, grp);
+      el('circle', { r: r, fill: roleColor(g), stroke: '#0C2340', 'stroke-width': opts.mini ? 3 : 2 }, grp);
       if (!opts.mini) {
         var lb = (play.labels && play.labels[k]) || POS[k].label;
-        var lt = tx({ 'text-anchor': 'middle', y: lb.length > 1 ? 4 : 5, 'font-size': lb.length > 1 ? 11 : 15, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
+        var lt = tx({ 'text-anchor': 'middle', y: lb.length > 1 ? 4 : 5, 'font-size': lb.length > 1 ? 11 : 15, 'font-weight': 800, fill: roleInk(g), 'font-family': 'Archivo, sans-serif' }, grp);
         lt.textContent = lb;
         var oi = optIndex(play, k);
         if (oi >= 0) {
@@ -844,9 +853,9 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     var arrow = el('text', { x: 10, y: 228, fill: 'var(--chalk)', 'font-size': 11, 'font-weight': 800, 'font-family': 'Archivo, sans-serif' }, svg);
     arrow.textContent = '↑ ATTACKING THIS WAY';
     DRAW.forEach(function (k) {
-      var s = POS[k], g = gender(lp, k);
+      var s = POS[k], g = role(lp, k);
       var grp = el('g', { transform: 'translate(' + s.x + ' ' + s.y + ')' }, svg);
-      el('circle', { r: 15, fill: colorVar(g), stroke: '#0C2340', 'stroke-width': 2 }, grp);
+      el('circle', { r: 15, fill: roleColor(g), stroke: '#0C2340', 'stroke-width': 2 }, grp);
       var lb = POS[k].label;
       var tx = el('text', { 'text-anchor': 'middle', y: lb.length > 1 ? 4 : 5.5, 'font-size': lb.length > 1 ? 11 : 16, 'font-weight': 800, fill: '#0C2340', 'font-family': 'Archivo, sans-serif' }, grp);
       tx.textContent = lb;
@@ -854,7 +863,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     $('lineup').appendChild(svg);
     var ul = $('spots');
     ORDER.forEach(function (k) {
-      var g = gender(lp, k);
+      var g = role(lp, k);
       var li = document.createElement('li');
       li.innerHTML = '<span class="badge ' + g + '">' + POS[k].label + '</span><span><b></b> <span></span></span>';
       li.querySelector('b').textContent = POS[k].name;
@@ -916,7 +925,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       var li = document.createElement('li');
       var oi = all ? -1 : optIndex(play, k);
       if (pl.kind === 'ball' || oi >= 0) li.className = 'star';
-      li.innerHTML = '<span class="badge ' + (all ? 'all' : gender(play, k)) + '">' + (all ? 'ALL' : (play.labels && play.labels[k]) || POS[k].label) + '</span><div><div class="who"></div><div class="do"></div></div>';
+      li.innerHTML = '<span class="badge ' + (all ? 'all' : role(play, k)) + '">' + (all ? 'ALL' : (play.labels && play.labels[k]) || POS[k].label) + '</span><div><div class="who"></div><div class="do"></div></div>';
       var who = li.querySelector('.who');
       who.textContent = all ? 'Everyone else' : nameOf(play, k);
       if (pl.kind === 'ball' || oi >= 0) { var em = document.createElement('em'); em.textContent = oi >= 0 ? 'option ' + (oi + 1) : 'gets the ball'; who.appendChild(em); }
@@ -991,6 +1000,10 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     cameFromHome = current === -1 && location.hash.length > 1;
     route();
   });
+
+  // Read-only hooks for tools/make-playbook-pdf.js, which draws the printable play sheets from this same data.
+  window.Playbook = { POS: POS, PLAYS: PLAYS, DRAW: DRAW, LOS: LOS, VW: VW, home: home, pts: pts, gender: gender,
+    optIndex: optIndex, isBold: isBold, posAt: posAt, nameOf: nameOf, title: title };
 
   buildHome();
   route();
