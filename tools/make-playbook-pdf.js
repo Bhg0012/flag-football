@@ -14,16 +14,16 @@ const { chromium } = require(playwrightPath);
 const ROOT = path.join(__dirname, '..');
 const APP_URL = 'https://claude.ai/artifact/PCzQrtL9SHw2UAFQ9rsC2y';
 
-// What makes each play different from "run your route, QB throws to whoever is open".
+// Words only where the picture can't say it: lineup changes, motion, fakes, calls.
 const SPECIAL = {
-  'bubble-wrap': { tags: [], note: 'QB throws it fast. The two right-side WRs block for the RB.' },
-  'lightning': { tags: ['Right or Left'], note: 'Call "Lightning Right" or "Lightning Left": the side with 3 WRs. Left is the mirror image of this picture.' },
-  'fireworks': { tags: ['Block, then pop out'], note: 'RB blocks first ("one-Mississippi, two"). Nobody rushing her? She pops out short as option 3.' },
-  'emily-sandwich': { tags: ['Pass to a woman'], note: 'Call it right after a guy-to-guy catch. Both options are women.' },
-  'slingshot': { tags: ['Toss'], note: 'QB tosses it underhand to the RB right away.' },
-  'zoom': { tags: ['Motion'], note: 'Before the hike, the inside left WR runs sideways behind the line. Hike when she reaches the QB, then hand it to her on the run.' },
-  'houdini': { tags: ['Fake'], note: 'QB fakes the toss right, keeps the ball and runs left. Guys can\'t run past the line, so a woman must play QB.' },
-  'emily-squared': { tags: ['Handoff', 'Lead blocker'], note: 'QB hands it to the back RB. The front RB runs ahead and blocks for her.' }
+  'bubble-wrap': { tags: [], lines: ['Lineup: outside left WR plays L'] },
+  'lightning': { tags: ['Right or Left'], lines: ['Lineup: inside left WR plays L, RB plays WR', 'Call Right or Left = side with 3 WRs. Left is the mirror image.'] },
+  'fireworks': { tags: ['Block, then pop out'], lines: ['Lineup: outside left WR plays L', 'RB blocks first, then pops out short.'] },
+  'emily-sandwich': { tags: ['Pass to a woman'], lines: ['Lineup: RB plays L'] },
+  'slingshot': { tags: ['Toss'], lines: [] },
+  'zoom': { tags: ['Motion'], lines: ['Motion: WR runs sideways behind the line before the hike.'] },
+  'houdini': { tags: ['Fake'], lines: ['Lineup: outside left WR plays L', 'Fake the toss right. QB keeps it and runs left.'] },
+  'emily-squared': { tags: ['Handoff'], lines: ['Lineup: inside left WR lines up behind the RB'] }
 };
 
 function render(args) {
@@ -31,7 +31,18 @@ function render(args) {
   const P = window.Playbook;
   const NS = 'http://www.w3.org/2000/svg';
   const INK = '#0C2340';
-  const FILL = { w: '#FFC93C', m: '#6EC1FF', q: '#FFFFFF' };
+  // Colors by role, not by gender: receivers and RBs, linemen and Center, QB.
+  const FILL = { skill: '#FFC93C', line: '#B7C1CC', qb: '#FFFFFF', womanQb: '#A66BE0' };
+  // Squeeze the depth a little so the field is wider than tall and fills a landscape box.
+  const DEPTH = 0.56;
+  const Y = y => (y < P.LOS ? P.LOS - (P.LOS - y) * DEPTH : y);
+  const XY = p => [p[0], Y(p[1])];
+  const TOP = Y(32), BOTTOM = 334;
+  function role(play, k) {
+    if (k === 'QB') return play.qb === 'woman' ? 'womanQb' : 'qb';
+    const lb = (play.labels && play.labels[k]) || P.POS[k].label;
+    return lb === 'C' || lb === 'L' ? 'line' : 'skill';
+  }
 
   function el(name, attrs, parent) {
     const n = document.createElementNS(NS, name);
@@ -72,12 +83,13 @@ function render(args) {
   }
 
   function diagram(play) {
-    const svg = el('svg', { viewBox: '0 28 360 314', preserveAspectRatio: 'xMidYMid meet' });
-    el('rect', { x: 0, y: 28, width: 360, height: 314, fill: '#FFFFFF' }, svg);
-    for (let y = P.LOS - 250; y < 345; y += 50) {
-      if (((y - P.LOS) / 50) % 2 === 0) el('rect', { x: 0, y: y, width: 360, height: 50, fill: '#F1F5F0' }, svg);
+    const svg = el('svg', { viewBox: '0 ' + TOP + ' 360 ' + (BOTTOM - TOP), preserveAspectRatio: 'xMidYMid meet' });
+    el('rect', { x: 0, y: TOP, width: 360, height: BOTTOM - TOP, fill: '#FFFFFF' }, svg);
+    for (let i = -2; i <= 4; i++) {
+      const y0 = Y(P.LOS - (i + 1) * 50), y1 = Y(P.LOS - i * 50);
+      if (i % 2 === 0) el('rect', { x: 0, y: y0, width: 360, height: y1 - y0, fill: '#F1F5F0' }, svg);
     }
-    for (let i = 1; i <= 4; i++) el('line', { x1: 0, x2: 360, y1: P.LOS - i * 50, y2: P.LOS - i * 50, stroke: '#D5DCD3', 'stroke-width': 1 }, svg);
+    for (let i = 1; i <= 4; i++) el('line', { x1: 0, x2: 360, y1: Y(P.LOS - i * 50), y2: Y(P.LOS - i * 50), stroke: '#D5DCD3', 'stroke-width': 1 }, svg);
     el('line', { x1: 0, x2: 360, y1: P.LOS, y2: P.LOS, stroke: '#2B6CB0', 'stroke-width': 2.5 }, svg);
 
     const routes = el('g', {}, svg);
@@ -87,13 +99,13 @@ function render(args) {
     // Ball handoffs and tosses (run plays): a dotted line from the QB to where the carrier gets it.
     (play.options ? [] : play.events || []).forEach(e => {
       if (e.to === 'QB') return;
-      const a = P.posAt(play, 'QB', e.t), b = P.posAt(play, e.to, e.t + e.f);
+      const a = XY(P.posAt(play, 'QB', e.t)), b = XY(P.posAt(play, e.to, e.t + e.f));
       el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: '#8B4A1F', 'stroke-width': 2.5, 'stroke-dasharray': '1 5', 'stroke-linecap': 'round' }, extras);
     });
     // Fakes: a dotted gray line from the QB toward the player being faked to.
     (play.pops || []).forEach(pp => {
       if (pp.text.indexOf('FAKE') !== 0) return;
-      const a = P.home(play, pp.at), b = P.posAt(play, 'B', pp.t + 0.35);
+      const a = XY(P.home(play, pp.at)), b = XY(P.posAt(play, 'B', pp.t + 0.35));
       el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: '#6B7785', 'stroke-width': 2, 'stroke-dasharray': '1 5', 'stroke-linecap': 'round' }, extras);
       label(extras, (a[0] + b[0]) / 2 + 4, (a[1] + b[1]) / 2 + 20, 'FAKE', '#6B7785');
     });
@@ -101,41 +113,41 @@ function render(args) {
     P.DRAW.forEach(k => {
       const pl = play.players[k];
       if (!pl || !pl.p) return;
-      const pts = P.pts(play, k);
+      const pts = P.pts(play, k).map(XY);
       const a = pts[pts.length - 2], b = pts[pts.length - 1];
       const bold = P.isBold(play, k);
       if (bold) {
-        el('polyline', { points: poly(pts), fill: 'none', stroke: INK, 'stroke-width': 3.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, routes);
-        arrow(routes, a, b, INK, 11);
+        el('polyline', { points: poly(pts), fill: 'none', stroke: INK, 'stroke-width': 4, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, routes);
+        arrow(routes, a, b, INK, 12);
         if (pl.hold) {
           // Blocks first at this spot, then releases.
           const hp = pts[pl.hold[0] + 1], prev = pts[pl.hold[0]];
-          tBar(routes, prev, hp, INK, 3.5);
+          tBar(routes, prev, hp, INK, 4);
         }
       } else if (lengthOf(pts) < 60) {
-        el('polyline', { points: poly(pts), fill: 'none', stroke: '#6B7785', 'stroke-width': 2, 'stroke-linecap': 'round' }, routes);
-        tBar(routes, a, b, '#6B7785', 2.5);
+        el('polyline', { points: poly(pts), fill: 'none', stroke: '#6B7785', 'stroke-width': 2.5, 'stroke-linecap': 'round' }, routes);
+        tBar(routes, a, b, '#6B7785', 3);
       } else {
-        el('polyline', { points: poly(pts), fill: 'none', stroke: '#8F9AA6', 'stroke-width': 1.8, 'stroke-dasharray': '6 4', 'stroke-linejoin': 'round' }, routes);
-        arrow(routes, a, b, '#8F9AA6', 8);
+        el('polyline', { points: poly(pts), fill: 'none', stroke: '#8F9AA6', 'stroke-width': 2.2, 'stroke-dasharray': '7 5', 'stroke-linejoin': 'round' }, routes);
+        arrow(routes, a, b, '#8F9AA6', 9);
       }
       if (pl.start != null && pl.start < play.snap) {
-        const s = P.home(play, k);
-        label(extras, s[0], s[1] + 28, 'MOTION', INK);
+        const s = XY(P.home(play, k));
+        label(extras, s[0], s[1] + 30, 'MOTION', INK);
       }
     });
 
     P.DRAW.forEach(k => {
-      const s = P.home(play, k), g = P.gender(play, k);
+      const s = XY(P.home(play, k)), r = role(play, k);
       const grp = el('g', { transform: 'translate(' + s[0] + ' ' + s[1] + ')' }, dots);
-      el('circle', { r: 14, fill: FILL[g], stroke: INK, 'stroke-width': 2 }, grp);
+      el('circle', { r: 15, fill: FILL[r], stroke: INK, 'stroke-width': 2 }, grp);
       const lb = (play.labels && play.labels[k]) || P.POS[k].label;
-      const t = el('text', { 'text-anchor': 'middle', y: lb.length > 1 ? 4 : 5, 'font-size': lb.length > 1 ? 10.5 : 14, 'font-weight': 800, fill: INK, 'font-family': 'Archivo, sans-serif' }, grp);
+      const t = el('text', { 'text-anchor': 'middle', y: lb.length > 1 ? 4.5 : 5.5, 'font-size': lb.length > 1 ? 12 : 15, 'font-weight': 800, fill: r === 'womanQb' ? '#FFFFFF' : INK, 'font-family': 'Archivo, sans-serif' }, grp);
       t.textContent = lb;
       const oi = P.optIndex(play, k);
       if (oi >= 0) {
-        el('circle', { cx: 13, cy: -13, r: 9, fill: '#E87722', stroke: INK, 'stroke-width': 1.5 }, grp);
-        const n = el('text', { x: 13, y: -9, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 800, fill: '#FFFFFF', 'font-family': 'Archivo, sans-serif' }, grp);
+        el('circle', { cx: 14, cy: -14, r: 10, fill: '#E87722', stroke: INK, 'stroke-width': 1.5 }, grp);
+        const n = el('text', { x: 14, y: -9.5, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 800, fill: '#FFFFFF', 'font-family': 'Archivo, sans-serif' }, grp);
         n.textContent = oi + 1;
       }
     });
@@ -143,14 +155,13 @@ function render(args) {
   }
 
   function card(play) {
-    const sp = SPECIAL[play.id] || { tags: [], note: '' };
+    const sp = SPECIAL[play.id] || { tags: [], lines: [] };
     const c = h('section', 'card');
     const head = h('div', 'head');
     head.appendChild(h('h2', 'name', play.name));
     const tags = h('div', 'tags');
     tags.appendChild(h('span', 'tag ' + play.type, play.type === 'pass' ? 'Pass' : 'Run'));
-    if (play.qb === 'woman') tags.appendChild(h('span', 'tag warn', 'Woman QB only'));
-    if (play.setup) tags.appendChild(h('span', 'tag', 'Lineup change'));
+    if (play.qb === 'woman') tags.appendChild(h('span', 'tag wqb', 'Woman QB'));
     sp.tags.forEach(t => tags.appendChild(h('span', 'tag', t)));
     head.appendChild(tags);
     c.appendChild(head);
@@ -159,68 +170,40 @@ function render(args) {
     d.appendChild(diagram(play));
     c.appendChild(d);
 
-    const notes = h('div', 'notes');
-    if (play.setup) {
-      const p = h('p', 'setup');
-      p.appendChild(h('b', null, 'Lineup change: '));
-      p.appendChild(document.createTextNode(play.setup));
-      notes.appendChild(p);
+    if (sp.lines.length) {
+      const notes = h('div', 'notes');
+      sp.lines.forEach(t => notes.appendChild(h('p', null, t)));
+      c.appendChild(notes);
     }
-    if (play.options) {
-      const ol = h('ol', 'opts');
-      play.options.forEach((o, i) => {
-        const li = h('li');
-        li.appendChild(h('span', 'n', String(i + 1)));
-        const txt = h('span');
-        txt.appendChild(h('b', null, P.nameOf(play, o.to)));
-        txt.appendChild(document.createTextNode(': ' + o.what));
-        li.appendChild(txt);
-        ol.appendChild(li);
-      });
-      notes.appendChild(ol);
-    } else {
-      let carrier = null;
-      for (const k in play.players) if (play.players[k].kind === 'ball') carrier = k;
-      if (carrier) {
-        const p = h('p');
-        p.appendChild(h('b', null, 'Ball goes to: '));
-        p.appendChild(document.createTextNode(P.nameOf(play, carrier)));
-        notes.appendChild(p);
-      }
-    }
-    if (sp.note) notes.appendChild(h('p', 'special', sp.note));
-    c.appendChild(notes);
     return c;
   }
 
   function sheet(type, titleText) {
     const s = h('div', 'sheet');
     const top = h('header', 'top');
-    const left = h('div');
-    left.appendChild(h('p', 'eyebrow', 'Coed 8v8 Flag Playbook'));
-    left.appendChild(h('h1', null, titleText));
+    top.appendChild(h('h1', null, titleText));
     const legend = h('div', 'legend');
-    [['w', 'Woman'], ['m', 'Man'], ['q', 'QB (anyone)']].forEach(([g, t]) => {
+    [['skill', 'WR / RB'], ['line', 'C / L (line)'], ['qb', 'QB'], ['womanQb', 'Woman QB']].forEach(([r, t]) => {
       const it = h('span');
-      const sw = h('i', 'sw ' + g);
+      const sw = h('i', 'sw');
+      sw.style.background = FILL[r];
       it.appendChild(sw);
       it.appendChild(document.createTextNode(t));
       legend.appendChild(it);
     });
-    legend.appendChild(h('span', null, 'L = lineman (blocks)'));
-    legend.appendChild(h('span', null, 'Dark line = can get the ball'));
-    legend.appendChild(h('span', null, 'Orange number = QB looks here 1st, 2nd…'));
-    legend.appendChild(h('span', null, 'Gray dashes = decoy route'));
-    legend.appendChild(h('span', null, '⊥ = block'));
-    left.appendChild(legend);
-    top.appendChild(left);
+    const num = h('span');
+    num.appendChild(h('i', 'num', '1'));
+    num.appendChild(document.createTextNode('QB looks here first'));
+    legend.appendChild(num);
+    legend.appendChild(h('span', null, '⊥ block'));
+    top.appendChild(legend);
     const qr = h('div', 'qr');
     if (window.qrcode) {
       const q = window.qrcode(0, 'M');
       q.addData(APP_URL);
       q.make();
       qr.innerHTML = q.createSvgTag({ cellSize: 3, margin: 0, scalable: true });
-      qr.appendChild(h('p', null, 'Scan to watch them move'));
+      qr.appendChild(h('p', null, 'Scan to watch'));
     }
     top.appendChild(qr);
     s.appendChild(top);
@@ -231,37 +214,32 @@ function render(args) {
   }
 
   const css = `
-    @page { size: Letter; margin: 0.35in; }
+    @page { size: Letter landscape; margin: 0.3in; }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #fff; color: ${INK}; font-family: Archivo, "Helvetica Neue", Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .sheet { width: 7.8in; height: 10.3in; display: flex; flex-direction: column; gap: 0.12in; page-break-after: always; break-after: page; overflow: hidden; }
+    .sheet { width: 10.4in; height: 7.9in; display: flex; flex-direction: column; gap: 0.1in; page-break-after: always; break-after: page; overflow: hidden; }
     .sheet:last-child { page-break-after: auto; break-after: auto; }
-    .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.2in; }
-    .eyebrow { margin: 0; font-size: 9pt; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #E87722; }
-    h1 { margin: 0.02in 0 0.06in; font-family: Barlow, Archivo, sans-serif; font-weight: 800; font-size: 30pt; line-height: 1; }
-    .legend { display: flex; flex-wrap: wrap; gap: 0.04in 0.16in; font-size: 8.5pt; font-weight: 600; color: #3A4A5E; max-width: 6.2in; }
-    .legend span { display: inline-flex; align-items: center; gap: 0.05in; }
-    .sw { width: 0.13in; height: 0.13in; border-radius: 50%; border: 1.5px solid ${INK}; display: inline-block; }
-    .sw.w { background: ${FILL.w}; } .sw.m { background: ${FILL.m}; } .sw.q { background: #fff; }
-    .qr { width: 1in; text-align: center; flex: none; }
-    .qr svg { width: 0.9in; height: 0.9in; display: block; margin: 0 auto; }
-    .qr p { margin: 0.03in 0 0; font-size: 7pt; font-weight: 700; line-height: 1.2; }
+    .top { display: flex; align-items: center; gap: 0.3in; height: 0.55in; }
+    h1 { margin: 0; font-family: Barlow, Archivo, sans-serif; font-weight: 800; font-size: 28pt; line-height: 1; white-space: nowrap; }
+    .legend { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.06in 0.2in; font-size: 10pt; font-weight: 700; }
+    .legend span { display: inline-flex; align-items: center; gap: 0.06in; }
+    .sw { width: 0.18in; height: 0.18in; border-radius: 50%; border: 1.5px solid ${INK}; display: inline-block; }
+    .num { width: 0.2in; height: 0.2in; border-radius: 50%; background: #E87722; color: #fff; font-style: normal; font-weight: 800; font-size: 9pt; display: inline-grid; place-items: center; }
+    .qr { flex: none; display: flex; align-items: center; gap: 0.06in; }
+    .qr svg { width: 0.55in; height: 0.55in; display: block; }
+    .qr p { margin: 0; font-size: 8pt; font-weight: 700; width: 0.5in; line-height: 1.15; }
     .grid { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 0.14in; }
-    .card { border: 2px solid ${INK}; border-radius: 0.12in; padding: 0.1in 0.12in 0.1in; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-    .head { display: flex; flex-direction: column; gap: 0.04in; }
-    .name { margin: 0; font-family: Barlow, Archivo, sans-serif; font-weight: 800; font-size: 24pt; line-height: 1; }
-    .tags { display: flex; flex-wrap: wrap; gap: 0.04in; }
-    .tag { font-size: 7.5pt; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.02in 0.07in; border-radius: 999px; border: 1.5px solid ${INK}; }
-    .tag.pass { background: ${FILL.m}; } .tag.run { background: ${FILL.w}; }
-    .tag.warn { background: #E87722; color: #fff; border-color: #E87722; }
-    .diagram { flex: 1; min-height: 0; margin: 0.07in 0 0.05in; border: 1px solid #D5DCD3; border-radius: 0.06in; overflow: hidden; }
+    .card { border: 2px solid ${INK}; border-radius: 0.12in; padding: 0.08in 0.12in; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+    .head { display: flex; align-items: center; justify-content: space-between; gap: 0.1in; }
+    .name { margin: 0; font-family: Barlow, Archivo, sans-serif; font-weight: 800; font-size: 26pt; line-height: 1; white-space: nowrap; }
+    .tags { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.05in; }
+    .tag { font-size: 9pt; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.03in 0.09in; border-radius: 999px; border: 1.5px solid ${INK}; white-space: nowrap; }
+    .tag.pass { background: ${INK}; color: #fff; } .tag.run { background: ${INK}; color: #fff; }
+    .tag.wqb { background: ${FILL.womanQb}; border-color: ${FILL.womanQb}; color: #fff; }
+    .diagram { flex: 1; min-height: 0; margin-top: 0.06in; }
     .diagram svg { width: 100%; height: 100%; display: block; }
-    .notes { font-size: 8.5pt; line-height: 1.3; display: flex; flex-direction: column; gap: 0.04in; }
+    .notes { margin-top: 0.04in; font-size: 10.5pt; font-weight: 700; line-height: 1.25; }
     .notes p { margin: 0; }
-    .special { font-weight: 700; }
-    .opts { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.02in; }
-    .opts li { display: flex; gap: 0.05in; align-items: baseline; }
-    .opts .n { flex: none; width: 0.16in; height: 0.16in; border-radius: 50%; background: #E87722; color: #fff; font-weight: 800; font-size: 7.5pt; display: inline-grid; place-items: center; transform: translateY(0.02in); }
   `;
 
   document.title = 'Coed 8v8 Flag Playbook';
@@ -287,7 +265,7 @@ function render(args) {
   await page.evaluate(render, { SPECIAL, APP_URL });
   await page.evaluate(() => document.fonts.ready);
   const out = process.argv[2] || path.join(ROOT, 'playbook.pdf');
-  await page.pdf({ path: out, format: 'Letter', printBackground: true, preferCSSPageSize: true });
+  await page.pdf({ path: out, format: 'Letter', landscape: true, printBackground: true, preferCSSPageSize: true });
   if (process.argv[3]) await page.screenshot({ path: process.argv[3], fullPage: true });
   await browser.close();
   console.log('Wrote ' + out);
