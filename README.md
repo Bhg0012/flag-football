@@ -4,7 +4,7 @@
 
 https://claude.ai/artifact/PCzQrtL9SHw2UAFQ9rsC2y
 
-**Printable sheets:** [playbook.pdf](playbook.pdf) has two landscape letter-size pages (pass plays and run plays, 4 per page) for the sideline. To rebuild it after changing a play, run `node tools/make-playbook-pdf.js`.
+**Printable sheets:** [playbook.pdf](playbook.pdf) has two landscape letter-size pages (pass plays and run plays, 4 per page) for the sideline. Pass plays are on a blue page, run plays on an orange page. To rebuild it after changing a play, run `node tools/make-playbook-pdf.js`.
 
 A one-page, phone-friendly playbook for our coed 8v8 flag football team. Tap a play to watch it run, see the QB's options and everyone's job, and swipe to the next play.
 

@@ -12,7 +12,6 @@ const playwrightPath = process.env.PLAYWRIGHT_PATH ||
 const { chromium } = require(playwrightPath);
 
 const ROOT = path.join(__dirname, '..');
-const APP_URL = 'https://claude.ai/artifact/PCzQrtL9SHw2UAFQ9rsC2y';
 
 // Words only where the picture can't say it: lineup changes, motion, fakes, calls.
 const SPECIAL = {
@@ -27,7 +26,7 @@ const SPECIAL = {
 };
 
 function render(args) {
-  const { SPECIAL, APP_URL } = args;
+  const { SPECIAL } = args;
   const P = window.Playbook;
   const NS = 'http://www.w3.org/2000/svg';
   const INK = '#0C2340';
@@ -95,6 +94,7 @@ function render(args) {
     const routes = el('g', {}, svg);
     const extras = el('g', {}, svg);
     const dots = el('g', {}, svg);
+    const over = el('g', {}, svg);
 
     // Ball handoffs and tosses (run plays): a dotted line from the QB to where the carrier gets it.
     (play.options ? [] : play.events || []).forEach(e => {
@@ -105,14 +105,17 @@ function render(args) {
     // Fakes: a dotted gray line from the QB toward the player being faked to.
     (play.pops || []).forEach(pp => {
       if (pp.text.indexOf('FAKE') !== 0) return;
-      const a = XY(P.home(play, pp.at)), b = XY(P.posAt(play, 'B', pp.t + 0.35));
-      el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: '#6B7785', 'stroke-width': 2, 'stroke-dasharray': '1 5', 'stroke-linecap': 'round' }, extras);
-      label(extras, (a[0] + b[0]) / 2 + 4, (a[1] + b[1]) / 2 + 20, 'FAKE', '#6B7785');
+      const a = XY(P.home(play, pp.at)), b = XY(P.posAt(play, 'B', pp.t + 0.6));
+      el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: '#6B7785', 'stroke-width': 2.5, 'stroke-dasharray': '1 5', 'stroke-linecap': 'round' }, extras);
+      const tag = el('g', { transform: 'translate(' + b[0] + ' ' + (b[1] - 18) + ')' }, over);
+      el('rect', { x: -24, y: -9, width: 48, height: 18, rx: 9, fill: '#FFFFFF', stroke: INK, 'stroke-width': 1.5 }, tag);
+      label(tag, 0, 4, 'FAKE', INK);
     });
 
     P.DRAW.forEach(k => {
       const pl = play.players[k];
       if (!pl || !pl.p) return;
+      if (k === 'QB' && !P.isBold(play, k)) return;
       const pts = P.pts(play, k).map(XY);
       const a = pts[pts.length - 2], b = pts[pts.length - 1];
       const bold = P.isBold(play, k);
@@ -133,7 +136,7 @@ function render(args) {
       }
       if (pl.start != null && pl.start < play.snap) {
         const s = XY(P.home(play, k));
-        label(extras, s[0], s[1] + 30, 'MOTION', INK);
+        label(over, s[0], s[1] + 30, 'MOTION', INK);
       }
     });
 
@@ -160,7 +163,6 @@ function render(args) {
     const head = h('div', 'head');
     head.appendChild(h('h2', 'name', play.name));
     const tags = h('div', 'tags');
-    tags.appendChild(h('span', 'tag ' + play.type, play.type === 'pass' ? 'Pass' : 'Run'));
     if (play.qb === 'woman') tags.appendChild(h('span', 'tag wqb', 'Woman QB'));
     sp.tags.forEach(t => tags.appendChild(h('span', 'tag', t)));
     head.appendChild(tags);
@@ -179,11 +181,14 @@ function render(args) {
   }
 
   function sheet(type, titleText) {
-    const s = h('div', 'sheet');
+    const s = h('div', 'sheet ' + type);
     const top = h('header', 'top');
     top.appendChild(h('h1', null, titleText));
+    const plays = P.PLAYS.filter(p => p.type === type).slice(0, 4);
     const legend = h('div', 'legend');
-    [['skill', 'WR / RB'], ['line', 'C / L (line)'], ['qb', 'QB'], ['womanQb', 'Woman QB']].forEach(([r, t]) => {
+    const keys = [['skill', 'WR / RB'], ['line', 'C / L (line)'], ['qb', 'QB']];
+    if (plays.some(p => p.qb === 'woman')) keys.push(['womanQb', 'Woman QB']);
+    keys.forEach(([r, t]) => {
       const it = h('span');
       const sw = h('i', 'sw');
       sw.style.background = FILL[r];
@@ -191,24 +196,17 @@ function render(args) {
       it.appendChild(document.createTextNode(t));
       legend.appendChild(it);
     });
-    const num = h('span');
-    num.appendChild(h('i', 'num', '1'));
-    num.appendChild(document.createTextNode('QB looks here first'));
-    legend.appendChild(num);
+    if (plays.some(p => p.options)) {
+      const num = h('span');
+      num.appendChild(h('i', 'num', '1'));
+      num.appendChild(document.createTextNode('QB looks here first'));
+      legend.appendChild(num);
+    }
     legend.appendChild(h('span', null, '⊥ block'));
     top.appendChild(legend);
-    const qr = h('div', 'qr');
-    if (window.qrcode) {
-      const q = window.qrcode(0, 'M');
-      q.addData(APP_URL);
-      q.make();
-      qr.innerHTML = q.createSvgTag({ cellSize: 3, margin: 0, scalable: true });
-      qr.appendChild(h('p', null, 'Scan to watch'));
-    }
-    top.appendChild(qr);
     s.appendChild(top);
     const grid = h('div', 'grid');
-    P.PLAYS.filter(p => p.type === type).slice(0, 4).forEach(p => grid.appendChild(card(p)));
+    plays.forEach(p => grid.appendChild(card(p)));
     s.appendChild(grid);
     return s;
   }
@@ -219,17 +217,16 @@ function render(args) {
     html, body { margin: 0; padding: 0; background: #fff; color: ${INK}; font-family: Archivo, "Helvetica Neue", Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .sheet { width: 10.4in; height: 7.9in; display: flex; flex-direction: column; gap: 0.1in; page-break-after: always; break-after: page; overflow: hidden; }
     .sheet:last-child { page-break-after: auto; break-after: auto; }
-    .top { display: flex; align-items: center; gap: 0.3in; height: 0.55in; }
-    h1 { margin: 0; font-family: Barlow, Archivo, sans-serif; font-weight: 800; font-size: 28pt; line-height: 1; white-space: nowrap; }
+    .sheet.pass { --page: #1F5FAF; }
+    .sheet.run { --page: #E2650F; }
+    .top { display: flex; align-items: center; gap: 0.3in; height: 0.75in; padding: 0 0.12in 0 0.2in; border-radius: 0.12in; background: var(--page); color: #fff; }
+    h1 { margin: 0; font-family: Barlow, Archivo, sans-serif; font-weight: 800; font-size: 34pt; line-height: 1; letter-spacing: 0.02em; text-transform: uppercase; white-space: nowrap; }
     .legend { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.06in 0.2in; font-size: 10pt; font-weight: 700; }
     .legend span { display: inline-flex; align-items: center; gap: 0.06in; }
-    .sw { width: 0.18in; height: 0.18in; border-radius: 50%; border: 1.5px solid ${INK}; display: inline-block; }
-    .num { width: 0.2in; height: 0.2in; border-radius: 50%; background: #E87722; color: #fff; font-style: normal; font-weight: 800; font-size: 9pt; display: inline-grid; place-items: center; }
-    .qr { flex: none; display: flex; align-items: center; gap: 0.06in; }
-    .qr svg { width: 0.55in; height: 0.55in; display: block; }
-    .qr p { margin: 0; font-size: 8pt; font-weight: 700; width: 0.5in; line-height: 1.15; }
+    .sw { width: 0.18in; height: 0.18in; border-radius: 50%; border: 1.5px solid #fff; display: inline-block; }
+    .num { width: 0.2in; height: 0.2in; border-radius: 50%; background: #E87722; color: #fff; border: 1.5px solid #fff; font-style: normal; font-weight: 800; font-size: 9pt; display: inline-grid; place-items: center; }
     .grid { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 0.14in; }
-    .card { border: 2px solid ${INK}; border-radius: 0.12in; padding: 0.08in 0.12in; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+    .card { border: 3px solid var(--page); border-radius: 0.12in; padding: 0.08in 0.12in; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
     .head { display: flex; align-items: center; justify-content: space-between; gap: 0.1in; }
     .name { margin: 0; font-family: Barlow, Archivo, sans-serif; font-weight: 800; font-size: 26pt; line-height: 1; white-space: nowrap; }
     .tags { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.05in; }
@@ -257,12 +254,7 @@ function render(args) {
   const page = await browser.newPage();
   await page.goto('file://' + path.join(ROOT, 'index.html'));
   await page.waitForFunction(() => window.Playbook && document.fonts.ready);
-  try {
-    await page.addScriptTag({ url: 'https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js' });
-  } catch (err) {
-    console.warn('QR code library did not load; the sheets will print without a QR code.');
-  }
-  await page.evaluate(render, { SPECIAL, APP_URL });
+  await page.evaluate(render, { SPECIAL });
   await page.evaluate(() => document.fonts.ready);
   const out = process.argv[2] || path.join(ROOT, 'playbook.pdf');
   await page.pdf({ path: out, format: 'Letter', landscape: true, printBackground: true, preferCSSPageSize: true });
