@@ -19,6 +19,8 @@ const SPECIAL = {
   'lightning': { tags: ['Right or Left'], lines: ['Lineup: inside left WR plays L, RB plays WR', 'Call Right or Left = side with 3 WRs. Left is the mirror image.'] },
   'fireworks': { tags: ['Block, then pop out'], lines: ['Lineup: outside left WR plays L', 'RB blocks first, then pops out short.'] },
   'emily-sandwich': { tags: ['Pass to a woman'], lines: ['Lineup: RB plays L'] },
+  'situationship:0': { tags: ['QB2 snaps'], lines: ['Lineup: RB is QB2, inside left WR plays L', 'Hike to QB2. QB catches the bubble past the line.'] },
+  'situationship:1': { tags: ['QB snaps', 'Fake'], lines: ['Lineup: RB is QB2, inside left WR plays L', 'Hike to QB. Hand off to QB2, or fake it and throw.'] },
   'slingshot': { tags: ['Toss'], lines: [] },
   'zoom': { tags: ['Motion'], lines: ['Motion: WR runs sideways behind the line before the hike.'] },
   'houdini': { tags: ['Fake'], lines: ['Lineup: outside left WR plays L', 'Fake to the RB. QB keeps it and runs left.'] },
@@ -99,6 +101,15 @@ function render(args) {
       const a = XY(P.posAt(play, 'QB', e.t)), b = XY(P.posAt(play, e.to, e.t + e.f));
       el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: '#8B4A1F', 'stroke-width': 2.5, 'stroke-dasharray': '1 5', 'stroke-linecap': 'round' }, extras);
     });
+    // A pass play that can also be a handoff (Situationship): dotted handoff line, and a note under the QB.
+    (play.options || []).forEach(o => {
+      if (!o.run) return;
+      const a = XY(P.home(play, play.snapTo || 'QB')), b = XY(P.posAt(play, o.to, o.t + o.f));
+      el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: '#8B4A1F', 'stroke-width': 2.5, 'stroke-dasharray': '1 5', 'stroke-linecap': 'round' }, extras);
+      const tag = el('g', { transform: 'translate(' + a[0] + ' ' + (a[1] + 29) + ')' }, over);
+      el('rect', { x: -62, y: -9, width: 124, height: 18, rx: 9, fill: '#FFFFFF', stroke: INK, 'stroke-width': 1.5 }, tag);
+      label(tag, 0, 4, 'HANDOFF OR FAKE', INK);
+    });
     // Fakes: a dotted gray line from the QB toward the player being faked to.
     (play.pops || []).forEach(pp => {
       if (pp.text.indexOf('FAKE') !== 0) return;
@@ -156,7 +167,7 @@ function render(args) {
   }
 
   function card(play) {
-    const sp = SPECIAL[play.id] || { tags: [], lines: [] };
+    const sp = SPECIAL[play.id + (play.vi != null ? ':' + play.vi : '')] || { tags: [], lines: [] };
     const c = h('section', 'card');
     const head = h('div', 'head');
     head.appendChild(h('h2', 'name', play.name));
@@ -182,7 +193,8 @@ function render(args) {
     const s = h('div', 'sheet ' + type);
     const top = h('header', 'top');
     top.appendChild(h('h1', null, titleText));
-    const plays = P.PLAYS.filter(p => p.type === type).slice(0, 4);
+    // One card per play (and per way of running a play that has two). 5-6 cards go 3 across.
+    const plays = P.CARDS.filter(p => p.type === type).slice(0, 6);
     const legend = h('div', 'legend');
     const keys = [['skill', 'WR / RB'], ['line', 'C / L (line)'], ['qb', 'QB']];
     if (plays.some(p => P.DRAW.some(k => role(p, k) === 'wqb'))) keys.push(['wqb', 'Must be a woman']);
@@ -203,7 +215,7 @@ function render(args) {
     legend.appendChild(h('span', null, '⊥ block'));
     top.appendChild(legend);
     s.appendChild(top);
-    const grid = h('div', 'grid');
+    const grid = h('div', 'grid' + (plays.length > 4 ? ' three' : ''));
     plays.forEach(p => grid.appendChild(card(p)));
     s.appendChild(grid);
     return s;
@@ -224,6 +236,12 @@ function render(args) {
     .sw { width: 0.18in; height: 0.18in; border-radius: 50%; border: 1.5px solid #fff; display: inline-block; }
     .num { width: 0.2in; height: 0.2in; border-radius: 50%; background: #E87722; color: #fff; border: 1.5px solid #fff; font-style: normal; font-weight: 800; font-size: 9pt; display: inline-grid; place-items: center; }
     .grid { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 0.14in; }
+    .grid.three { grid-template-columns: 1fr 1fr 1fr; gap: 0.12in; }
+    .grid.three .name { font-size: 21pt; }
+    .grid.three .head { flex-direction: column; align-items: flex-start; gap: 0.04in; }
+    .grid.three .tags { justify-content: flex-start; }
+    .grid.three .tag { font-size: 8pt; }
+    .grid.three .notes { font-size: 9.5pt; }
     .card { border: 3px solid var(--page); border-radius: 0.12in; padding: 0.08in 0.12in; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
     .head { display: flex; align-items: center; justify-content: space-between; gap: 0.1in; }
     .name { margin: 0; font-family: Barlow, Archivo, sans-serif; font-weight: 800; font-size: 26pt; line-height: 1; white-space: nowrap; }
