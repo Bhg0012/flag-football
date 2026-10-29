@@ -4,7 +4,7 @@
 
 https://claude.ai/artifact/PCzQrtL9SHw2UAFQ9rsC2y
 
-**Printable sheets:** [playbook.pdf](playbook.pdf) has two landscape letter-size pages (pass plays and run plays, 4 per page) for the sideline. Pass plays are on a blue page, run plays on an orange page. To rebuild it after changing a play, run `node tools/make-playbook-pdf.js`.
+**Printable sheets:** [playbook.pdf](playbook.pdf) has two landscape letter-size pages (pass plays and run plays, 4 per page) for the sideline. Pass plays are on a blue page (Situationship gets a card for each way to run it), run plays on an orange page. To rebuild it after changing a play, run `node tools/make-playbook-pdf.js`.
 
 A one-page, phone-friendly playbook for our coed 8v8 flag football team. Tap a play to watch it run, see the QB's options and everyone's job, and swipe to the next play.
 
@@ -22,6 +22,7 @@ Lightning is called Right or Left: that's the side with 3 WRs, and the Left vers
 | Lightning Right / Left | Pass | Trips: slant, hitch, drag, long slant. Center + 2 linemen block | 1: outside left WR (quick slant), 2: RB lined up as a WR (5 steps then turns around, woman), 3: inside right WR (drag, woman), 4: outside right WR (long slant) |
 | Fireworks | Pass | Verticals (3 WRs deep) | 1 and 2: inside WRs deep, 3: RB blocks first, then pops out short. All women. Center + 2 linemen block |
 | Emily Sandwich | Pass | High-low slants | 1: inside left WR (short slant), 2: inside right WR (deep slant). Both women. Outside WRs run deep to clear the middle. RB lines up next to the Center as a lineman. Center + 2 linemen block |
+| Situationship | Pass (or handoff) | Two-QB direct snap | Two ways, picked by who takes the snap. QB2 snaps: quick bubble to the QB, who must catch it past the line before he can run. QB snaps: hand off to QB2 (woman), or fake it and throw to the left lineman, the Center (both block first, then pop out) or the outside left WR deep |
 | Slingshot | Run | Toss Sweep | RB (woman) |
 | Zoom | Run | Jet Sweep | Inside left WR (woman), running sideways before the hike |
 | Houdini | Run | QB Bootleg | Woman QB keeps it. Center + 2 linemen block; inside left WR runs deep, then blocks |

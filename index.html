@@ -192,7 +192,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 <main class="wrap" id="home">
   <p class="eyebrow">Coed 8 v 8 Flag</p>
   <h1>The Playbook</h1>
-  <p class="lede">8 plays. Tap one to watch how it works.</p>
+  <p class="lede">9 plays. Tap one to watch how it works.</p>
 
   <div class="section-h"><h2>Pass plays</h2></div>
   <div class="cards" id="pass-cards"></div>
@@ -241,6 +241,10 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       <button type="button" data-side="right">Right</button>
       <button type="button" data-side="left">Left</button>
     </div>
+  </div>
+  <div class="side" id="p-var" hidden>
+    <p></p>
+    <div class="seg"></div>
   </div>
   <p class="setup" id="p-setup" hidden></p>
   <div class="field-card">
@@ -421,6 +425,81 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
       steps: [[0, 'Get set.'], [0.8, 'Hike! 3 blockers protect the QB.'], [1.0, 'Two slants: one short, one deep. The outside WRs clear out.']]
     },
     {
+      id: 'situationship', name: 'Situationship', type: 'pass', qb: 'any',
+      tag: 'Two QBs side by side. Whoever takes the snap decides what happens.',
+      chooser: 'Who takes the snap?',
+      // Same lineup both ways; only who gets the snap (and what they do) changes.
+      variants: [
+        {
+          vlabel: 'QB2', vtag: 'QB2 snaps',
+          tag: 'QB2 takes the snap and throws a quick bubble to the QB.',
+          when: 'The defense rushes hard. The QB has to catch it past the line before he can run (league rule).',
+          setup: 'Two QBs side by side: QB2 (the RB) on the left, QB on the right. The inside left WR plays L. The outside right WR backs off the line.',
+          form: { LS: [140, 258], B: [162, 300], QB: [198, 300], RW: [318, 272] },
+          labels: { LS: 'L', B: 'QB2' },
+          names: { LS: 'Left lineman', B: 'QB2', QB: 'QB' },
+          mustBeWoman: ['B'],
+          snapTo: 'B',
+          snap: 0.8,
+          players: {
+            QB: { p: [[285, 300], [305, 232], [308, 120]], speed: 80 },
+            B:  { p: [[160, 306]] },
+            LW: { p: [[40, 40]], speed: 78 },
+            LS: { p: [[140, 248], [115, 215]], hold: [0, 0.6] },
+            C:  { p: [[180, 248], [208, 215]], hold: [0, 0.6] },
+            RL: { p: [[230, 245]] },
+            RS: { p: [[300, 195]] },
+            RW: { p: [[336, 225]] }
+          },
+          options: [
+            { to: 'QB', t: 2.45, f: 0.4, what: 'Bubble: slides right, catches it past the line' }
+          ],
+          jobs: [
+            ['B', 'Take the snap. Throw it right away to the QB, out on the right.'],
+            ['QB', 'Slide right, then turn up the field. Catch it past the line, then run.'],
+            ['ALL', 'Linemen and Center: block first. Everyone else runs their route to clear space.']
+          ],
+          steps: [[0, 'Two QBs line up side by side.'], [0.8, 'Hike to QB2!'], [1.0, 'The QB slides right for the bubble.']]
+        },
+        {
+          vlabel: 'QB', vtag: 'QB snaps',
+          tag: 'The QB takes the snap. Hand it to QB2, or fake it and throw.',
+          when: 'Keep the defense guessing. If the last pass was guy-to-guy, don\'t throw to the outside left WR.',
+          setup: 'Two QBs side by side: QB2 (the RB) on the left, QB on the right. The inside left WR plays L. The outside right WR backs off the line.',
+          form: { LS: [140, 258], B: [162, 300], QB: [198, 300], RW: [318, 272] },
+          labels: { LS: 'L', B: 'QB2' },
+          names: { LS: 'Left lineman', B: 'QB2', QB: 'QB' },
+          mustBeWoman: ['B'],
+          snap: 0.8,
+          players: {
+            QB: { p: [[198, 306]] },
+            B:  { p: [[112, 292], [82, 235], [78, 90]], speed: 80 },
+            LW: { p: [[40, 40]], speed: 78 },
+            LS: { p: [[140, 248], [112, 215]], hold: [0, 0.6] },
+            C:  { p: [[180, 248], [210, 215]], hold: [0, 0.6] },
+            RL: { p: [[230, 245]] },
+            RS: { p: [[300, 195]] },
+            RW: { p: [[336, 225]] }
+          },
+          options: [
+            { to: 'B', t: 1.05, f: 0.15, run: true, what: 'Handoff. She runs it.', say: 'Option 1: hand it to QB2.', after: 'She runs it!' },
+            { to: 'LS', t: 1.95, f: 0.3, what: 'Blocks first, then pops out short', say: 'Fake the handoff. Option 2 is open. Throw it!', pops: [{ t: 1.05, at: 'QB', text: 'FAKE!' }] },
+            { to: 'C', t: 2.0, f: 0.3, what: 'Blocks first, then pops out short', say: 'Fake the handoff. Option 3 is open. Throw it!', pops: [{ t: 1.05, at: 'QB', text: 'FAKE!' }] },
+            { to: 'LW', t: 2.4, f: 0.8, what: 'Deep', say: 'Fake the handoff. Option 4 is open. Throw it!', pops: [{ t: 1.05, at: 'QB', text: 'FAKE!' }] }
+          ],
+          jobs: [
+            ['QB', 'Take the snap. Hand it to QB2, or fake the handoff and throw to option 2, 3 or 4.'],
+            ['B', 'Take the handoff and run around the left side. No ball? Keep running to sell the fake.'],
+            ['LS', 'Block first, then pop out short to the left.'],
+            ['C', 'Block first, then pop out short to the right.'],
+            ['LW', 'Run straight deep.'],
+            ['ALL', 'Right lineman: block. Right side WRs: run your routes.']
+          ],
+          steps: [[0, 'Two QBs line up side by side.'], [0.8, 'Hike to the QB!']]
+        }
+      ]
+    },
+    {
       id: 'slingshot', name: 'Slingshot', type: 'run', qb: 'any',
       tag: 'Toss it to the RB. She runs around the right side.',
       when: 'You need a few yards. Easy and safe.',
@@ -577,8 +656,24 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
   function roleColor(r) { return 'var(--pos-' + r + ')'; }
   function roleInk(r) { return r === 'wqb' ? '#FFFFFF' : '#0C2340'; }
 
+  // A play with variants (like Situationship) is shown as one play with a switch. Each variant is a full play.
+  var CONCRETE = [];
+  PLAYS.forEach(function (base) {
+    if (!base.variants) { CONCRETE.push(base); return; }
+    base.vi = 0;
+    base.variants = base.variants.map(function (v, n) {
+      var full = {};
+      for (var k in base) if (k !== 'variants') full[k] = base[k];
+      for (var k2 in v) full[k2] = v[k2];
+      full.vi = n;
+      CONCRETE.push(full);
+      return full;
+    });
+  });
+  function resolve(play) { return play.variants ? play.variants[play.vi || 0] : play; }
+
   // Precompute timing per play
-  PLAYS.forEach(function (play) {
+  CONCRETE.forEach(function (play) {
     play.t = {};
     var end = 0;
     Object.keys(POS).forEach(function (k) {
@@ -598,6 +693,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     });
     if (play.options) {
       play.baseSteps = play.steps;
+      play.basePops = play.pops;
       play.options.forEach(function (o) { end = Math.max(end, o.t + o.f); });
     } else {
       play.events.forEach(function (e) { end = Math.max(end, e.t + e.f); });
@@ -610,8 +706,9 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
   function setOption(play, i) {
     var o = play.options[i];
     play.opt = i;
-    play.events = [{ t: play.snap, to: 'QB', f: 0.25 }, { t: o.t, to: o.to, f: o.f, pass: true }];
-    play.steps = play.baseSteps.concat([[o.t, 'Option ' + (i + 1) + ' is open. Throw it!'], [o.t + o.f + 0.05, 'Catch it and run!']]);
+    play.events = [{ t: play.snap, to: play.snapTo || 'QB', f: 0.25 }, { t: o.t, to: o.to, f: o.f, pass: !o.run }];
+    play.pops = o.pops !== undefined ? o.pops : play.basePops;
+    play.steps = play.baseSteps.concat([[o.t, o.say || 'Option ' + (i + 1) + ' is open. Throw it!'], [o.t + o.f + 0.05, o.after || 'Catch it and run!']]);
   }
   function optIndex(play, key) {
     if (!play.options) return -1;
@@ -832,6 +929,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     if (play.qb === 'woman') h += '<span class="chip wqb">Woman QB only</span>';
     if (play.women) h += '<span class="chip wqb">Pass to a woman</span>';
     if (play.sides) h += '<span class="chip">Right or Left</span>';
+    if (play.variants) h += '<span class="chip">2 ways</span>';
     return h;
   }
 
@@ -839,7 +937,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     PLAYS.forEach(function (play) {
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'play-card';
-      var refs = buildSvg(play, { mini: true });
+      var refs = buildSvg(resolve(play), { mini: true });
       b.appendChild(refs.svg);
       var txt = document.createElement('span'); txt.className = 'txt';
       txt.innerHTML = '<span class="name"></span><span class="tag"></span><span class="chips">' + chipsHtml(play) + '</span>';
@@ -883,11 +981,11 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 
   var current = -1;
   function showPlay(i) {
-    var play = PLAYS[i];
+    var base = PLAYS[i], play = resolve(base);
     current = i;
     $('home').hidden = true; $('play').hidden = false; $('pager').hidden = false;
     $('count').textContent = 'Play ' + (i + 1) + ' of ' + PLAYS.length;
-    $('p-chips').innerHTML = chipsHtml(play);
+    $('p-chips').innerHTML = chipsHtml(base);
     if (play.options) setOption(play, 0);
     $('p-name').textContent = title(play);
     $('p-tag').textContent = play.tag;
@@ -898,6 +996,20 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
     Array.prototype.forEach.call(sd.querySelectorAll('button'), function (b) {
       b.setAttribute('aria-pressed', (b.getAttribute('data-side') === 'left') === !!play.mirror ? 'true' : 'false');
     });
+
+    var vr = $('p-var');
+    vr.hidden = !base.variants;
+    if (base.variants) {
+      vr.querySelector('p').textContent = base.chooser;
+      var seg = vr.querySelector('.seg'); seg.innerHTML = '';
+      base.variants.forEach(function (v, n) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.textContent = v.vlabel;
+        b.setAttribute('aria-pressed', n === (base.vi || 0) ? 'true' : 'false');
+        b.addEventListener('click', function () { base.vi = n; showPlay(current); });
+        seg.appendChild(b);
+      });
+    }
 
     var su = $('p-setup');
     su.hidden = !play.setup;
@@ -983,7 +1095,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
   $('replay').addEventListener('click', function () { start(0); });
   Array.prototype.forEach.call($('p-side').querySelectorAll('button'), function (b) {
     b.addEventListener('click', function () {
-      var play = PLAYS[current];
+      var play = resolve(PLAYS[current]);
       play.mirror = b.getAttribute('data-side') === 'left';
       showPlay(current);
     });
@@ -1012,7 +1124,7 @@ h1 { font-family: var(--font-display); font-weight: 800; font-size: 42px; line-h
 
   // Read-only hooks for tools/make-playbook-pdf.js, which draws the printable play sheets from this same data.
   window.Playbook = { POS: POS, PLAYS: PLAYS, DRAW: DRAW, LOS: LOS, VW: VW, home: home, pts: pts, gender: gender,
-    optIndex: optIndex, isBold: isBold, posAt: posAt, nameOf: nameOf, title: title, role: role };
+    optIndex: optIndex, isBold: isBold, posAt: posAt, nameOf: nameOf, title: title, role: role, CARDS: CONCRETE };
 
   buildHome();
   route();
